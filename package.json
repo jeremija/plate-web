@@ -5,6 +5,8 @@
     "grunt": "~0.4.2",
     "grunt-contrib-jshint": "~0.7.2",
     "grunt-contrib-uglify": "~0.2.7",
-    "grunt-mocha-phantomjs": "~0.3.1"
+    "grunt-mocha-phantomjs": "~0.3.1",
+    "grunt-jsdoc": "~0.4.2",
+    "grunt-contrib-requirejs": "~0.4.1"
   }
 }

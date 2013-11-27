@@ -1,4 +1,4 @@
-require(['router', 'crossroads', 'hasher'], function(
+define(['router', 'crossroads', 'hasher'], function(
     Router, crossroads, hasher) {
 
     after(function() {

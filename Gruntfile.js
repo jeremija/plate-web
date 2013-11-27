@@ -27,14 +27,14 @@ module.exports = function(grunt) {
         jshint: {
             files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
         },
-        // jsdoc : {
-        //     dist : {
-        //         src: ['src/**/*.js'],
-        //         options: {
-        //             destination: 'doc'
-        //         }
-        //     }
-        // },
+        jsdoc : {
+            dist : {
+                src: ['src/**/*.js'],
+                options: {
+                    destination: 'doc'
+                }
+            }
+        },
         watch: {
             files: ['<%= jshint.files %>'],
             tasks: ['jshint', 'mocha_phantomjs']
@@ -46,9 +46,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-mocha-phantomjs');
-    // grunt.loadNpmTasks('grunt-jsdoc');
+    grunt.loadNpmTasks('grunt-jsdoc');
 
     grunt.registerTask('test', ['jshint', 'mocha_phantomjs']);
-    grunt.registerTask('doc', ['jshint', 'mochaTest', 'jsdoc']);
+    grunt.registerTask('doc', ['jshint', 'mocha_phantomjs', 'jsdoc']);
     grunt.registerTask('default', ['jshint', 'mocha_phantomjs', 'concat', 'uglify']);
 };

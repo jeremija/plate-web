@@ -11,6 +11,7 @@ var require = {
         'signals': '../../bower_components/js-signals/dist/signals',
         'crossroads': '../../bower_components/crossroads.js/dist/crossroads',
         'hasher': '../../bower_components/hasher/dist/js/hasher',
+        'bootstrap': '../../bower_components/bootstrap/dist/js/bootstrap',
     },
     map: {
         '*': {
@@ -22,6 +23,9 @@ var require = {
         }
     },
     shim: {
+        'bootstrap': {
+            deps: ['jquery']
+        }
         // 'sammy': {
         //     deps: ['jquery'],
         //     exports: 'Sammy'
