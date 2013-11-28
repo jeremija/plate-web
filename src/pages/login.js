@@ -17,9 +17,11 @@ define(['page', 'knockout', 'singletons'], function(Page, ko, singletons) {
                     data: data,
                     success: function(data) {
                         if (data.err) {
+                            log.debug('wrong username or password');
                             // notify wrong password
                             return;
                         }
+                        log.debug('user logged in!');
                         // set logged on user
                     },
                     error: function() {
@@ -31,6 +33,8 @@ define(['page', 'knockout', 'singletons'], function(Page, ko, singletons) {
             },
         }
     });
+
+    var log = page.log;
 
     return page;
 });
