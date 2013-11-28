@@ -19,6 +19,7 @@ var require = {
         'crossroads': '../lib/crossroads',
         'hasher': '../lib/hasher',
         'bootstrap': '../lib/bootstrap/js/bootstrap',
+        'knockout': '../lib/knockout'
     },
     map: {
         '*': {

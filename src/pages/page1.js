@@ -1,3 +1,5 @@
 define(['page'], function(Page) {
-    return Page.extend({});
+    return Page.init({
+        name: 'page1'
+    });
 });

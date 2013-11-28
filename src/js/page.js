@@ -1,5 +1,5 @@
-define(['extendable', 'jquery', 'logger', 'signals'],
-    function(Extendable, $, Logger, signals) {
+define(['extendable', 'jquery', 'logger', 'signals', 'knockout'],
+    function(Extendable, $, Logger, signals, ko) {
 
     /**
      * Abstract page
@@ -10,21 +10,39 @@ define(['extendable', 'jquery', 'logger', 'signals'],
         /**
          * Initializes the page. Throws an error if the page was already
          * initialized
-         * @param {HTMLElement} p_element   The page's root element
-         * @return {Page}                   A new instance of Page
+         * @param {Object} p_params               Configuration object
+         * @param {String} p_params.id            Page id (not the element id)
+         * @param {Object} p_params.viewModel     The page's viewModel
+         * @return {Page}                         A new instance of Page
          */
-        init: function(p_element) {
-            if (this.initialized) {
-                log.error('Page already initialized');
-                throw Error('Page for \'' + p_element.id + '\' initialized');
+        init: function(p_params) {
+            var params = p_params || {};
+
+            params.log = Logger.init(params.name);
+            params.bindingsApplied = false;
+
+            return this.extend(params);
+        },
+        bind: function(p_element) {
+            if (!p_element) {
+                throw new Error('p_element not defined for page ' + this.id);
             }
 
-            this.log = Logger.init(p_element.id);
-            this.id = p_element.id;
             this.element = p_element;
-            this.initialized = true;
 
-            this.onInit();
+            if (this.bindingsApplied) {
+                throw new Error('Bindings already applied for page ' + this.id);
+            }
+
+            this.bindingsApplied = true;
+
+            if (!this.viewModel) {
+                this.log.warn('bind() no viewModel set');
+                return;
+            }
+
+            ko.applyBindings(this.viewModel, p_element);
+            this.log.debug('bind() bindings applied');
         },
         /**
          * Shows the page element

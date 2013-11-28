@@ -9,23 +9,31 @@ require(['page', 'jquery'], function(Page, $) {
         });
         var page, el;
         describe('init()', function() {
+            it('should be a function', function() {
+                expect(Page.init).to.be.a('function');
+            });
             it('should create a new Page instance', function() {
-                page = Page.create();
-                expect(Page.isPrototypeOf(page)).to.be(true);
-                expect(page.init).to.be.a('function');
-                el = document.createElement('div');
-                el.id = 'test-page-id';
-                page.init(el);
-                expect(page.initialized).to.be(true);
-                expect(page.init).to.throwError();
-                expect(page.element).to.be(el);
-                expect(page.id).to.be(el.id);
+                page = Page.init({
+                    name: 'test-page-name'
+                });
 
-                $(el).appendTo('#test');
+                expect(Page.isPrototypeOf(page)).to.be(true);
+                expect(page.name).to.be('test-page-name');
+            });
+        });
+        describe('bind()', function() {
+            before(function() {
+                el = $('<div>').attr('id', 'test-page-id').appendTo('#test')[0];
+            });
+            it('should be a function', function() {
+                expect(page.bind).to.be.a('function');
+            });
+            it('should bind an element to the page', function() {
+                page.bind(el);
             });
         });
         describe('hide()', function() {
-            it('should be defined', function() {
+            it('should be a function', function() {
                 expect(page.hide).to.be.a('function');
             });
             it('should hide page dom', function() {

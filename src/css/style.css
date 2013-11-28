@@ -13,4 +13,5 @@
 	left: 0;
 	display: none;
 	background-color: white;
+	z-index: 9999;
 }

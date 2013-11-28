@@ -1,4 +1,6 @@
 define(['page'], function(Page) {
     // do nothing
-    return Page.create();
+    return Page.init({
+        name: 'error-page'
+    });
 });

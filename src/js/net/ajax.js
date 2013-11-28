@@ -49,17 +49,22 @@ define(['jquery', 'extendable'], function($, Extendable) {
             $.ajax({
                 complete: function(jqXHR, textStatus) {
                     loading.hide();
-                    p_params.complete(textStatus);
+                    if (p_params.complete) {
+                        p_params.complete(textStatus);
+                    }
                 },
                 dataType: 'json',
                 contentType: 'application/json;charset=utf-8',
-                data: p_params.data,
+                data: p_params.data ? JSON.stringify(p_params.data) : undefined,
                 error: function(jqXHR, textStatus, errorThrown) {
-                    //TODO determine real status
-                    p_params.error(textStatus, errorThrown);
+                    if (p_params.error) {
+                        p_params.error(textStatus, errorThrown);
+                    }
                 },
                 success: function(data, textStatus, jqXHR) {
-                    p_params.success(data, textStatus);
+                    if (p_params.success) {
+                        p_params.success(data);
+                    }
                 },
                 type: p_type || 'GET',
                 url: p_params.url

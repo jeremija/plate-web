@@ -1,5 +1,7 @@
-require(['jquery', 'router', 'amd-page-loader', 'page', 'singletons'],
-    function($, Router, PageLoader, Page, singletons) {
+require(['jquery', 'router', 'amd-page-loader', 'page', 'singletons', 'logger'],
+    function($, Router, PageLoader, Page, singletons, Logger) {
+
+    var log = Logger.init('app');
 
     var pageLoader = PageLoader.init({
         selector: '#pages',
@@ -18,7 +20,8 @@ require(['jquery', 'router', 'amd-page-loader', 'page', 'singletons'],
             throw Error('module for ' + element.id + ' should be a Page');
         }
 
-        if (!module.initialized) module.init(element);
+        if (!module.bindingsApplied) module.bind(element);
+
         module.show();
 
         lastModule = module;
@@ -27,10 +30,10 @@ require(['jquery', 'router', 'amd-page-loader', 'page', 'singletons'],
     }
 
     function pageError(err) {
+        log.error('error loading page: ' + err.message + '. ' + err.stack);
         pageLoader.load('error')
-            .success(pageLoaded)
-            // if it fails to load fallback page, don't go in the loop
-            .fail(undefined);
+            .success(pageLoaded);
+            // TODO fix don't go into endless loop if failed to load error page
     }
 
     var loading = singletons.loading;
