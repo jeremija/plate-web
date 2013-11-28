@@ -12,40 +12,88 @@ define(['ui/loader', 'signals', 'jquery'], function(Loader, signals, $) {
                 expect(Loader.init).to.be.a('function');
             });
             it('should return a new instance of Loader', function() {
-                loader = Loader.init('#loader', 5);
+                loader = Loader.init({
+                    selector: '#loader',
+                    duration: 20,
+                    hideDelay: 10
+                });
+                expect(loader.state).to.be('hidden');
             });
         });
-        describe('shown signal', function() {
-            it('should be a Signal instance', function() {
-                expect(loader.shown instanceof signals.Signal).to.be(true);
-            });
-        });
-        describe('hidden signal', function() {
-            it('should be a Signal instance', function() {
-                expect(loader.hidden instanceof signals.Signal).to.be(true);
+        describe('stateChanged', function() {
+            it('should be a signal', function() {
+                var Signal = signals.Signal;
+                expect(loader.stateChanged instanceof Signal).to.be(true);
             });
         });
         describe('show()', function() {
             it('should be a function', function() {
                 expect(loader.show).to.be.a('function');
             });
-            it('should dispatch `shown` event on show', function(done) {
-                function onShow() {
-                    done();
-                }
-                loader.shown.addOnce(onShow);
+            it('should show the `#loader`', function() {
                 loader.show();
+                expect($('#loader').is(':visible')).to.be(true);
+                expect(loader.state).to.be('visible');
             });
         });
         describe('hide()', function() {
             it('should be a function', function() {
                 expect(loader.hide).to.be.a('function');
             });
-            it('should dispatch `hidden` event on hide', function(done) {
-                function onHide() {
+            it('should start to hide the loader after timeout', function(done) {
+                loader.stateChanged.addOnce(function(p_new, p_old) {
+                    expect(p_new).to.be('timed');
+                    expect(p_old).to.be('visible');
+                    var time = new Date().getTime();
+                    // do not propagade to the next handler
+                    loader.stateChanged.halt();
+                });
+                loader.stateChanged.addOnce(function(p_new, p_old) {
+                    expect(p_new).to.be('hiding');
+                    expect(p_old).to.be('timed');
+                    var time = new Date().getTime();
+                    loader.stateChanged.halt();
+                });
+                loader.stateChanged.addOnce(function(p_new, p_old) {
+                    expect(p_new).to.be('hidden');
+                    expect(p_old).to.be('hiding');
                     done();
-                }
-                loader.hidden.addOnce(onHide);
+                });
+
+                var start = new Date().getTime();
+                loader.hide();
+            });
+            it('should postpone hide', function(done) {
+                // no delay
+                loader.show();
+                expect(loader.state).to.be('visible');
+
+                var listener = loader.stateChanged.addOnce(
+                    function(p_new, p_old) {
+                        expect(p_new).to.be('timed');
+                        expect(p_old).to.be('visible');
+                        loader.stateChanged.halt();
+                        // detach this callback
+                        listener.detach();
+                        // hide again
+                        loader.hide();
+                    });
+                loader.stateChanged.addOnce(function(p_new, p_old) {
+                    expect(p_new).to.be('timed');
+                    expect(p_old).to.be('timed');
+                    loader.stateChanged.halt();
+                });
+                loader.stateChanged.addOnce(function(p_new, p_old) {
+                    expect(p_new).to.be('hiding');
+                    expect(p_old).to.be('timed');
+                    loader.stateChanged.halt();
+                });
+                loader.stateChanged.addOnce(function(p_new, p_old) {
+                    expect(p_new).to.be('hidden');
+                    expect(p_old).to.be('hiding');
+                    done();
+                });
+
                 loader.hide();
             });
         });

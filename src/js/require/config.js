@@ -7,7 +7,6 @@ var require = {
         'jquery': '../../bower_components/jquery/jquery',
         'extendable': '../../bower_components/extendable.js/dist/extendable',
         'amd-page-loader': '../../bower_components/amd-page-loader/dist/amd-page-loader',
-        // 'sammy': '../../bower_components/sammy/lib/sammy'
         'signals': '../../bower_components/js-signals/dist/signals',
         'crossroads': '../../bower_components/crossroads.js/dist/crossroads',
         'hasher': '../../bower_components/hasher/dist/js/hasher',
@@ -26,9 +25,5 @@ var require = {
         'bootstrap': {
             deps: ['jquery']
         }
-        // 'sammy': {
-        //     deps: ['jquery'],
-        //     exports: 'Sammy'
-        // }
     }
 };

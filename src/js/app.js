@@ -27,23 +27,30 @@ require(['jquery', 'router', 'amd-page-loader', 'ui/loader', 'page'],
     }
 
     function pageError(err) {
-        loader.show('error');
+        pageLoader.load('error')
+            .success(pageLoaded)
+            // if it fails to load fallback page, don't go in the loop
+            .fail(undefined);
     }
 
-    var loader = Loader.init('#loader', 200);
-    loader.shown.add(function(p_pageId) {
-        if (lastModule) {
-            lastModule.hide();
-            lastModule = undefined;
-        }
-        pageLoader.load(p_pageId)
-            .success(pageLoaded)
-            .fail(pageError);
+    var loader = Loader.init({
+        selector: '#loader',
+        duration: 200,
+        hideDelay: 100
     });
 
     Router.init({
-        onRouteChange: function(pageId) {
-            loader.show(pageId);
+        onRouteChange: function(p_pageId) {
+            loader.show();
+
+            if (lastModule) {
+                lastModule.hide();
+                lastModule = undefined;
+            }
+
+            pageLoader.load(p_pageId)
+                .success(pageLoaded)
+                .fail(pageError);
         }
     });
 
