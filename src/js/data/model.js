@@ -1,5 +1,7 @@
 define(['knockout', 'extendable', 'net/ajax'], function(ko, Extendable, ajax) {
 
+    // TODO add test and signals for notifying loading
+
     var Model = {
         init: function(p_params) {
             return this.extend({
@@ -8,8 +10,12 @@ define(['knockout', 'extendable', 'net/ajax'], function(ko, Extendable, ajax) {
                 data: ko.observable()
             });
         },
-
-
+        save: function() {
+            throw new Error('not implemented');
+        },
+        load: function() {
+            throw new Error('not implemented');
+        }
     };
 
     return Extendable.extend(Model);
