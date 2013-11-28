@@ -4,13 +4,21 @@ var require = {
         'bower': '../../bower_components',
         'pages': '../pages',
 
-        'jquery': '../../bower_components/jquery/jquery',
-        'extendable': '../../bower_components/extendable.js/dist/extendable',
-        'amd-page-loader': '../../bower_components/amd-page-loader/dist/amd-page-loader',
-        'signals': '../../bower_components/js-signals/dist/signals',
-        'crossroads': '../../bower_components/crossroads.js/dist/crossroads',
-        'hasher': '../../bower_components/hasher/dist/js/hasher',
-        'bootstrap': '../../bower_components/bootstrap/dist/js/bootstrap',
+        // 'jquery': '../../bower_components/jquery/jquery',
+        // 'extendable': '../../bower_components/extendable.js/dist/extendable',
+        // 'amd-page-loader': '../../bower_components/amd-page-loader/dist/amd-page-loader',
+        // 'signals': '../../bower_components/js-signals/dist/signals',
+        // 'crossroads': '../../bower_components/crossroads.js/dist/crossroads',
+        // 'hasher': '../../bower_components/hasher/dist/js/hasher',
+        // 'bootstrap': '../../bower_components/bootstrap/dist/js/bootstrap',
+
+        'jquery': '../lib/jquery',
+        'extendable': '../lib/extendable',
+        'amd-page-loader': '../lib/amd-page-loader',
+        'signals': '../lib/signals',
+        'crossroads': '../lib/crossroads',
+        'hasher': '../lib/hasher',
+        'bootstrap': '../lib/bootstrap/js/bootstrap',
     },
     map: {
         '*': {

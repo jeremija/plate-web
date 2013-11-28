@@ -20,15 +20,23 @@ define(['jquery', 'extendable'], function($, Extendable) {
          * @param  {Object} p_params parameters
          * @param {Function} p_params.complete   A function to be called when
          * the request finishes.
+         * @param {Function} p_params.success    Success callback
+         * @param {Function} p_params.error      Error callback
          * @param {Object} p_params.data         Data to be sent to the server.
+         * @param {String} p_params.url          Url
          */
         get: function(p_params) {
             this._ajaxRequest(p_params, 'GET');
         },
         /**
-         * Send a POST request to the server
-         * @param  {[type]} p_params [description]
-         * @return {[type]}          [description]
+         * Send a GET request to the server
+         * @param  {Object} p_params parameters
+         * @param {Function} p_params.complete   A function to be called when
+         * the request finishes.
+         * @param {Function} p_params.success    Success callback
+         * @param {Function} p_params.error      Error callback
+         * @param {Object} p_params.data         Data to be sent to the server.
+         * @param {String} p_params.url          Url
          */
         post: function(p_params) {
             this._ajaxRequest(p_params, 'POST');

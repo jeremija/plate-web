@@ -25,11 +25,11 @@ module.exports = function(grunt) {
             all: ['test/*.html']
         },
         jshint: {
-            files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
+            files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js', '!src/lib/**/*']
         },
         jsdoc : {
             dist : {
-                src: ['src/**/*.js'],
+                src: ['src/**/*.js', '!src/lib/*'],
                 options: {
                     destination: 'doc'
                 }
