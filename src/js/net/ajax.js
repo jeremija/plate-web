@@ -7,12 +7,12 @@ define(['jquery', 'extendable'], function($, Extendable) {
     var Ajax = {
         /**
          * Init ajax
-         * @param  {Loader} p_loader loader displa
-         * @return {Ajax}            an instance of Ajax
+         * @param  {Loading} p_loading loading display
+         * @return {Ajax}              an instance of Ajax
          */
-        init: function(p_loader) {
+        init: function(p_loading) {
             return this.extend({
-                loader: p_loader
+                loading: p_loading
             });
         },
         /**
@@ -43,11 +43,12 @@ define(['jquery', 'extendable'], function($, Extendable) {
         },
         _ajaxRequest: function(p_params, p_type) {
             var self = this;
-            var loader = this.loader;
+            var loading = this.loading;
+            loading.show();
 
             $.ajax({
                 complete: function(jqXHR, textStatus) {
-                    loader.hide();
+                    loading.hide();
                     p_params.complete(textStatus);
                 },
                 dataType: 'json',

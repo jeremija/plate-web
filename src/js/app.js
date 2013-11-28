@@ -1,5 +1,5 @@
-require(['jquery', 'router', 'amd-page-loader', 'ui/loader', 'page'],
-    function($, Router, PageLoader, Loader, Page) {
+require(['jquery', 'router', 'amd-page-loader', 'page', 'singletons'],
+    function($, Router, PageLoader, Page, singletons) {
 
     var pageLoader = PageLoader.init({
         selector: '#pages',
@@ -23,7 +23,7 @@ require(['jquery', 'router', 'amd-page-loader', 'ui/loader', 'page'],
 
         lastModule = module;
 
-        loader.hide();
+        loading.hide();
     }
 
     function pageError(err) {
@@ -33,15 +33,11 @@ require(['jquery', 'router', 'amd-page-loader', 'ui/loader', 'page'],
             .fail(undefined);
     }
 
-    var loader = Loader.init({
-        selector: '#loader',
-        duration: 200,
-        hideDelay: 100
-    });
+    var loading = singletons.loading;
 
     Router.init({
         onRouteChange: function(p_pageId) {
-            loader.show();
+            loading.show();
 
             if (lastModule) {
                 lastModule.hide();
