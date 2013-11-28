@@ -1,4 +1,4 @@
-define(['knockout', 'extendable', 'net/ajax'], function(ko, Extendable, ajax) {
+define(['knockout', 'extendable', 'net/ajax'], function(ko, Extendable, Ajax) {
 
     // TODO add test and signals for notifying loading
 

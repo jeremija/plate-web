@@ -6,6 +6,6 @@ var tests = [
     'test/js/util/queued-timer-test',
     'test/js/page-test',
     'test/js/ui/menu-test',
-    'test/js/ui/loader-test',
+    'test/js/ui/loading-test',
     'test/js/net/ajax-test'
 ];
