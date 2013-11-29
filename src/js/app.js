@@ -1,4 +1,4 @@
-require(['jquery', 'router', 'amd-page-loader', 'page', 'singletons', 'logger'],
+require(['jquery', 'router', 'amd-page-loader', 'templates/page', 'singletons', 'logger'],
     function($, Router, PageLoader, Page, singletons, Logger) {
 
     var log = new Logger('app');

@@ -1,4 +1,4 @@
-define(['bindable', 'jquery', 'knockout'], function(Bindable, $, ko) {
+define(['templates/bindable', 'jquery', 'knockout'], function(Bindable, $, ko) {
     describe('bindable-test.js', function() {
         it('should be a constructor', function() {
             expect(Bindable).to.be.ok();

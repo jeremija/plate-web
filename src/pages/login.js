@@ -1,4 +1,4 @@
-define(['page', 'knockout', 'singletons'], function(Page, ko, singletons) {
+define(['templates/page', 'knockout', 'singletons'], function(Page, ko, singletons) {
 
     var ajax = singletons.ajax;
 

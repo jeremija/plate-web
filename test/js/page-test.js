@@ -1,4 +1,4 @@
-require(['page', 'jquery', 'bindable'], function(Page, $, Bindable) {
+require(['templates/page', 'jquery', 'templates/bindable'], function(Page, $, Bindable) {
     describe('page-test.js', function() {
         after(function() {
             $('#test').html('');

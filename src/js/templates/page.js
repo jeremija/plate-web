@@ -1,4 +1,4 @@
-define(['jquery', 'knockout', 'logger', 'bindable'],
+define(['jquery', 'knockout', 'logger', 'templates/bindable'],
     function($, ko, Logger, Bindable) {
 
     /**

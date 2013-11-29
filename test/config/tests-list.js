@@ -10,6 +10,12 @@ var tests = [
     'test/js/ui/loading-test',
     'test/js/net/ajax-test',
 
+    // events
+    'test/js/events/event-manager-test',
+
+    // modules
+    'test/js/modules/user-mod-test',
+
     // pages
     'test/pages/error-test'
 ];
