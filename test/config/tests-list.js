@@ -1,14 +1,24 @@
 var tests = [
     'test/js/require/config-test',
+
     'test/js/logger-test',
     'test/js/router-test',
+
+    // util
     'test/js/util/queue-test',
     'test/js/util/queued-timer-test',
-    'test/js/bindable-test',
-    'test/js/page-test',
+
+    // templates
+    'test/js/templates/bindable-test',
+    'test/js/templates/page-test',
+
+    // net
+    'test/js/net/ajax-test',
+
+    // ui
     'test/js/ui/menu-test',
     'test/js/ui/loading-test',
-    'test/js/net/ajax-test',
+    'test/js/ui/localizer-test',
 
     // events
     'test/js/events/event-manager-test',

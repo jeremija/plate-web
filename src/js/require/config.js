@@ -19,7 +19,8 @@ var require = {
         'crossroads': '../lib/crossroads',
         'hasher': '../lib/hasher',
         'bootstrap': '../lib/bootstrap/js/bootstrap',
-        'knockout': '../lib/knockout'
+        'knockout': '../lib/knockout',
+        'globalize': '../lib/globalize'
     },
     map: {
         '*': {
@@ -33,6 +34,10 @@ var require = {
     shim: {
         'bootstrap': {
             deps: ['jquery']
+        },
+        'globalize': {
+            deps: ['jquery'],
+            exports: 'Globalize'
         }
     }
 };
