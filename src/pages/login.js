@@ -5,12 +5,14 @@ define(['page', 'knockout', 'singletons'], function(Page, ko, singletons) {
     var page = Page.init({
         name: 'login',
         viewModel: {
-            email: ko.observable('test'),
-            password: ko.observable('test'),
+            form: {
+                email: ko.observable(),
+                password: ko.observable()
+            },
             login: function() {
                 var data = {
-                    email: this.email(),
-                    password: this.password()
+                    email: this.form.email(),
+                    password: this.form.password()
                 };
                 ajax.post({
                     url: '/login',
