@@ -1,27 +1,25 @@
 define(['extendable', 'crossroads', 'hasher', 'logger', 'ui/menu'],
     function(Extendable, crossroads, hasher, Logger, menu) {
 
-    var log = Logger.init('router');
+    var log = new Logger('router');
 
     /**
-     * Module for handling navigation
-     * @exports Router
+     * @class Module for handling navigation
+     * @name Router
      * @extends {Extendable}
+     * @param {Object} p_params Configuration object
+     * @param {Object} p_params                    configuration object
+     * @param {Function} p_params.onRouteChange    callback function to
+     * execute when the route changes
      */
-    var Router = {
-        /**
-         * Initializes the module
-         * @param {Object} p_params                    configuration object
-         * @param {Function} p_params.onRouteChange    callback function to
-         * execute when the route changes
-         * @return {Router}
-         */
-        init: function(p_params) {
-            this.onRouteChange = p_params.onRouteChange;
+    function Router(p_params) {
+        this.onRouteChange = p_params.onRouteChange;
 
-            this._setupCrossroads();
-            this._setupHasher();
-        },
+        this._setupCrossroads();
+        this._setupHasher();
+    }
+
+    var RouterPrototype = /** @lends Router.prototype */ {
         _setupCrossroads: function() {
             var self = this;
 
@@ -44,5 +42,5 @@ define(['extendable', 'crossroads', 'hasher', 'logger', 'ui/menu'],
         }
     };
 
-    return Extendable.extend(Router);
+    return Extendable.extend(Router, RouterPrototype);
 });

@@ -1,16 +1,17 @@
 define(['util/queued-timer', 'util/queue'], function(QueuedTimer, Queue) {
     describe('util/queued-timer-test.js', function() {
-        it('should be ok', function() {
+        it('should be ok and a constructor', function() {
             expect(QueuedTimer).to.be.ok();
+            expect(QueuedTimer).to.be.a('function');
         });
         var timer;
-        describe('init()', function() {
+        describe('constructor', function() {
             it('should return a new instance of QueuedTimer', function() {
-                expect(QueuedTimer.init).to.be.a('function');
-
-                timer = QueuedTimer.init(25);
-                expect(QueuedTimer.isPrototypeOf(timer)).to.be(true);
-                expect(Queue.isPrototypeOf(timer)).to.be(true);
+                timer = new QueuedTimer(25);
+                expect(timer instanceof QueuedTimer).to.be(true);
+                expect(timer instanceof Queue).to.be(true);
+                expect(QueuedTimer.prototype.isPrototypeOf(timer));
+                expect(Queue.prototype.isPrototypeOf(timer));
             });
         });
         describe('start() and isRunning()', function() {

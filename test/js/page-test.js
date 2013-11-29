@@ -1,24 +1,22 @@
-require(['page', 'jquery'], function(Page, $) {
+require(['page', 'jquery', 'bindable'], function(Page, $, Bindable) {
     describe('page-test.js', function() {
         after(function() {
             $('#test').html('');
         });
 
-        it('should be ok', function() {
+        it('should be ok and a constructor', function() {
             expect(Page).to.be.ok();
+            expect(typeof Page).to.be('function');
         });
         var page, el;
-        describe('init()', function() {
-            it('should be a function', function() {
-                expect(Page.init).to.be.a('function');
-            });
+        describe('constructor', function() {
             it('should create a new Page instance', function() {
-                page = Page.init({
-                    name: 'test-page-name'
+                page = new Page({
+                    id: 'test-page-name'
                 });
-
-                expect(Page.isPrototypeOf(page)).to.be(true);
-                expect(page.name).to.be('test-page-name');
+                expect(page instanceof Page).to.be(true);
+                expect(Bindable.prototype.isPrototypeOf(page)).to.be.ok();
+                expect(page.id).to.be('test-page-name');
             });
         });
         describe('bind()', function() {
@@ -43,7 +41,7 @@ require(['page', 'jquery'], function(Page, $) {
         });
         describe('show()', function() {
             it('should be defined', function() {
-                expect(Page.show).to.be.a('function');
+                expect(page.show).to.be.a('function');
             });
             it('should show page dom', function() {
                 page.show();

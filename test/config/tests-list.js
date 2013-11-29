@@ -4,9 +4,12 @@ var tests = [
     'test/js/router-test',
     'test/js/util/queue-test',
     'test/js/util/queued-timer-test',
-    'test/js/abstract-module-test',
+    'test/js/bindable-test',
     'test/js/page-test',
     'test/js/ui/menu-test',
     'test/js/ui/loading-test',
-    'test/js/net/ajax-test'
+    'test/js/net/ajax-test',
+
+    // pages
+    'test/pages/error-test'
 ];

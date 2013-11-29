@@ -7,12 +7,13 @@ define(['ui/loading', 'signals', 'jquery'], function(Loading, signals, $) {
             $('#test').html('');
         });
         var loading;
-        describe('init()', function() {
-            it('should be a function', function() {
-                expect(Loading.init).to.be.a('function');
-            });
+        it('should be ok and a constructor', function() {
+            expect(Loading).to.be.ok();
+            expect(Loading).to.be.a('function');
+        });
+        describe('constructor', function() {
             it('should return a new instance of Loading', function() {
-                loading = Loading.init({
+                loading = new Loading({
                     selector: '#loading',
                     duration: 20,
                     hideDelay: 10

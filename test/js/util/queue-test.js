@@ -1,16 +1,14 @@
 define(['util/queue'], function(Queue) {
     describe('util/queue-test.js', function() {
-        it('should be ok', function() {
+        it('should be ok and a constructor', function() {
             expect(Queue).to.be.ok();
+            expect(Queue).to.be.a('function');
         });
         var queue;
         describe('init()', function() {
-            it ('should be a function', function() {
-                expect(Queue.init).to.be.a('function');
-            });
             it('should create a new instance of Queue', function() {
-                queue = Queue.init();
-                expect(Queue.isPrototypeOf(queue)).to.be(true);
+                queue = new Queue();
+                expect(queue instanceof Queue).to.be(true);
             });
         });
         describe('size()', function() {

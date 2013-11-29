@@ -1,10 +1,16 @@
 define(['extendable'], function(Extendable) {
+
     /**
-     * Logger object
-     * @exports Logger
+     * @class Logger
+     * @name Logger
      * @extends {Extendable}
+     * @param {String} p_name Name of the logger
      */
-    var Logger = {
+    function Logger(p_name) {
+        this.name = p_name;
+    }
+
+    var LoggerPrototype = /** @lends Logger.prototype */ {
         /**
          * Disable logger or all loggers if set to prototype
          * @type {Boolean}
@@ -15,16 +21,6 @@ define(['extendable'], function(Extendable) {
          * @type {Number}
          */
         threshold: 0,
-        /**
-         * Creates a new instance of Logger
-         * @param  {String} p_name name of the logger
-         * @return {Logger}
-         */
-        init: function(p_name) {
-            return this.extend({
-                name: p_name,
-            });
-        },
         _getArray: function(p_args) {
             var args = [].slice.call(p_args);
             args.splice(0, 0, this.name + '> ');
@@ -61,5 +57,5 @@ define(['extendable'], function(Extendable) {
         }
     };
 
-    return Extendable.extend(Logger);
+    return Extendable.extend(Logger, LoggerPrototype);
 });

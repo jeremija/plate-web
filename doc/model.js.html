@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Index</title>
+    <title>JSDoc: Source: data/model.js</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,30 +17,45 @@
 
 <div id="main">
     
-    <h1 class="page-title">Index</h1>
+    <h1 class="page-title">Source: data/model.js</h1>
     
     
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>define(['knockout', 'extendable', 'net/ajax'], function(ko, Extendable, Ajax) {
 
+    // TODO add test and signals for notifying loading
 
-    <h3> </h3>
+    /**
+     * @class Model
+     * @name Model
+     * @extends {Extendable}
+     * @param {Object} p_params            Configuration object
+     * @param {String} p_params.getUrl     Url for fetching the data
+     * @param {String} p_params.postUrl    Url for posting the data
+     */
+    function Model(p_params) {
+        this.getUrl = p_params.getUrl;
+        this.postUrl = p_params.postUrl;
+        this.data = ko.observable();
+    }
 
+    var ModelPrototype = {
+        save: function() {
+            throw new Error('not implemented');
+        },
+        load: function() {
+            throw new Error('not implemented');
+        }
+    };
 
-
-
-
-
-
-
-
-    
-
-
-
-
-
+    return Extendable.extend(Model, ModelPrototype);
+});</code></pre>
+        </article>
+    </section>
 
 
 

@@ -1,5 +1,5 @@
 define(['page'], function(Page) {
-    return Page.init({
+    return new Page({
         name: 'page2'
     });
 });

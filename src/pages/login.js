@@ -2,7 +2,7 @@ define(['page', 'knockout', 'singletons'], function(Page, ko, singletons) {
 
     var ajax = singletons.ajax;
 
-    var page = Page.init({
+    var page = new Page({
         name: 'login',
         viewModel: {
             form: {

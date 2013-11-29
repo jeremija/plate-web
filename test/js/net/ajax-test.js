@@ -1,16 +1,14 @@
 define(['net/ajax'], function(Ajax) {
     describe('net/ajax-test.js', function() {
-        it('should be ok', function() {
+        it('should be ok and a constructor', function() {
             expect(Ajax).to.be.ok();
+            expect(Ajax).to.be.a('function');
         });
         var ajax;
-        describe('init()', function() {
-            it('should be a function', function() {
-                expect(Ajax.init).to.be.a('function');
-            });
+        describe('constructor', function() {
             it('should create a new instance of Ajax', function() {
-                ajax = Ajax.init();
-                expect(Ajax.isPrototypeOf(ajax)).to.be(true);
+                ajax = new Ajax();
+                expect(ajax instanceof Ajax).to.be(true);
             });
         });
         describe('get()', function() {

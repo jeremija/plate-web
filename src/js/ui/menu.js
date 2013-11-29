@@ -4,7 +4,7 @@ define(['jquery', 'bootstrap'], function($) {
 
     /**
      * Object with util functions for the menu
-     * @exports Menu
+     * @exports menu
      */
     var menu = {
         /**

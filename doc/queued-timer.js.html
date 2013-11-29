@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: ui/menu.js</title>
+    <title>JSDoc: Source: util/queued-timer.js</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Source: ui/menu.js</h1>
+    <h1 class="page-title">Source: util/queued-timer.js</h1>
     
     
 
@@ -25,47 +25,54 @@
     
     <section>
         <article>
-            <pre class="prettyprint source"><code>define(['jquery', 'bootstrap'], function($) {
-
-    var $MENU = $('#menu .nav');
+            <pre class="prettyprint source"><code>define(['util/queue', 'extendable'], function(Queue, Extendable) {
 
     /**
-     * Object with util functions for the menu
-     * @exports menu
+     * @class  Adds a timer to the queue
+     * @name QueuedTimer
+     * @extends {Queue}
+     * @param {Number} [p_delay=400] timer delay
      */
-    var menu = {
+    function QueuedTimer(p_delay) {
+        this.superclass();
+
+        this._timer = null;
+        this.delay = p_delay || 400;
+    }
+
+    var QueuedTimerPrototype = {
         /**
-         * Marks the currently selected menu item as active. This is done by
-         * comparing the current hash and the current
-         * @param  {String} request hash string afte the '#/'
+         * Starts the timeout
+         * @param {Function} p_callback Function to execute when timed out
+         * @param {Object} p_self       Varibable as the `this` context
          */
-        markCurrentMenuItem: function(request) {
-            var $a = $('#menu .nav a');
-            var matcher = new RegExp('#\/' + request + '$');
+        start: function(p_callback, p_self) {
+            this.stop();
 
-            var $activeLi;
-
-            $a.each(function() {
-                if (this.href && this.href.match(matcher)) {
-                    $activeLi = $(this).parents('li');
+            var self = this;
+            this._timer = window.setTimeout(function() {
+                self.execute();
+                if (p_callback) {
+                    p_callback.call(p_self);
                 }
-            });
-
-            // change marked only if found
-            if ($activeLi && $activeLi.length) {
-                // remove all active
-                $a.each(function() {
-                    $(this).parent().removeClass('active');
-                });
-                // mark the active
-                $activeLi.addClass('active');
+            }, this.delay);
+        },
+        stop: function() {
+            if (this._timer) {
+                window.clearTimeout(this._timer);
+                this._timer = null;
             }
-
+        },
+        isRunning: function() {
+            return this._timer ? true : false;
+        },
+        reset: function() {
+            this.stop();
+            this.clear();
         }
     };
 
-    return menu;
-
+    return Queue.extend(QueuedTimer, QueuedTimerPrototype);
 });</code></pre>
         </article>
     </section>

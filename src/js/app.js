@@ -1,7 +1,7 @@
 require(['jquery', 'router', 'amd-page-loader', 'page', 'singletons', 'logger'],
     function($, Router, PageLoader, Page, singletons, Logger) {
 
-    var log = Logger.init('app');
+    var log = new Logger('app');
 
     var pageLoader = PageLoader.init({
         selector: '#pages',
@@ -16,7 +16,7 @@ require(['jquery', 'router', 'amd-page-loader', 'page', 'singletons', 'logger'],
             return;
         }
 
-        if (!Page.isPrototypeOf(module)) {
+        if (module instanceof Page === false) {
             throw Error('module for ' + element.id + ' should be a Page');
         }
 
@@ -38,7 +38,7 @@ require(['jquery', 'router', 'amd-page-loader', 'page', 'singletons', 'logger'],
 
     var loading = singletons.loading;
 
-    Router.init({
+    var router = new Router({
         onRouteChange: function(p_pageId) {
             loading.show();
 

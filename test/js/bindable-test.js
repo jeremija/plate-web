@@ -1,11 +1,12 @@
-define(['abstract-module', 'jquery', 'knockout'], function(Module, $, ko) {
-    describe('module-test.js', function() {
-        it('should be ok', function() {
-            expect(Module).to.be.ok();
+define(['bindable', 'jquery', 'knockout'], function(Bindable, $, ko) {
+    describe('bindable-test.js', function() {
+        it('should be a constructor', function() {
+            expect(Bindable).to.be.ok();
+            expect(Bindable).to.be.a('function');
         });
-        var mod, el;
+        var bindable, el;
         before(function() {
-            var $el = $('<div>').attr('id', 'module-id').hide().
+            var $el = $('<div>').attr('id', 'bindable-id').hide().
                 appendTo('#test');
             $('<span>').attr('id', 'testObservableSpan').
                 attr('data-bind', 'text: testObservable').appendTo($el);
@@ -16,38 +17,36 @@ define(['abstract-module', 'jquery', 'knockout'], function(Module, $, ko) {
             ko.cleanNode(el);
             $('#test').html('');
         });
-        describe('init()', function() {
-            it('should be a function', function() {
-                expect(Module.init).to.be.a('function');
-            });
-            it('should create a new instance of Module', function() {
-                mod = Module.init({
+        describe('constructor', function() {
+            it('should create a new instance of Bindable', function() {
+                bindable = new Bindable({
                     viewModel: {
                         testObservable: ko.observable()
                     }
                 });
-                expect(Module.isPrototypeOf(mod)).to.be(true);
+                expect(bindable instanceof Bindable).to.be(true);
+                expect(Bindable.prototype.isPrototypeOf(bindable)).to.be(true);
             });
         });
         describe('bind()', function() {
             it('should be a function', function() {
-                expect(mod.bind).to.be.a('function');
+                expect(bindable.bind).to.be.a('function');
             });
             it('should bind the viewModel to the element', function() {
-                mod.bind(el);
-                mod.viewModel.testObservable('test1234');
+                bindable.bind(el);
+                bindable.viewModel.testObservable('test1234');
                 expect($('#testObservableSpan').text()).to.be('test1234');
             });
         });
         describe('show()', function() {
             it('should show the element', function() {
-                mod.show();
+                bindable.show();
                 expect($(el).is(':visible')).to.be(true);
             });
         });
         describe('hide()', function() {
             it('should hide the element', function() {
-                mod.hide();
+                bindable.hide();
                 expect($(el).is(':visible')).to.be(false);
             });
         });

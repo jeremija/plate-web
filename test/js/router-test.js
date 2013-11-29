@@ -6,14 +6,14 @@ define(['router', 'crossroads', 'hasher'], function(
     });
 
     describe('router-test.js', function() {
-        describe('init()', function() {
-            it('should be ok', function() {
-                expect(Router).to.be.ok();
-                expect(Router.init).to.be.a('function');
-            });
+        it('should be ok and a constructor', function() {
+            expect(Router).to.be.ok();
+            expect(Router).to.be.a('function');
+        });
+        describe('constructor', function() {
             var lastRoute;
             it('should setup crossroads and hasher', function() {
-                Router.init({
+                new Router({
                     onRouteChange: function(p_route) {
                         lastRoute = p_route;
                     }

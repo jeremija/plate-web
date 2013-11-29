@@ -1,22 +1,19 @@
 define(['util/queue', 'extendable'], function(Queue, Extendable) {
 
-
     /**
-     * Adds a timer to the queue
-     * @exports QueuedTimer
+     * @class  Adds a timer to the queue
+     * @name QueuedTimer
      * @extends {Queue}
+     * @param {Number} [p_delay=400] timer delay
      */
-    var QueuedTimer = {
-        /**
-         * @param  {Number} p_delay      Timer delay
-         * @return {QueuedTimer}         A new instance of QueuedTimer
-         */
-        init: function(p_delay) {
-            return this.extend({
-                _timer: null,
-                delay: p_delay || 400
-            });
-        },
+    function QueuedTimer(p_delay) {
+        this.superclass();
+
+        this._timer = null;
+        this.delay = p_delay || 400;
+    }
+
+    var QueuedTimerPrototype = {
         /**
          * Starts the timeout
          * @param {Function} p_callback Function to execute when timed out
@@ -48,5 +45,5 @@ define(['util/queue', 'extendable'], function(Queue, Extendable) {
         }
     };
 
-    return Queue.init().extend(QueuedTimer);
+    return Queue.extend(QueuedTimer, QueuedTimerPrototype);
 });

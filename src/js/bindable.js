@@ -2,30 +2,29 @@ define(['extendable', 'jquery', 'logger', 'knockout'],
     function(Extendable, $, Logger, ko) {
 
     /**
-     * Abstract AbstractModule
-     * @exports AbstractModule
+     * @class Bindable class which can bind the view model to the DOM
+     * @name Bindable
      * @extends {Extendable}
+     * @param {Object} p_params              Configuration object
+     * @param {String} p_params.id           Identification
+     * @param {Object} p_params.viewModel    ViewModel object to bind to the
+     * element. {@see Bindable.bind}
      */
-    var AbstractModule = {
-        /**
-         * Initializes the module.
-         * @param {Object} p_params               Configuration object
-         * @param {String} p_params.id            Module id (not the element id)
-         * @param {Object} p_params.viewModel     The module's viewModel
-         * @return {AbstractModule}               A new instance of  Module
-         */
-        init: function(p_params) {
-            var params = p_params || {};
+    function Bindable(p_params) {
+        var params = p_params || {};
 
-            params.log = Logger.init(params.name);
-            params.bindingsApplied = false;
+        this.log = new Logger(params.id);
+        this.bindingsApplied = false;
 
-            return this.extend(params);
-        },
+        this.id = p_params.id;
+        this.viewModel = p_params.viewModel;
+    }
+
+    var BindablePrototype = /** @lends Bindable.prototype */ {
         /**
          * Binds the element to the module
          * @param  {HTMLElement} p_element
-         * @return {AbstractModule}         itself
+         * @return {Bindable}               itself
          */
         bind: function(p_element) {
             if (!p_element) {
@@ -52,7 +51,7 @@ define(['extendable', 'jquery', 'logger', 'knockout'],
         },
         /**
          * Shows the module
-         * @return {AbstractModule} itself
+         * @return {Bindable} itself
          */
         show: function() {
             this.log.debug('showing module');
@@ -64,7 +63,7 @@ define(['extendable', 'jquery', 'logger', 'knockout'],
         },
         /**
          * Hides the module
-         * @return {AbstractModule} itself
+         * @return {Bindable} itself
          */
         hide: function() {
             this.log.debug('hiding module');
@@ -90,5 +89,5 @@ define(['extendable', 'jquery', 'logger', 'knockout'],
         }
     };
 
-    return Extendable.extend(AbstractModule);
+    return Extendable.extend(Bindable, BindablePrototype);
 });

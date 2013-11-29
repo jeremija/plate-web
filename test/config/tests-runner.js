@@ -14,7 +14,7 @@
 
     require(['logger'], function(Logger) {
         // disable log output in tests
-        Logger.disabled = true;
+        Logger.prototype.disabled = true;
 
         require(tests, function() {
             run();

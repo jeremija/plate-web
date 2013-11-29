@@ -1,14 +1,15 @@
 define(['logger'], function(Logger) {
     describe('logger-test.js', function() {
-        it('should be ok', function() {
+        it('should be ok and a constructor', function() {
             expect(Logger).to.be.ok();
+            expect(Logger).to.be.a('function');
         });
         var log;
-        describe('init()', function() {
+        describe('constructor', function() {
             it('should be ok', function() {
-                expect(Logger.init).to.be.a('function');
-                log = Logger.init('name');
-                expect(Logger.isPrototypeOf(log)).to.be(true);
+                log = new Logger('name');
+                expect(log instanceof Logger).to.be(true);
+                expect(Logger.prototype.isPrototypeOf(log)).to.be(true);
                 expect(log).to.be.ok();
             });
         });
