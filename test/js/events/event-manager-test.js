@@ -9,7 +9,10 @@ define(['events/event-manager', 'signals'], function(EventManager, signals) {
         var events, events2;
         it('should create new instance', function() {
             events = new EventManager('name1');
-            events2 = new EventManager('name2');
+            // set a different context for events2
+            events2 = new EventManager('name2', {
+                a: 'value-of-a'
+            });
         });
         var triggered1, triggered2, triggered3;
         beforeEach(function() {
@@ -36,6 +39,8 @@ define(['events/event-manager', 'signals'], function(EventManager, signals) {
                     'event1': function(arg1, arg2) {
                         expect(arg1).to.be('arg1');
                         expect(arg2).to.be('arg2');
+                        // check the context
+                        expect(this.a).to.be('value-of-a');
                         triggered3 = true;
                     }
                 });

@@ -15,6 +15,9 @@ var tests = [
     // net
     'test/js/net/ajax-test',
 
+    // data
+    'test/js/data/model-test',
+
     // ui
     'test/js/ui/menu-test',
     'test/js/ui/loading-test',

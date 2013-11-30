@@ -17,7 +17,7 @@ define(['templates/page', 'knockout', 'singletons'], function(Page, ko, singleto
                 ajax.post({
                     url: '/login',
                     data: data,
-                    success: function(data) {
+                    success: function(textStatus, data) {
                         if (data.err) {
                             log.debug('wrong username or password');
                             // notify wrong password

@@ -1,4 +1,4 @@
-define(['jquery', 'extendable'], function($, Extendable) {
+define(['jquery', 'extendable', 'logger'], function($, Extendable, Logger) {
 
     /**
      * @class Wrapped jQuery.ajax calls
@@ -7,12 +7,20 @@ define(['jquery', 'extendable'], function($, Extendable) {
      * @return {Ajax}              an instance of Ajax
      */
     function Ajax(p_loading) {
-        return this.extend({
-            loading: p_loading
-        });
+        this.loading = p_loading;
+        this.log = new Logger('ajax');
     }
 
     var AjaxPrototype = /** @lends Ajax.prototype **/ {
+        /**
+         * Handle error graceefully
+         * @param  {Error} err
+         * @private
+         */
+        _handleError: function(err) {
+            this.log.error('error while executing ajax callback: ' + err.stack);
+        },
+
         /**
          * Send a GET request to the server
          * @param  {Object} p_params parameters
@@ -44,24 +52,45 @@ define(['jquery', 'extendable'], function($, Extendable) {
             var loading = this.loading;
             loading.show();
 
+            var msg = (type || 'GET') + ' ' + params.url + ': ';
+            this.log(msg + 'start');
+
             $.ajax({
                 complete: function(jqXHR, textStatus) {
-                    loading.hide();
                     if (p_params.complete) {
-                        p_params.complete(textStatus);
+                        // try {
+                            p_params.complete(textStatus);
+                        // }
+                        // catch (err) {
+                        //     self._handleError(err);
+                        // }
                     }
+                    loading.hide();
                 },
                 dataType: 'json',
                 contentType: 'application/json;charset=utf-8',
                 data: p_params.data ? JSON.stringify(p_params.data) : undefined,
                 error: function(jqXHR, textStatus, errorThrown) {
+                    self.log(msg + ', ' + textStatus + ': ' + errorThrown);
                     if (p_params.error) {
-                        p_params.error(textStatus, errorThrown);
+                        // try {
+                            p_params.error(textStatus, errorThrown);
+                        // }
+                        // catch(err) {
+                        //     self._handleError(err);
+                        // }
                     }
                 },
                 success: function(data, textStatus, jqXHR) {
+                    self.log(msg + ',status: ' + textStatus);
                     if (p_params.success) {
-                        p_params.success(data);
+                        self.log(msg + ', ' + textStatus);
+                        // try {
+                            p_params.success(textStatus, data);
+                        // }
+                        // catch(err) {
+                        //     self._handleError(err);
+                        // }
                     }
                 },
                 type: p_type || 'GET',

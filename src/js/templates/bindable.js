@@ -1,23 +1,37 @@
-define(['extendable', 'jquery', 'logger', 'knockout'],
-    function(Extendable, $, Logger, ko) {
+define(['extendable', 'jquery', 'logger', 'knockout', 'events/event-manager',
+    'ui/culture'],
+    function(Extendable, $, Logger, ko, EventManager, culture) {
 
     /**
      * @class Bindable class which can bind the view model to the DOM
      * @name Bindable
      * @extends {Extendable}
      * @param {Object} p_params              Configuration object
-     * @param {String} p_params.id           Identification
+     * @param {String} p_params.name         Identification
      * @param {Object} p_params.viewModel    ViewModel object to bind to the
+     * @param {Object} p_params.events       Events to listen to. The
+     * `locale-changed` event will be listened automatically
      * element. {@see Bindable.bind}
      */
     function Bindable(p_params) {
         var params = p_params || {};
 
-        this.log = new Logger(params.id);
+        this.log = new Logger(params.name);
         this.bindingsApplied = false;
 
-        this.id = p_params.id;
-        this.viewModel = p_params.viewModel;
+        this.name = p_params.name;
+        this.viewModel = p_params.viewModel || {};
+        this.viewModel.locale = ko.observable(culture.locale);
+
+        // set the event execution context to this bindable instance
+        this.events = new EventManager(params.name, this);
+        var listenedEvents = p_params.events || {};
+        listenedEvents['locale-changed'] =  function(p_locale) {
+            this.viewModel.locale(p_locale);
+        };
+        this.events.listen(listenedEvents);
+        // ignore events until shown
+        this.events.ignore();
     }
 
     var BindablePrototype = /** @lends Bindable.prototype */ {
@@ -28,21 +42,16 @@ define(['extendable', 'jquery', 'logger', 'knockout'],
          */
         bind: function(p_element) {
             if (!p_element) {
-                throw new Error('p_element not defined for mod ' + this.id);
+                throw new Error('p_element not defined for mod ' + this.name);
             }
 
             this.element = p_element;
 
             if (this.bindingsApplied) {
-                throw new Error('Bindings already applied for mod ' + this.id);
+                throw new Error('Bindings already applied for mod ' + this.name);
             }
 
             this.bindingsApplied = true;
-
-            if (!this.viewModel) {
-                this.log.warn('bind() binding failed: no viewModel set');
-                return this;
-            }
 
             ko.applyBindings(this.viewModel, p_element);
             this.log.debug('bind() binding applied');
@@ -59,6 +68,9 @@ define(['extendable', 'jquery', 'logger', 'knockout'],
             this.onShow();
             $(this.element).show();
 
+            // start listening to events
+            this.events.listen();
+
             return this;
         },
         /**
@@ -70,6 +82,9 @@ define(['extendable', 'jquery', 'logger', 'knockout'],
 
             this.onHide();
             $(this.element).hide();
+
+            // ignore events when hidden
+            this.events.ignore();
 
             return this;
         },

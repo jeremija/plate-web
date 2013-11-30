@@ -3,19 +3,18 @@
         .globals(['jQuery*'])
         .checkLeaks();
 
-    function run() {
-        if (window.mochaPhantomJS) {
-            mochaPhantomJS.run();
-        }
-        else {
-            mocha.run();
-        }
-    }
 
     require(['logger'], function(Logger) {
-        // disable log output in tests
-        Logger.prototype.disabled = true;
-
+        function run() {
+            if (window.mochaPhantomJS) {
+                // disable log output in tests
+                Logger.prototype.disabled = true;
+                mochaPhantomJS.run();
+            }
+            else {
+                mocha.run();
+            }
+        }
         require(tests, function() {
             run();
         });

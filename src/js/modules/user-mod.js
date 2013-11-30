@@ -5,20 +5,17 @@ define(['templates/bindable', 'knockout'], function(Bindable, ko) {
     };
 
     var userMod = new Bindable({
-        id: 'user-mod',
-        viewModel: vm
+        name: 'user-mod',
+        viewModel: vm,
+        events: {
+            'login': function(p_user) {
+                this.viewModel.user(p_user);
+            },
+            'logout': function() {
+                this.viewModel.user(undefined);
+            }
+        }
     });
-
-    // userMod.listen({
-    //     'login': function() {
-    //         // action on logout
-    //     },
-    //     'logout': function() {
-    //         // action on login
-    //     }
-    // });
-
-
 
     // var element = document.getElementById('user-mod');
     // userMod.bind(element);

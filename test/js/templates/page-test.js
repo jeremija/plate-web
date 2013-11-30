@@ -12,11 +12,11 @@ require(['templates/page', 'jquery', 'templates/bindable'], function(Page, $, Bi
         describe('constructor', function() {
             it('should create a new Page instance', function() {
                 page = new Page({
-                    id: 'test-page-name'
+                    name: 'test-page-name'
                 });
                 expect(page instanceof Page).to.be(true);
                 expect(Bindable.prototype.isPrototypeOf(page)).to.be.ok();
-                expect(page.id).to.be('test-page-name');
+                expect(page.name).to.be('test-page-name');
             });
         });
         describe('bind()', function() {

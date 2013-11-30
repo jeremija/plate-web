@@ -9,10 +9,12 @@ define(['extendable', 'signals', 'logger'],
      * @class Module for dispatching events
      * @name EventManager
      * @param {String} p_name Name of the module
+     * @param {Object} p_context Set the execution context (`this` variable)
      */
-    function EventManager(p_name) {
+    function EventManager(p_name, p_context) {
         // not used anywhere right now
         this.name = p_name;
+        this.context = p_context;
         this._moduleSignalBindings = {};
     }
 
@@ -51,7 +53,8 @@ define(['extendable', 'signals', 'logger'],
 
                 var eventSignal = eventSignals[eventName] || new Signal();
                 var eventHandler = p_handlers[eventName];
-                moduleBindings[eventName] = eventSignal.add(eventHandler);
+                moduleBindings[eventName] =
+                    eventSignal.add(eventHandler, this.context);
                 eventSignals[eventName] = eventSignal;
             }
         },

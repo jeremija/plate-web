@@ -9,38 +9,47 @@ define(['net/ajax'], function(Ajax) {
         };
     }
 
-    function mockRequest(p_url, p_data, p_type, p_response) {
+    clearMocks();
+
+
+    // mock main ajax function
+    Ajax.prototype._ajaxRequest = function(p_params, p_type) {
+        var type = (p_type === 'GET' || p_type === 'POST') ? p_type : 'GET';
+
+        var urlMock = mocks[p_type][p_params.url];
+        var status;
+        if (!urlMock) {
+            status = 'error';
+            p_params.error(status, 'NOT FOUND');
+        }
+        else {
+            status = 'success';
+            var data = p_params.data ? JSON.stringify(p_params.data) : 'undefined';
+
+            var mockedData = urlMock[data];
+            p_params.success(status, mockedData);
+        }
+        p_params.complete(status);
+    };
+
+    Ajax.prototype.mockRequest = function(p_url, p_data, p_type, p_response) {
         var data = p_data ? JSON.stringify(p_data) : 'undefined';
         var urlMock = mocks[p_type][p_url];
         if (!urlMock) {
             urlMock = {};
         }
-        urlMock[data] = p_responseData;
-        mocks.GET[p_url] = mock;
-    }
-
-    Ajax._ajaxRequest = function(p_params, p_type) {
-        var type = (p_type === 'GET' || p_type === 'POST') ? p_type : 'GET';
-
-        var urlMock = mocks[p_type][p_params.url];
-        if (!urlMock) {
-            p_params.error(404);
-        }
-        var data = p_params.data ? JSON.stringify(p_params.data) : 'undefined';
-
-        var mockedData = urlMock[data];
-
-
+        urlMock[data] = p_response;
+        mocks[p_type][p_url] = urlMock;
     };
 
-    Ajax.mockGet = function(p_url, p_data, p_responseData) {
-        mockRequest(p_url, p_data, 'GET', p_responseData);
+    Ajax.prototype.mockGet = function(p_url, p_data, p_response) {
+        this.mockRequest(p_url, p_data, 'GET', p_response);
     };
 
-    Ajax.mockPost = function(p_url, p_data, p_responseData) {
-        mockRequest(p_url, p_data, 'POST', p_responseData);
+    Ajax.prototype.mockPost = function(p_url, p_data, p_response) {
+        this.mockRequest(p_url, p_data, 'POST', p_response);
     };
-    Ajax.clearMocks = function() {
+    Ajax.prototype.clearMocks = function() {
         clearMocks();
     };
 
