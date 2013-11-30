@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: templates/page.js</title>
+    <title>JSDoc: Source: ui/culture.js</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Source: templates/page.js</h1>
+    <h1 class="page-title">Source: ui/culture.js</h1>
     
     
 
@@ -25,22 +25,39 @@
     
     <section>
         <article>
-            <pre class="prettyprint source"><code>define(['jquery', 'knockout', 'logger', 'templates/bindable'],
-    function($, ko, Logger, Bindable) {
+            <pre class="prettyprint source"><code>define(['globalize', 'events/event-manager', 'logger'],
+    function(Globalize, EventManager, Logger) {
+
+    var log = new Logger('ui/culture');
+
+    var events = new EventManager('ui/culture');
 
     /**
-     * @class Page
-     * @name Page
-     * @extends {Bindable}
-     * @param {Object} p_params Configuration {@see Bindable} constructor params
+     * Localize helper
+     * @exports localizer
      */
-    function Page(p_params) {
-        this.superclass(p_params);
-    }
+    var culture = {
+        setLocale: function(p_locale) {
+            var self = this;
+            require(['../locale/' + p_locale], function() {
+                self.locale = p_locale;
+                log.debug('loaded locale ' + p_locale);
+                events.dispatch('locale-changed', p_locale);
+            }, function(err) {
+                log.error('unable to load locale ' + p_locale, err);
+            });
+        },
+        // default locale
+        locale: 'en-US',
+        localize: function(p_key) {
+            return Globalize.localize(p_key, this.locale);
+        }
+    };
 
-    var PagePrototype = /** @lends Page.prototype */ {};
+    // load default locale
+    // culture.setLocale('en-US');
 
-    return Bindable.extend(Page, PagePrototype);
+    return culture;
 });</code></pre>
         </article>
     </section>

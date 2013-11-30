@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        clean: ["doc/"],
         concat: {
             options: {
                 separator: ';'
@@ -46,9 +47,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-mocha-phantomjs');
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-jsdoc');
 
     grunt.registerTask('test', ['jshint', 'mocha_phantomjs']);
-    grunt.registerTask('doc', ['jshint', 'mocha_phantomjs', 'jsdoc']);
+    grunt.registerTask('doc', ['jshint', 'mocha_phantomjs', 'clean', 'jsdoc']);
     grunt.registerTask('default', ['jshint', 'mocha_phantomjs', 'concat', 'uglify']);
 };
