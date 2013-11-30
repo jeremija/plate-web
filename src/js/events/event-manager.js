@@ -1,25 +1,44 @@
-define(['signals', 'logger'], function(signals, Logger) {
+define(['extendable', 'signals', 'logger'],
+    function(Extendable, signals, Logger) {
+
     var Signal = signals.Signal;
 
     var log = new Logger('event-manager');
 
     /**
-     * Main module for managing events
-     * @exports {eventManager}
+     * @class Module for dispatching events
+     * @name EventManager
+     * @param {String} p_name Name of the module
      */
-    var eventManager = {
-        _localeSignal: new Signal(),
+    function EventManager(p_name) {
+        // not used anywhere right now
+        this.name = p_name;
+        this._moduleSignalBindings = {};
+    }
+
+    var EventManagerPrototype = /** @lends EventManager.prototype */ {
+        /**
+         * A map with event name as the key, Signal as the value
+         * @type {Object}
+         * @private
+         */
         _eventSignals: {},
-        _moduleSignalBindings: {},
+        /**
+         * Not used yet
+         * @type {Array}
+         * @private
+         */
+        _names: [],
         /**
          * Updates the events with new event handlers. If there is already a
          * signal binding for the specific module and event name, it will be
          * detached.
-         * @param  {Object} moduleBindings [description]
-         * @param  {Object} p_handlers     [description]
+         * @param  {Object} p_handlers     Map with event names as keys,
+         * event handlers (Function callbacks) as value
          * @private
          */
-        _updateEventHandlers: function(moduleBindings, p_handlers) {
+        _updateEventHandlers: function(p_handlers) {
+            var moduleBindings = this._moduleSignalBindings;
             var eventSignals = this._eventSignals;
 
             for (var eventName in p_handlers) {
@@ -37,35 +56,31 @@ define(['signals', 'logger'], function(signals, Logger) {
             }
         },
         /**
-         * Enables or disables the signal bindings
-         * @param {Object} moduleBindings bindings for specific module
+         * Enables or disables the signal bindings for the specific module
          * @param {Boolean} p_active
          * @private
          */
-        _setActive: function(moduleBindings, p_active) {
+        _setActive: function(p_active) {
+            var moduleBindings = this._moduleSignalBindings;
+
             for (var eventName in moduleBindings) {
                 var signalBinding = moduleBindings[eventName];
                 signalBinding.active = p_active ? true : false;
             }
         },
         /**
-         * Adds event listeners for the specific identifier
-         * @param  {String} p_id listener id
+         * Adds event listeners for the specific identifier. If an event
+         * listener for a specific event name is already present, it will be
+         * detached and the new one will be used instead.
          * @param  {Object} p_handlers    Object with event name as keys,
          * event callback as values.
          */
-        listen: function(p_id, p_handlers) {
-            var moduleBindings = this._moduleSignalBindings[p_id];
-
-            if (!moduleBindings) {
-                moduleBindings = this._moduleSignalBindings[p_id] = {};
-            }
-
+        listen: function(p_handlers) {
             if (p_handlers) {
-                this._updateEventHandlers(moduleBindings, p_handlers);
+                this._updateEventHandlers(p_handlers);
             }
             else {
-                this._setActive(moduleBindings, true);
+                this._setActive(true);
             }
         },
         /**
@@ -84,37 +99,23 @@ define(['signals', 'logger'], function(signals, Logger) {
             eventSignal.dispatch.apply(eventSignal, arguments);
         },
         /**
-         * Ignore events for the specific id
-         * @param  {String} p_id
+         * Ignore events for the current module
          */
-        ignore: function(p_id) {
-            var moduleBindings = this._moduleSignalBindings[p_id] || {};
-            this._setActive(moduleBindings, false);
+        ignore: function() {
+            this._setActive(false);
         },
         /**
          * Detaches all signal bindings for the specific module
-         * @param  {String} p_id module id
          */
-        clear: function(p_id) {
-            var moduleBindings = this._moduleSignalBindings[p_id] || {};
+        clear: function() {
+            var moduleBindings = this._moduleSignalBindings;
             for (var eventName in moduleBindings) {
                 var signalBinding = moduleBindings[eventName];
                 signalBinding.detach();
             }
-            delete this._moduleSignalBindings[p_id];
-        },
-        /**
-         * Add listener for locale changed
-         * @param {Function} p_handler callback function to handle locale change
-         * @return {SignalBinding} signals js' SignalBinding object
-         */
-        addLocalizeListener: function(p_handler) {
-            return this._localeSignal.add(p_handler);
-        },
-        changeLocale: function(p_locale) {
-            this._localeSignal.dispatch(p_locale);
+            this._moduleSignalBindings = {};
         }
     };
 
-    return eventManager;
+    return Extendable.extend(EventManager, EventManagerPrototype);
 });

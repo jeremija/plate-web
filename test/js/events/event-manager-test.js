@@ -1,9 +1,15 @@
-define(['events/event-manager', 'signals'], function(eventManager, signals) {
+define(['events/event-manager', 'signals'], function(EventManager, signals) {
     var Signal = signals.Signal;
 
     describe('events/event-manager-test.js', function() {
-        it('should be ok', function() {
-            expect(eventManager).to.be.ok();
+        it('should be ok and a constructor', function() {
+            expect(EventManager).to.be.ok();
+            expect(EventManager).to.be.a('function');
+        });
+        var events, events2;
+        it('should create new instance', function() {
+            events = new EventManager('name1');
+            events2 = new EventManager('name2');
         });
         var triggered1, triggered2, triggered3;
         beforeEach(function() {
@@ -13,10 +19,10 @@ define(['events/event-manager', 'signals'], function(eventManager, signals) {
         });
         describe('listen()', function() {
             it('should be a function', function() {
-                expect(eventManager.listen).to.be.a('function');
+                expect(events.listen).to.be.a('function');
             });
             it('should add event listeners per module', function() {
-                eventManager.listen('identifier1', {
+                events.listen({
                     'event1': function(arg1, arg2) {
                         expect(arg1).to.be('arg1');
                         expect(arg2).to.be('arg2');
@@ -26,7 +32,7 @@ define(['events/event-manager', 'signals'], function(eventManager, signals) {
                         triggered2 = true;
                     }
                 });
-                eventManager.listen('identifier2', {
+                events2.listen({
                     'event1': function(arg1, arg2) {
                         expect(arg1).to.be('arg1');
                         expect(arg2).to.be('arg2');
@@ -37,16 +43,16 @@ define(['events/event-manager', 'signals'], function(eventManager, signals) {
         });
         describe('dispatch()', function() {
             it('should be a function', function() {
-                expect(eventManager.dispatch).to.be.a('function');
+                expect(events.dispatch).to.be.a('function');
             });
             it('should trigger event1', function() {
-                eventManager.dispatch('event1', 'arg1', 'arg2');
+                events.dispatch('event1', 'arg1', 'arg2');
                 expect(triggered1).to.be(true);
                 expect(triggered2).to.be(false);
                 expect(triggered3).to.be(true);
             });
             it('should trigger event2', function() {
-                eventManager.dispatch('event2');
+                events.dispatch('event2');
                 expect(triggered1).to.be(false);
                 expect(triggered2).to.be(true);
                 expect(triggered3).to.be(false);
@@ -54,18 +60,18 @@ define(['events/event-manager', 'signals'], function(eventManager, signals) {
         });
         describe('ignore()', function() {
             it('should be a function', function() {
-                expect(eventManager.ignore).to.be.a('function');
+                expect(events.ignore).to.be.a('function');
             });
             it('should prevent id1 event1 fcn from being called', function() {
-                eventManager.ignore('identifier1');
+                events.ignore();
 
-                eventManager.dispatch('event1', 'arg1', 'arg2');
+                events.dispatch('event1', 'arg1', 'arg2');
                 expect(triggered1).to.be(false);
                 expect(triggered2).to.be(false);
                 expect(triggered3).to.be(true);
             });
             it('should prevent id1 event2 fcn from being called', function() {
-                eventManager.dispatch('event2');
+                events.dispatch('event2');
                 expect(triggered1).to.be(false);
                 expect(triggered2).to.be(false);
                 expect(triggered3).to.be(false);
@@ -73,16 +79,16 @@ define(['events/event-manager', 'signals'], function(eventManager, signals) {
         });
         describe('listen() after ignore()', function() {
             it('should reenable listeners for identifier', function() {
-                eventManager.listen('identifier1');
+                events.listen();
 
-                eventManager.dispatch('event2');
+                events.dispatch('event2');
                 expect(triggered1).to.be(false);
                 expect(triggered2).to.be(true);
                 expect(triggered3).to.be(false);
 
                 triggered2 = false;
 
-                eventManager.dispatch('event1', 'arg1', 'arg2');
+                events.dispatch('event1', 'arg1', 'arg2');
                 expect(triggered1).to.be(true);
                 expect(triggered2).to.be(false);
                 expect(triggered3).to.be(true);
@@ -90,47 +96,25 @@ define(['events/event-manager', 'signals'], function(eventManager, signals) {
         });
         describe('clear()', function() {
             it('should be a function', function() {
-                expect(eventManager.clear).to.be.a('function');
+                expect(events.clear).to.be.a('function');
             });
             it('should remove the event handlers for identifier', function() {
-                eventManager.clear('identifier1');
-                eventManager.dispatch('event1', 'arg1', 'arg2');
-                eventManager.dispatch('event2', 'arg1', 'arg2');
+                events.clear();
+                events.dispatch('event1', 'arg1', 'arg2');
+                events.dispatch('event2', 'arg1', 'arg2');
                 expect(triggered1).to.be(false);
                 expect(triggered2).to.be(false);
                 expect(triggered3).to.be(true);
-                eventManager.clear('identifier2');
             });
             it('should not be listening for events after listen()', function() {
-                eventManager.listen('identifier1');
-                eventManager.listen('identifier2');
+                events2.clear();
+                events.listen();
+                events2.listen();
                 expect(triggered1).to.be(false);
                 expect(triggered2).to.be(false);
                 expect(triggered2).to.be(false);
-            });
-        });
-        var newLocale, binding;
-        describe('addLocalizeListener()', function() {
-            it('should be a function', function() {
-                expect(eventManager.addLocalizeListener).to.be.a('function');
-            });
-            it('should add a listener for a change locale signal', function() {
-                binding = eventManager.addLocalizeListener(function(p_locale) {
-                    newLocale = p_locale;
-                });
-            });
-        });
-        describe('changeLocale()', function() {
-            it('should be a function', function() {
-                expect(eventManager.changeLocale).to.be.a('function');
-            });
-            it('should trigger change locale listener', function() {
-                eventManager.changeLocale('en');
-                expect(newLocale).to.be('en');
-                binding.detach();
             });
         });
     });
 
-    return eventManager;
 });

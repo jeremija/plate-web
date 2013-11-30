@@ -18,7 +18,7 @@ var tests = [
     // ui
     'test/js/ui/menu-test',
     'test/js/ui/loading-test',
-    'test/js/ui/localizer-test',
+    'test/js/ui/culture-test',
 
     // events
     'test/js/events/event-manager-test',
