@@ -52,8 +52,8 @@ define(['jquery', 'extendable', 'logger'], function($, Extendable, Logger) {
             var loading = this.loading;
             loading.show();
 
-            var msg = (type || 'GET') + ' ' + params.url + ': ';
-            this.log(msg + 'start');
+            var msg = (p_type || 'GET') + ' ' + p_params.url + '  ';
+            this.log.debug(msg);
 
             $.ajax({
                 complete: function(jqXHR, textStatus) {
@@ -71,7 +71,7 @@ define(['jquery', 'extendable', 'logger'], function($, Extendable, Logger) {
                 contentType: 'application/json;charset=utf-8',
                 data: p_params.data ? JSON.stringify(p_params.data) : undefined,
                 error: function(jqXHR, textStatus, errorThrown) {
-                    self.log(msg + ', ' + textStatus + ': ' + errorThrown);
+                    self.log.debug(msg + ' ' + textStatus + ': ' + errorThrown);
                     if (p_params.error) {
                         // try {
                             p_params.error(textStatus, errorThrown);
@@ -82,9 +82,8 @@ define(['jquery', 'extendable', 'logger'], function($, Extendable, Logger) {
                     }
                 },
                 success: function(data, textStatus, jqXHR) {
-                    self.log(msg + ',status: ' + textStatus);
+                    self.log.debug(msg + ' ' + textStatus);
                     if (p_params.success) {
-                        self.log(msg + ', ' + textStatus);
                         // try {
                             p_params.success(textStatus, data);
                         // }

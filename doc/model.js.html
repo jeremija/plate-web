@@ -25,34 +25,156 @@
     
     <section>
         <article>
-            <pre class="prettyprint source"><code>define(['knockout', 'extendable', 'net/ajax'], function(ko, Extendable, Ajax) {
+            <pre class="prettyprint source"><code>define(['knockout', 'extendable', 'singletons', 'util/traversal'],
+    function(ko, Extendable, singletons, traversal) {
 
-    // TODO add test and signals for notifying loading
+    var ajax = singletons.ajax;
+
+    /**
+     *
+     * @param {Object} p_params Configuration object
+     * @param {Observable} p_params.value     If defined, must be an Observable.
+     * @param {String}    p_params.path       Path to the property in the data
+     * object.
+     */
+    function FormElement(p_params) {
+        if (p_params.value && typeof p_params.value !== 'function' &&
+            p_params.value.subscribe !== 'function') {
+            throw new Error('p_params.value must be an observable');
+        }
+        if (typeof p_params.path !== 'string') {
+            throw new Error('p_params.path must be a string');
+        }
+
+        this.value = p_params.value || ko.observable();
+        this.path = p_params.path;
+    }
+
+    FormElementConstructor = Extendable.extend(FormElement);
 
     /**
      * @class Model
      * @name Model
      * @extends {Extendable}
-     * @param {Object} p_params            Configuration object
-     * @param {String} p_params.getUrl     Url for fetching the data
-     * @param {String} p_params.postUrl    Url for posting the data
+     * @param {Object}     p_params            Configuration object
+     * @param {String}     p_params.getUrl     Url for fetching the data
+     * @param {String}     p_params.postUrl    Url for posting the data
+     * @param {Observable} p_params.data       Initial data
+     * @param {Object}     p_params.form       Object mapping
      */
     function Model(p_params) {
         this.getUrl = p_params.getUrl;
         this.postUrl = p_params.postUrl;
-        this.data = ko.observable();
+        /**
+         * Raw data
+         * @type {Observable}
+         */
+        this.data = ko.observable(p_params.data);
+        /**
+         * Object of observables which can be used for direct binding
+         * @type {Object}
+         */
+        this.form = p_params.form || {};
+        this._subscribe();
     }
 
-    var ModelPrototype = {
-        save: function() {
-            throw new Error('not implemented');
+    var ModelPrototype = /** @lends Model.prototype */ {
+        _subscribe: function() {
+            var self = this;
+            var form = this.form;
+
+            function createSubscribeCallback(p_path) {
+                return function(p_value) {
+                    var data = self.data();
+                    traversal.setProp(data, p_path, p_value);
+                };
+            }
+
+            for (var name in form) {
+                var obj = form[name];
+                obj.value.subscribe(createSubscribeCallback(obj.path));
+            }
         },
-        load: function() {
-            throw new Error('not implemented');
+        _postLoad: function() {
+            var data = this.data();
+            var form = this.form;
+
+            for (var name in form) {
+                var obj = form[name];
+                var value = traversal.getProp(data, obj.path);
+                obj.value(value);
+            }
+        },
+        // _preSave: function() {
+        //     var data = this.data();
+        //     var form = this.form;
+
+        //     for (var name in form) {
+        //         var obj = form[name];
+        //         var value = obj.value();
+        //         traversal.setProp(data, obj.path, value);
+        //     }
+        // },
+        /**
+         * @param  {String}   p_type     Type of ajax request: 'get' or 'post'
+         * @param  {String}   p_url      Url to send the ajax request to
+         * @param  {Object}   p_data     Data to send
+         * @param  {Function} p_callback Callback to execute on finish
+         * @private
+         */
+        _sendRequest: function(p_type, p_url, p_data, p_callback) {
+            if (typeof p_url !== 'string') {
+                throw new Error('wrong url ' + p_url);
+            }
+
+            var self = this;
+            // send an ajax post or get request, depending on the p_type
+            ajax[p_type]({
+                url: p_url,
+                data: p_data,
+                error: function(textStatus, errorThrown) {
+                    var err = new Error(textStatus + ': ' + errorThrown);
+                    if (!p_callback) {
+                        throw err;
+                    }
+                    p_callback.call(self, err);
+                },
+                success: function(textStatus, p_data) {
+                    self.data(p_data);
+                    self._postLoad();
+                    p_callback.call(self, undefined, p_data);
+                },
+                complete: function(textStatus) {
+                    // do nothing
+                }
+            });
+        },
+        /**
+         * Posts the model to the server. Updates the current model with the
+         * response from the server if succssful.
+         * @param  {Function} p_callback Callback function(err, data) to
+         * call on finish.
+         */
+        save: function(p_callback) {
+            var data = this.data();
+            // this._preSave();
+            this._sendRequest('post', this.postUrl, data, p_callback);
+        },
+        /**
+         * Get the model to the server. Updates (replaces) the current model
+         * with server response if successful.
+         * @param  {Object} p_key      Filter parameters
+         * @param  {Function} p_callback Callback function(err, data) to execute
+         * on finish
+         */
+        load: function(p_key, p_callback) {
+            this._sendRequest('get', this.getUrl, p_key, p_callback);
         }
     };
 
-    return Extendable.extend(Model, ModelPrototype);
+    var ModelConstructor =  Extendable.extend(Model, ModelPrototype);
+    ModelConstructor.FormElement = FormElement;
+    return ModelConstructor;
 });</code></pre>
         </article>
     </section>
@@ -63,13 +185,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-localizer.html">localizer</a></li><li><a href="module-menu.html">menu</a></li></ul><h3>Classes</h3><ul><li><a href="Ajax.html">Ajax</a></li><li><a href="Bindable.html">Bindable</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="Loading.html">Loading</a></li><li><a href="Logger.html">Logger</a></li><li><a href="Model.html">Model</a></li><li><a href="Page.html">Page</a></li><li><a href="Queue.html">Queue</a></li><li><a href="QueuedTimer.html">QueuedTimer</a></li><li><a href="Router.html">Router</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-authentication.html">authentication</a></li><li><a href="module-localizer.html">localizer</a></li><li><a href="module-menu.html">menu</a></li><li><a href="module-traversal.html">traversal</a></li></ul><h3>Classes</h3><ul><li><a href="Ajax.html">Ajax</a></li><li><a href="Bindable.html">Bindable</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="Loading.html">Loading</a></li><li><a href="Logger.html">Logger</a></li><li><a href="Model.html">Model</a></li><li><a href="Page.html">Page</a></li><li><a href="Queue.html">Queue</a></li><li><a href="QueuedTimer.html">QueuedTimer</a></li><li><a href="Router.html">Router</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Sat Nov 30 2013 10:23:53 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Sun Dec 01 2013 16:02:45 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

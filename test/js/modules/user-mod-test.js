@@ -17,7 +17,7 @@ define(['modules/user-mod', 'events/event-manager', 'templates/bindable'],
             expect(userMod).to.be.ok();
             expect(userMod instanceof Bindable).to.be(true);
             // to make it listen to the events
-            userMod.show(); // or userMod.events.listen()
+            // userMod.show(); // or userMod.events.listen()
         });
         describe('`login` event', function() {
             it('should listen to the event', function() {

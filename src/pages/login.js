@@ -1,42 +1,36 @@
-define(['templates/page', 'knockout', 'singletons'], function(Page, ko, singletons) {
+define(['templates/page', 'knockout', 'singletons', 'net/authentication'],
+    function(Page, ko, singletons, authentication) {
 
     var ajax = singletons.ajax;
+    var router = singletons.router;
+
+    var vm = {
+        form: {
+            email: ko.observable(),
+            password: ko.observable()
+        },
+        login: function() {
+            var self = this;
+            var data = {
+                email: this.form.email(),
+                password: this.form.password()
+            };
+            this.form.password('');
+
+            authentication.login(data);
+        }
+    };
 
     var page = new Page({
         name: 'login',
-        viewModel: {
-            form: {
-                email: ko.observable(),
-                password: ko.observable()
-            },
-            login: function() {
-                var data = {
-                    email: this.form.email(),
-                    password: this.form.password()
-                };
-                ajax.post({
-                    url: '/login',
-                    data: data,
-                    success: function(textStatus, data) {
-                        if (data.err) {
-                            log.debug('wrong username or password');
-                            // notify wrong password
-                            return;
-                        }
-                        log.debug('user logged in!');
-                        // set logged on user
-                    },
-                    error: function() {
-                        // notify error
-                    },
-                    complete: function() {
-                    }
-                });
+        viewModel: vm,
+        events: {
+            'login': function(p_user) {
+                this.log.debug('login event');
+                router.go('page1');
             },
         }
     });
-
-    var log = page.log;
 
     return page;
 });

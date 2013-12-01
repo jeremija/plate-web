@@ -11,6 +11,8 @@ define(['extendable', 'jquery', 'logger', 'knockout', 'events/event-manager',
      * @param {Object} p_params.viewModel    ViewModel object to bind to the
      * @param {Object} p_params.events       Events to listen to. The
      * `locale-changed` event will be listened automatically
+     * @param {Boolean} p_params.visible     If not visible, does not listen
+     * to the events. Defaults to false.
      * element. {@see Bindable.bind}
      */
     function Bindable(p_params) {
@@ -31,7 +33,9 @@ define(['extendable', 'jquery', 'logger', 'knockout', 'events/event-manager',
         };
         this.events.listen(listenedEvents);
         // ignore events until shown
-        this.events.ignore();
+        if (p_params.visible !== true) {
+            this.events.ignore();
+        }
     }
 
     var BindablePrototype = /** @lends Bindable.prototype */ {
@@ -41,7 +45,7 @@ define(['extendable', 'jquery', 'logger', 'knockout', 'events/event-manager',
          * @return {Bindable}               itself
          */
         bind: function(p_element) {
-            if (!p_element) {
+            if (p_element instanceof HTMLElement === false) {
                 throw new Error('p_element not defined for mod ' + this.name);
             }
 

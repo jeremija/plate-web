@@ -7,6 +7,7 @@ var tests = [
     // util
     'test/js/util/queue-test',
     'test/js/util/queued-timer-test',
+    'test/js/util/traversal-test',
 
     // templates
     'test/js/templates/bindable-test',

@@ -39,6 +39,9 @@ define(['extendable', 'crossroads', 'hasher', 'logger', 'ui/menu'],
             hasher.initialized.add(parseHash);
             hasher.changed.add(parseHash);
             hasher.init();
+        },
+        go: function(p_url) {
+            hasher.setHash(p_url);
         }
     };
 

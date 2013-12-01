@@ -11,7 +11,6 @@ define(['net/ajax'], function(Ajax) {
 
     clearMocks();
 
-
     // mock main ajax function
     Ajax.prototype._ajaxRequest = function(p_params, p_type) {
         var type = (p_type === 'GET' || p_type === 'POST') ? p_type : 'GET';

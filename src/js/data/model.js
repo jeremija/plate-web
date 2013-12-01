@@ -1,26 +1,93 @@
-define(['knockout', 'extendable', 'singletons'],
-    function(ko, Extendable, singletons) {
+define(['knockout', 'extendable', 'singletons', 'util/traversal'],
+    function(ko, Extendable, singletons, traversal) {
 
     var ajax = singletons.ajax;
 
-    // TODO add test and signals for notifying loading
+    /**
+     *
+     * @param {Object} p_params Configuration object
+     * @param {Observable} p_params.value     If defined, must be an Observable.
+     * @param {String}    p_params.path       Path to the property in the data
+     * object.
+     */
+    function FormElement(p_params) {
+        if (p_params.value && typeof p_params.value !== 'function' &&
+            p_params.value.subscribe !== 'function') {
+            throw new Error('p_params.value must be an observable');
+        }
+        if (typeof p_params.path !== 'string') {
+            throw new Error('p_params.path must be a string');
+        }
+
+        this.value = p_params.value || ko.observable();
+        this.path = p_params.path;
+    }
+
+    FormElementConstructor = Extendable.extend(FormElement);
 
     /**
      * @class Model
      * @name Model
      * @extends {Extendable}
-     * @param {Object} p_params            Configuration object
-     * @param {String} p_params.getUrl     Url for fetching the data
-     * @param {String} p_params.postUrl    Url for posting the data
-     * @param {String} p_params.data       Initial data
+     * @param {Object}     p_params            Configuration object
+     * @param {String}     p_params.getUrl     Url for fetching the data
+     * @param {String}     p_params.postUrl    Url for posting the data
+     * @param {Observable} p_params.data       Initial data
+     * @param {Object}     p_params.form       Object mapping
      */
     function Model(p_params) {
         this.getUrl = p_params.getUrl;
         this.postUrl = p_params.postUrl;
+        /**
+         * Raw data
+         * @type {Observable}
+         */
         this.data = ko.observable(p_params.data);
+        /**
+         * Object of observables which can be used for direct binding
+         * @type {Object}
+         */
+        this.form = p_params.form || {};
+        this._subscribe();
     }
 
     var ModelPrototype = /** @lends Model.prototype */ {
+        _subscribe: function() {
+            var self = this;
+            var form = this.form;
+
+            function createSubscribeCallback(p_path) {
+                return function(p_value) {
+                    var data = self.data();
+                    traversal.setProp(data, p_path, p_value);
+                };
+            }
+
+            for (var name in form) {
+                var obj = form[name];
+                obj.value.subscribe(createSubscribeCallback(obj.path));
+            }
+        },
+        _postLoad: function() {
+            var data = this.data();
+            var form = this.form;
+
+            for (var name in form) {
+                var obj = form[name];
+                var value = traversal.getProp(data, obj.path);
+                obj.value(value);
+            }
+        },
+        // _preSave: function() {
+        //     var data = this.data();
+        //     var form = this.form;
+
+        //     for (var name in form) {
+        //         var obj = form[name];
+        //         var value = obj.value();
+        //         traversal.setProp(data, obj.path, value);
+        //     }
+        // },
         /**
          * @param  {String}   p_type     Type of ajax request: 'get' or 'post'
          * @param  {String}   p_url      Url to send the ajax request to
@@ -47,6 +114,7 @@ define(['knockout', 'extendable', 'singletons'],
                 },
                 success: function(textStatus, p_data) {
                     self.data(p_data);
+                    self._postLoad();
                     p_callback.call(self, undefined, p_data);
                 },
                 complete: function(textStatus) {
@@ -62,6 +130,7 @@ define(['knockout', 'extendable', 'singletons'],
          */
         save: function(p_callback) {
             var data = this.data();
+            // this._preSave();
             this._sendRequest('post', this.postUrl, data, p_callback);
         },
         /**
@@ -76,5 +145,7 @@ define(['knockout', 'extendable', 'singletons'],
         }
     };
 
-    return Extendable.extend(Model, ModelPrototype);
+    var ModelConstructor =  Extendable.extend(Model, ModelPrototype);
+    ModelConstructor.FormElement = FormElement;
+    return ModelConstructor;
 });

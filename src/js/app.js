@@ -38,7 +38,7 @@ require(['jquery', 'router', 'amd-page-loader', 'templates/page', 'singletons', 
 
     var loading = singletons.loading;
 
-    var router = new Router({
+    singletons.router = new Router({
         onRouteChange: function(p_pageId) {
             loading.show();
 
@@ -56,5 +56,8 @@ require(['jquery', 'router', 'amd-page-loader', 'templates/page', 'singletons', 
     // initialize bootstrap
     $(document).ready(function() {
         require(['bootstrap']);
+        require(['modules/user-mod'], function(userMod) {
+            userMod.bind(document.getElementById('user-mod'));
+        });
     });
 });
