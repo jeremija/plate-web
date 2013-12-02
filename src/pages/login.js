@@ -27,7 +27,7 @@ define(['templates/page', 'knockout', 'singletons', 'net/authentication'],
         events: {
             'login': function(p_user) {
                 this.log.debug('login event');
-                router.go('page1');
+                // router.go('page1');
             },
         }
     });

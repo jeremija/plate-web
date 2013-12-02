@@ -9,16 +9,6 @@ define(['templates/bindable', 'knockout', 'singletons', 'net/authentication'],
         logout: function(p_data) {
             authentication.logout();
         }
-        // logout: function(p_data) {
-        //     ajax.get({
-        //         url: '/logout',
-        //         error: function() {
-        //         },
-        //         success: function() {
-        //             userMod.events.dispatch('logout');
-        //         }
-        //     });
-        // }
     };
 
     var userMod = new Bindable({

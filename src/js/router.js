@@ -1,7 +1,7 @@
-define(['extendable', 'crossroads', 'hasher', 'logger', 'ui/menu'],
-    function(Extendable, crossroads, hasher, Logger, menu) {
+define(['extendable', 'crossroads', 'hasher', 'logger', 'ui/menu',
+    'events/event-manager'],
+    function(Extendable, crossroads, hasher, Logger, menu, EventManager) {
 
-    var log = new Logger('router');
 
     /**
      * @class Module for handling navigation
@@ -15,6 +15,16 @@ define(['extendable', 'crossroads', 'hasher', 'logger', 'ui/menu'],
     function Router(p_params) {
         this.onRouteChange = p_params.onRouteChange;
 
+        this.log = new Logger('router');
+
+        this.events = new EventManager('router', this);
+        this.events.listen({
+            'redirect': function(p_url) {
+                this.log.debug('redirecting to ' + p_url);
+                this.go(p_url);
+            }
+        });
+
         this._setupCrossroads();
         this._setupHasher();
     }
@@ -26,9 +36,9 @@ define(['extendable', 'crossroads', 'hasher', 'logger', 'ui/menu'],
             crossroads.addRoute('{pageName}');
             crossroads.routed.add(function(request, data) {
                 if (self.onRouteChange) {
-                    log.debug('route changed to: ', data.params);
-                    self.onRouteChange.apply(self, data.params);
+                    self.log.debug('route changed to: ', data.params);
                     menu.markCurrentMenuItem(request);
+                    self.onRouteChange.apply(self, data.params);
                 }
             });
         },

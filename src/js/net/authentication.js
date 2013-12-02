@@ -16,11 +16,11 @@ define(['events/event-manager', 'singletons', 'logger'],
                 url: '/logout',
                 success: function() {
                     events.dispatch('logout');
-                    router.go('login');
+                    // router.go('login');
                 },
                 error: function() {
                     log.error('error while logging out');
-                    events.dispatch('error', 'error.logout');
+                    events.dispatch('error', 'error.server.logout');
                 }
             });
         },
@@ -32,15 +32,16 @@ define(['events/event-manager', 'singletons', 'logger'],
                 success: function(textStatus, res) {
                     if (res.err) {
                         log.debug('wrong username or password');
-                        // notify wrong password
+                        // TODO notify wrong password
+                        events.dispatch('error', 'error.login.credentials');
                         return;
                     }
                     log.debug('user logged in!');
-                    // set logged on user
+                    // notify logged on user
                     events.dispatch('login', res.data);
                 },
                 error: function() {
-                    events.dispatch('error', 'error.login');
+                    events.dispatch('error', 'error.server.login');
                     // notify error
                 }
             });
