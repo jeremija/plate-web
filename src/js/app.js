@@ -31,18 +31,6 @@ require(['jquery', 'router', 'amd-page-loader', 'templates/page', 'singletons',
         }
     });
 
-    var pages = {
-        _public: ['login'],
-        isPublic: function(p_pageId) {
-            for (var i in this._public) {
-                if (this._public[i] === p_pageId) {
-                    return true;
-                }
-            }
-            return false;
-        }
-    };
-
     var loading = singletons.loading;
 
     singletons.router = new Router({

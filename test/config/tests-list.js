@@ -12,6 +12,8 @@ var tests = [
     // templates
     'test/js/templates/bindable-test',
     'test/js/templates/page-test',
+    'test/js/templates/template-loader-test',
+    'test/js/templates/page-manager-test',
 
     // net
     'test/js/net/ajax-test',

@@ -84,6 +84,7 @@ define(['jquery', 'extendable', 'logger'], function($, Extendable, Logger) {
                 success: function(data, textStatus, jqXHR) {
                     self.log.debug(msg + ' ' + textStatus);
                     if (p_params.success) {
+                            self.log.debug('success', data);
                         // try {
                             p_params.success(textStatus, data);
                         // }

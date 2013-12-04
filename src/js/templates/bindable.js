@@ -13,7 +13,7 @@ define(['extendable', 'jquery', 'logger', 'knockout', 'events/event-manager',
      * `locale-changed` event will be listened automatically
      * @param {Boolean} p_params.visible     If not visible, does not listen
      * to the events. Defaults to false.
-     * element. {@see Bindable.bind}
+     * element. See {@link Bindable.bind}
      */
     function Bindable(p_params) {
         var params = p_params || {};
