@@ -102,6 +102,19 @@ define(['extendable', 'signals', 'logger'],
             eventSignal.dispatch.apply(eventSignal, arguments);
         },
         /**
+         * Dispatches the {@link EventManager#error} event and logs out the user
+         * if necceessarry
+         * @param  {String} p_key              Error string for localization
+         * @param  {[type]} p_logout           Whether or not to log out the
+         * user
+         * @fires EventManager#error
+         */
+        dispatchError: function(p_key, p_logout) {
+            this.dispatch('error', p_key);
+            // TODO fix this shit
+            this.dispatch('loggggout//');
+        },
+        /**
          * Ignore events for the current module
          */
         ignore: function() {

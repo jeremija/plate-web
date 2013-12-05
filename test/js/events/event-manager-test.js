@@ -19,6 +19,7 @@ define(['events/event-manager', 'signals'], function(EventManager, signals) {
             triggered1 = false;
             triggered2 = false;
             triggered3 = false;
+            triggeredErrorEvent = false;
         });
         describe('listen()', function() {
             it('should be a function', function() {
@@ -42,6 +43,9 @@ define(['events/event-manager', 'signals'], function(EventManager, signals) {
                         // check the context
                         expect(this.a).to.be('value-of-a');
                         triggered3 = true;
+                    },
+                    'error': function() {
+                        triggeredErrorEvent = true;
                     }
                 });
             });
@@ -61,6 +65,13 @@ define(['events/event-manager', 'signals'], function(EventManager, signals) {
                 expect(triggered1).to.be(false);
                 expect(triggered2).to.be(true);
                 expect(triggered3).to.be(false);
+            });
+        });
+        describe('dispatchError()', function() {
+            it('should dispatch `error` event', function() {
+                expect(triggeredErrorEvent).to.be(false);
+                events.dispatchError();
+                expect(triggeredErrorEvent).to.be(true);
             });
         });
         describe('ignore()', function() {

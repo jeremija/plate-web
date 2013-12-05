@@ -1,5 +1,5 @@
-define(['events/event-manager', 'singletons', 'logger'],
-    function(EventManager, singletons, Logger) {
+define(['jquery', 'events/event-manager', 'singletons', 'logger'],
+    function($, EventManager, singletons, Logger) {
 
     var ajax = singletons.ajax;
     var router = singletons.router;
