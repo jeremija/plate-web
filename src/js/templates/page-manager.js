@@ -33,6 +33,10 @@ define(['extendable', 'events/event-manager', 'router', 'jquery'],
         });
 
         this._registerPages(this.publicPages);
+
+        if (!this.router.initialized) {
+            this.router.init();
+        }
     }
 
     var PageManagerPrototype = /** @lends PageManager.prototype */ {

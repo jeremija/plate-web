@@ -11,6 +11,9 @@ define(['templates/page-manager', 'templates/page', 'events/event-manager'],
                 },
                 unregisterPage: function(p_page) {
                     unregisteredPages.push(p_page);
+                },
+                init: function() {
+                    this.initialized = true;
                 }
             };
         });

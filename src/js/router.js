@@ -1,6 +1,6 @@
-define(['extendable', 'crossroads', 'hasher', 'logger', 'ui/menu',
-    'events/event-manager', 'templates/page', 'templates/template-loader'],
-    function(Extendable, crossroads, hasher, Logger, menu, EventManager, Page,
+define(['extendable', 'crossroads', 'hasher', 'logger', 'events/event-manager',
+    'templates/page', 'templates/template-loader'],
+    function(Extendable, crossroads, hasher, Logger, EventManager, Page,
         TemplateLoader) {
 
     /**
@@ -27,9 +27,6 @@ define(['extendable', 'crossroads', 'hasher', 'logger', 'ui/menu',
      * @extends {Extendable}
      * @param {Object} p_params             Configuration object
      * @param {String} p_params.name        Name of the router
-     * @param {String} p_params.selector    Id of the div containing the pages
-     * @param {String} p_params.pagePrefix  Prefix for creating page ids
-     * @param {String} p_params.pagesPath   Pages folder
      * @listens redirect
      * @fires page-route-found              If route found
      * @fires page-route-not-found          If route not found
@@ -46,20 +43,18 @@ define(['extendable', 'crossroads', 'hasher', 'logger', 'ui/menu',
             }
         });
 
-        this._setupCrossroads();
-        this._setupHasher();
-
         this.urlBindings = {};
         this.lastUrl = undefined;
-        this.pagesPath = p_params.pagesPath || '/pages';
 
-        this.templateLoader = new TemplateLoader({
-            selector: p_params.selector,
-            pagePrefix: p_params.pagePrefix
-        });
+        this.initialized = false;
     }
 
     var RouterPrototype = /** @lends Router.prototype */ {
+        init: function() {
+            this.initialized = true;
+            this._setupCrossroads();
+            this._setupHasher();
+        },
         /**
          * Adds the binding on crossroads' routed and bypassed bingdinsgs.
          * Adds the properties bypassedBinding and routedBinding

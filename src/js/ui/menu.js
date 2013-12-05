@@ -1,7 +1,15 @@
-define(['jquery', 'bootstrap'], function($) {
+define(['jquery', 'events/event-manager'],
+    function($, EventManager) {
+
+    var events = new EventManager('menu');
+
+    events.listen({
+        'page-route-found': function(params) {
+            menu.markCurrentMenuItem(params.stateUrl);
+        }
+    });
 
     var $MENU = $('#menu .nav');
-
     /**
      * Object with util functions for the menu
      * @exports menu
@@ -14,7 +22,9 @@ define(['jquery', 'bootstrap'], function($) {
          */
         markCurrentMenuItem: function(request) {
             var $a = $('#menu .nav a');
-            var matcher = new RegExp('#\/' + request + '$');
+            var matcher = new RegExp('#\/' + request);
+
+            request = '#/' + request;
 
             var $activeLi;
 
@@ -24,12 +34,12 @@ define(['jquery', 'bootstrap'], function($) {
                 }
             });
 
-            // change marked only if found
+            // remove all active
+            $a.each(function() {
+                $(this).parent().removeClass('active');
+            });
+
             if ($activeLi && $activeLi.length) {
-                // remove all active
-                $a.each(function() {
-                    $(this).parent().removeClass('active');
-                });
                 // mark the active
                 $activeLi.addClass('active');
             }

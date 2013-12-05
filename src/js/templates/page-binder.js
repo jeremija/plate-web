@@ -49,7 +49,8 @@ define(['extendable', 'logger', 'events/event-manager'],
                 this.changePage(p_data.page, p_data.stateUrl, p_data.stateArgs);
             },
             'page-route-not-found': function(p_route) {
-                this.log.debug('redirecting to errorPage', this.errorRoute);
+                this.log.debug('redirecting to error route `' +
+                    this.errorRoute + '`');
                 this._redirectError();
             }
         });

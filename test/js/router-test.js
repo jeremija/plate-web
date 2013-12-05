@@ -41,6 +41,7 @@ define(['jquery', 'router', 'crossroads', 'hasher', 'events/event-manager',
                 router = new Router({
                     name: 'router-test',
                 });
+                router.init();
             });
         });
         describe('registerPage() and `redirect` event', function() {

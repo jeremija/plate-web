@@ -1,5 +1,5 @@
-define(['extendable', 'jquery', 'events/event-manager'],
-    function(Extendable, $, EventManager) {
+define(['extendable', 'jquery'],
+    function(Extendable, $) {
 
     /**
      * @class for loading html templates
@@ -15,13 +15,6 @@ define(['extendable', 'jquery', 'events/event-manager'],
 
         this.pagePrefix = p_params.pagePrefix || 'page-';
         this.$el = $('#' + p_params.selector);
-
-        // this.events = new EventManager(this.name, this);
-        // this.events.listen({
-        //     'load-page': function(p_url, p_callback) {
-        //         this.load(p_url, p_callback);
-        //     }
-        // });
     };
 
     var TemplateLoaderPrototype = /** @lends TemplateLoader.prototype */ {
@@ -32,9 +25,9 @@ define(['extendable', 'jquery', 'events/event-manager'],
         },
         /**
          * Loads the html for the page or shows the already loaded page.
-         * @param  {String} p_url            Url of the html template for the
+         * @param  {String} p_url          Url of the html template for the
          * page
-         * @param  {Function} p_callback     Callback to execute when everything
+         * @param  {Function} p_callback   Callback to execute when loading
          * is done
          */
         load: function(p_url, p_callback) {

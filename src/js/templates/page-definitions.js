@@ -1,8 +1,10 @@
 define([
+    'pages/login-page',
+
     'pages/page1',
     'pages/page2',
-    'pages/error',
-    'pages/companies',
+    'pages/error-page',
+    'pages/companies-page',
 ], function() {
 
     return {

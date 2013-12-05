@@ -1,8 +1,5 @@
-define(['templates/page', 'knockout', 'singletons', 'net/authentication'],
-    function(Page, ko, singletons, authentication) {
-
-    var ajax = singletons.ajax;
-    var router = singletons.router;
+define(['templates/page', 'knockout', 'net/authentication'],
+    function(Page, ko, authentication) {
 
     var vm = {
         form: {
@@ -22,13 +19,16 @@ define(['templates/page', 'knockout', 'singletons', 'net/authentication'],
     };
 
     var page = new Page({
-        name: 'login',
+        name: 'login-page',
         viewModel: vm,
         events: {
             'login': function(p_user) {
                 this.log.debug('login event');
                 // router.go('page1');
             },
+        },
+        states: {
+            'login': function() {}
         }
     });
 
