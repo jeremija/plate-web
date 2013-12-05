@@ -34,23 +34,26 @@
     var log = new Logger('net/authentication');
 
     /**
+     * @event EventManager#login
+     * @param {User} user
+     */
+
+    /**
+     * @event EventManager#logout
+     */
+
+    /**
      * @exports authentication
      */
     var authentication = {
-        logout: function(p_credentials) {
-            log.debug('attempting to log out');
-            ajax.get({
-                url: '/logout',
-                success: function() {
-                    events.dispatch('logout');
-                    router.go('login');
-                },
-                error: function() {
-                    log.error('error while logging out');
-                    events.dispatch('error', 'error.logout');
-                }
-            });
-        },
+        /**
+         * Attempts to authenticate the user
+         * @param  {Object} p_credentials login credentials
+         * @param  {String} p_credentials.username
+         * @param  {String} p_credentials.password
+         * @fires login if authenticated successfully
+         * @fires error on error
+         */
         login: function(p_credentials) {
             log.debug('attempting to log in' + p_credentials.email);
             ajax.post({
@@ -59,16 +62,36 @@
                 success: function(textStatus, res) {
                     if (res.err) {
                         log.debug('wrong username or password');
-                        // notify wrong password
+                        // TODO notify wrong password
+                        events.dispatch('error', 'error.login.credentials');
                         return;
                     }
                     log.debug('user logged in!');
-                    // set logged on user
+                    // notify logged on user
                     events.dispatch('login', res.data);
                 },
                 error: function() {
-                    events.dispatch('error', 'error.login');
+                    events.dispatch('error', 'error.server.login');
                     // notify error
+                }
+            });
+        },
+        /**
+         * Logs out the current user
+         * @fires logout  If logged out successfully
+         * @fires error   On error
+         */
+        logout: function() {
+            log.debug('attempting to log out');
+            ajax.get({
+                url: '/logout',
+                success: function() {
+                    events.dispatch('logout');
+                    // router.go('login');
+                },
+                error: function() {
+                    log.error('error while logging out');
+                    events.dispatch('error', 'error.server.logout');
                 }
             });
         }
@@ -85,13 +108,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-authentication.html">authentication</a></li><li><a href="module-localizer.html">localizer</a></li><li><a href="module-menu.html">menu</a></li><li><a href="module-traversal.html">traversal</a></li></ul><h3>Classes</h3><ul><li><a href="Ajax.html">Ajax</a></li><li><a href="Bindable.html">Bindable</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="Loading.html">Loading</a></li><li><a href="Logger.html">Logger</a></li><li><a href="Model.html">Model</a></li><li><a href="Page.html">Page</a></li><li><a href="Queue.html">Queue</a></li><li><a href="QueuedTimer.html">QueuedTimer</a></li><li><a href="Router.html">Router</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-authentication.html">authentication</a></li><li><a href="module-localizer.html">localizer</a></li><li><a href="module-menu.html">menu</a></li><li><a href="module-traversal.html">traversal</a></li></ul><h3>Classes</h3><ul><li><a href="Ajax.html">Ajax</a></li><li><a href="Bindable.html">Bindable</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="Loading.html">Loading</a></li><li><a href="Logger.html">Logger</a></li><li><a href="Model.html">Model</a></li><li><a href="Page.html">Page</a></li><li><a href="PageBinder.html">PageBinder</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="Queue.html">Queue</a></li><li><a href="QueuedTimer.html">QueuedTimer</a></li><li><a href="Router.html">Router</a></li><li><a href="TemplateLoader.html">TemplateLoader</a></li></ul><h3>Events</h3><ul><li><a href="EventManager.html#event:login">login</a></li><li><a href="EventManager.html#event:logout">logout</a></li><li><a href="EventManager.html#event:page-loading-end">page-loading-end</a></li><li><a href="EventManager.html#event:page-loading-start">page-loading-start</a></li><li><a href="EventManager.html#event:page-route-found">page-route-found</a></li><li><a href="EventManager.html#event:page-route-not-found">page-route-not-found</a></li><li><a href="EventManager.html#event:redirect">redirect</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Sun Dec 01 2013 16:02:45 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Thu Dec 05 2013 15:19:23 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

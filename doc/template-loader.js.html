@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: logger.js</title>
+    <title>JSDoc: Source: templates/template-loader.js</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Source: logger.js</h1>
+    <h1 class="page-title">Source: templates/template-loader.js</h1>
     
     
 
@@ -25,66 +25,63 @@
     
     <section>
         <article>
-            <pre class="prettyprint source"><code>define(['extendable'], function(Extendable) {
+            <pre class="prettyprint source"><code>define(['extendable', 'jquery', 'events/event-manager'],
+    function(Extendable, $, EventManager) {
 
     /**
-     * @class Logger
-     * @name Logger
-     * @extends {Extendable}
-     * @param {String} p_name Name of the logger
+     * @class for loading html templates
+     * @name TemplateLoader
+     * @param {Object}  p_params               Configuration object
+     * @param {String}  p_params.name          Name
+     * @param {String}  p_params.selector      Id of the element to append the
+     * pages to.
+     * @param {String}  p_params.pagePrefix    Prefix for page ids
      */
-    function Logger(p_name) {
-        this.name = p_name;
-    }
+    var TemplateLoader = function(p_params) {
+        this.name = p_params.name;
 
-    var LoggerPrototype = /** @lends Logger.prototype */ {
-        /**
-         * Disable logger or all loggers if set to prototype
-         * @type {Boolean}
-         */
-        disabled: false,
-        /**
-         * Log filter. 0: debug|warn|error, 1: warn|error, 2: error
-         * @type {Number}
-         */
-        threshold: 0,
-        _getArray: function(p_args) {
-            var args = [].slice.call(p_args);
-            args.splice(0, 0, this.name + '> ');
-            return args;
-        },
-        _log: function(p_type, p_args) {
-            var args = this._getArray(p_args);
-            if (!this.disabled && console && console[p_type]) {
-                console[p_type].apply(console, args);
-            }
-            return args;
+        this.pagePrefix = p_params.pagePrefix || 'page-';
+        this.$el = $('#' + p_params.selector);
+
+        // this.events = new EventManager(this.name, this);
+        // this.events.listen({
+        //     'load-page': function(p_url, p_callback) {
+        //         this.load(p_url, p_callback);
+        //     }
+        // });
+    };
+
+    var TemplateLoaderPrototype = /** @lends TemplateLoader.prototype */ {
+        _getPageId: function(p_path) {
+            var pagePrefix = this.pagePrefix || 'page-';
+            // replace all non-letters and non-numbers with an underscore
+            return pagePrefix + p_path.replace(/[^a-zA-Z0-9\-]/g, '_');
         },
         /**
-         * Log debug
+         * Loads the html for the page or shows the already loaded page.
+         * @param  {String} p_url            Url of the html template for the
+         * page
+         * @param  {Function} p_callback     Callback to execute when everything
+         * is done
          */
-        debug: function() {
-            if (this.threshold === 0) {
-                return this._log('debug', arguments);
-            }
-        },
-        /**
-         * Log warn
-         */
-        warn: function() {
-            if (this.threshold &lt;= 1) {
-                return this._log('warn', arguments);
-            }
-        },
-        /**
-         * Log error
-         */
-        error: function() {
-            return this._log('error', arguments);
+        load: function(p_url, p_callback) {
+            var id = this._getPageId(p_url);
+
+            $page = $('&lt;div>').attr('id', id).appendTo(this.$el);
+            $page.load(p_url, function(response, status, xhr) {
+                if (status === 'error') {
+                    var err = new Error('Failed to load ' + p_url + ': ' + xhr.status);
+                    if (p_callback) p_callback(err);
+                    else throw err;
+                    return;
+                }
+                var el = $page[0];
+                p_callback(undefined, el);
+            });
         }
     };
 
-    return Extendable.extend(Logger, LoggerPrototype);
+    return Extendable.extend(TemplateLoader, TemplateLoaderPrototype);
 });</code></pre>
         </article>
     </section>

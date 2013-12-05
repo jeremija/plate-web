@@ -7,17 +7,16 @@ define(['events/event-manager', 'singletons', 'logger'],
     var log = new Logger('net/authentication');
 
     /**
-     * @event login
+     * @event EventManager#login
      * @param {User} user
      */
 
     /**
-     * @event logout
+     * @event EventManager#logout
      */
 
     /**
      * @exports authentication
-     * @fires
      */
     var authentication = {
         /**

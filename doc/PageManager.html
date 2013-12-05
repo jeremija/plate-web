@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: traversal</title>
+    <title>JSDoc: Class: PageManager</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Module: traversal</h1>
+    <h1 class="page-title">Class: PageManager</h1>
     
     
 
@@ -27,8 +27,12 @@
     
 <header>
     <h2>
-    traversal
+    PageManager
     </h2>
+    
+        <div class="class-description">It has a list of all the <a href="Page.html">Page</a> instances in the application
+and listens to `login` and `logout` events to register or unregister the
+routes (states) of the pages.</div>
     
 </header>  
 
@@ -38,8 +42,164 @@
     
     
         
+<dt>
+    <h4 class="name" id="PageManager"><span class="type-signature"></span>new PageManager<span class="signature">(p_params)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
         
-        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>p_params</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Configuration object
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Page manager name</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>pages</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A list of <a href="Page.html">Page</a>s</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>router</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Router.html">Router</a></span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Router instance</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+            </td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
 <dl class="details">
     
         
@@ -62,7 +222,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="traversal.js.html">util/traversal.js</a>, <a href="traversal.js.html#line6">line 6</a>
+        <a href="page-manager.js.html">templates/page-manager.js</a>, <a href="page-manager.js.html#line5">line 5</a>
     </li></ul></dd>
     
     
@@ -73,8 +233,27 @@
     
 </dl>
 
-        
-        
+    
+    
+
+    
+    <h5>Listens to Events:</h5>
+    <ul>
+        <li>event:login</li>
+    
+        <li>event:logout</li>
+    </ul>
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
     
     </div>
     
@@ -96,7 +275,7 @@
         <dl>
             
 <dt>
-    <h4 class="name" id="copyProperties"><span class="type-signature">&lt;static> </span>copyProperties<span class="signature">(p_src, p_dest)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="_registerPages"><span class="type-signature"></span>_registerPages<span class="signature">(p_pages)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -104,7 +283,7 @@
     
     
     <div class="description">
-        Copies first-level properties from source to destination
+        Registers the pages to the router
     </div>
     
 
@@ -138,13 +317,13 @@
 	
         <tr>
             
-                <td class="name"><code>p_src</code></td>
+                <td class="name"><code>p_pages</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">Array</span>
 
 
             
@@ -154,30 +333,7 @@
             
             
             
-            <td class="description last">Source</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>p_dest</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Destination</td>
+            <td class="description last">an array of <a href="Page.html">Page</a>s to register</td>
         </tr>
 	
 	
@@ -208,7 +364,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="traversal.js.html">util/traversal.js</a>, <a href="traversal.js.html#line12">line 12</a>
+        <a href="page-manager.js.html">templates/page-manager.js</a>, <a href="page-manager.js.html#line56">line 56</a>
     </li></ul></dd>
     
     
@@ -236,7 +392,7 @@
         
             
 <dt>
-    <h4 class="name" id="getProp"><span class="type-signature">&lt;static> </span>getProp<span class="signature">(p_object, p_property)</span><span class="type-signature"> &rarr; {*}</span></h4>
+    <h4 class="name" id="_setPages"><span class="type-signature"></span>_setPages<span class="signature">(p_pages)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -244,7 +400,8 @@
     
     
     <div class="description">
-        Gets the property from an object
+        Divides the pages into `protectedPages` and `publicPages`, depending
+on the `requireLogin` property of <a href="Page.html">Page</a> instance.
     </div>
     
 
@@ -278,13 +435,13 @@
 	
         <tr>
             
-                <td class="name"><code>p_object</code></td>
+                <td class="name"><code>p_pages</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="Page.html">Page</a></span>
 
 
             
@@ -294,30 +451,7 @@
             
             
             
-            <td class="description last">object to retrieve the property from</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>p_property</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">in the form of 'prop1.prop2.prop3'</td>
+            <td class="description last"></td>
         </tr>
 	
 	
@@ -348,7 +482,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="traversal.js.html">util/traversal.js</a>, <a href="traversal.js.html#line28">line 28</a>
+        <a href="page-manager.js.html">templates/page-manager.js</a>, <a href="page-manager.js.html#line44">line 44</a>
     </li></ul></dd>
     
     
@@ -369,28 +503,6 @@
     
     
     
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    previous value
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type">*</span>
-
-
-	</dd>
-</dl>
-
-        
     
     
 </dd>
@@ -398,7 +510,7 @@
         
             
 <dt>
-    <h4 class="name" id="setProp"><span class="type-signature">&lt;static> </span>setProp<span class="signature">(p_object, p_property, p_value)</span><span class="type-signature"> &rarr; {*}</span></h4>
+    <h4 class="name" id="_unregisterPages"><span class="type-signature"></span>_unregisterPages<span class="signature">(p_pages)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -406,8 +518,7 @@
     
     
     <div class="description">
-        Sets the property to an object. If the subproperties don't exist,
-they will be created
+        Unregisters the pages from the router
     </div>
     
 
@@ -441,13 +552,13 @@ they will be created
 	
         <tr>
             
-                <td class="name"><code>p_object</code></td>
+                <td class="name"><code>p_pages</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">Array</span>
 
 
             
@@ -457,53 +568,7 @@ they will be created
             
             
             
-            <td class="description last">object to set the property to</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>p_property</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">path to set the property to</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>p_value</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">value</td>
+            <td class="description last">an aray of <a href="Page.html">Page</a>s to unregister</td>
         </tr>
 	
 	
@@ -534,7 +599,7 @@ they will be created
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="traversal.js.html">util/traversal.js</a>, <a href="traversal.js.html#line49">line 49</a>
+        <a href="page-manager.js.html">templates/page-manager.js</a>, <a href="page-manager.js.html#line66">line 66</a>
     </li></ul></dd>
     
     
@@ -555,28 +620,6 @@ they will be created
     
     
     
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    previous value
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type">*</span>
-
-
-	</dd>
-</dl>
-
-        
     
     
 </dd>

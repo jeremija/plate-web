@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: traversal</title>
+    <title>JSDoc: Class: PageBinder</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Module: traversal</h1>
+    <h1 class="page-title">Class: PageBinder</h1>
     
     
 
@@ -27,8 +27,13 @@
     
 <header>
     <h2>
-    traversal
+    PageBinder
     </h2>
+    
+        <div class="class-description">This object handles the `page-route-found` event and coordinates
+the page show/hide method calls and page state changes.
+It also listens to `page-route-not-found` event and redirects to the
+error page.</div>
     
 </header>  
 
@@ -38,8 +43,213 @@
     
     
         
+<dt>
+    <h4 class="name" id="PageBinder"><span class="type-signature"></span>new PageBinder<span class="signature">(p_params)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
         
-        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>p_params</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Configuration object
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Name</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>errorRoute</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Route for the error page</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>templateLoader</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type"><a href="TemplateLoader.html">TemplateLoader</a></span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Template loader object
+for loading html templates.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>templatePath</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Path for loading
+templates (defaults to `/pages`)</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>templateExtension</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Extension for loading
+templates (defautls to `.html`)</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+            </td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
 <dl class="details">
     
         
@@ -62,7 +272,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="traversal.js.html">util/traversal.js</a>, <a href="traversal.js.html#line6">line 6</a>
+        <a href="page-binder.js.html">templates/page-binder.js</a>, <a href="page-binder.js.html#line8">line 8</a>
     </li></ul></dd>
     
     
@@ -73,8 +283,34 @@
     
 </dl>
 
-        
-        
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>event:page-loading-start</li>
+    
+        <li>event:page-loading-end</li>
+    </ul>
+    
+
+    
+    <h5>Listens to Events:</h5>
+    <ul>
+        <li>event:page-route-found</li>
+    
+        <li>event:page-route-not-found</li>
+    </ul>
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
     
     </div>
     
@@ -96,7 +332,7 @@
         <dl>
             
 <dt>
-    <h4 class="name" id="copyProperties"><span class="type-signature">&lt;static> </span>copyProperties<span class="signature">(p_src, p_dest)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="changePage"><span class="type-signature"></span>changePage<span class="signature">(p_page, p_stateUrl, p_stateArgs)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -104,7 +340,11 @@
     
     
     <div class="description">
-        Copies first-level properties from source to destination
+        Hiddes the current page (if any). If the new page is already bound,
+it will be shown and it's state callback applied.
+
+If the new page is not yet bound to an element, it's template
+will be loaded.
     </div>
     
 
@@ -138,13 +378,13 @@
 	
         <tr>
             
-                <td class="name"><code>p_src</code></td>
+                <td class="name"><code>p_page</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="Page.html">Page</a></span>
 
 
             
@@ -154,154 +394,14 @@
             
             
             
-            <td class="description last">Source</td>
+            <td class="description last">Page</td>
         </tr>
 	
 	
 	
         <tr>
             
-                <td class="name"><code>p_dest</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Destination</td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="traversal.js.html">util/traversal.js</a>, <a href="traversal.js.html#line12">line 12</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="getProp"><span class="type-signature">&lt;static> </span>getProp<span class="signature">(p_object, p_property)</span><span class="type-signature"> &rarr; {*}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Gets the property from an object
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>p_object</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">object to retrieve the property from</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>p_property</code></td>
+                <td class="name"><code>p_stateUrl</code></td>
             
             
             <td class="type">
@@ -317,7 +417,30 @@
             
             
             
-            <td class="description last">in the form of 'prop1.prop2.prop3'</td>
+            <td class="description last">State url</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>p_stateArgs</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Arguments for the state callback</td>
         </tr>
 	
 	
@@ -348,7 +471,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="traversal.js.html">util/traversal.js</a>, <a href="traversal.js.html#line28">line 28</a>
+        <a href="page-binder.js.html">templates/page-binder.js</a>, <a href="page-binder.js.html#line78">line 78</a>
     </li></ul></dd>
     
     
@@ -369,214 +492,6 @@
     
     
     
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    previous value
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type">*</span>
-
-
-	</dd>
-</dl>
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="setProp"><span class="type-signature">&lt;static> </span>setProp<span class="signature">(p_object, p_property, p_value)</span><span class="type-signature"> &rarr; {*}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Sets the property to an object. If the subproperties don't exist,
-they will be created
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>p_object</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">object to set the property to</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>p_property</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">path to set the property to</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>p_value</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">value</td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="traversal.js.html">util/traversal.js</a>, <a href="traversal.js.html#line49">line 49</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    previous value
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type">*</span>
-
-
-	</dd>
-</dl>
-
-        
     
     
 </dd>

@@ -4,7 +4,7 @@ define(['extendable', 'crossroads', 'hasher', 'logger', 'ui/menu',
         TemplateLoader) {
 
     /**
-     * @event page-route-found
+     * @event EventManager#page-route-found
      * @param {Object} params              Event object
      * @param {Page}   params.page         Page instance
      * @param {String} params.stateUrl     Url of the route
@@ -12,12 +12,12 @@ define(['extendable', 'crossroads', 'hasher', 'logger', 'ui/menu',
      */
 
     /**
-     * @event page-route-not-found
+     * @event EventManager#page-route-not-found
      * @param {String} p_url               Url of the route
      */
 
     /**
-     * @event redirect
+     * @event EventManager#redirect
      * @param {String} p_url               The url to redirect to
      */
 
