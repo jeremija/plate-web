@@ -1,13 +1,18 @@
-define(['modules/user-mod', 'events/event-manager', 'templates/bindable'],
-    function(userMod, EventManager, Bindable) {
+define(['events/event-manager', 'templates/bindable'],
+    function(EventManager, Bindable) {
 
+    var userMod;
     describe('user-mod-test', function() {
         var events, user;
-        before(function() {
+        before(function(done) {
             events = new EventManager('user-mod-test');
             user = {
                 email: 'test@test.com'
             };
+            require(['modules/user-mod'], function(p_userMod) {
+                userMod = p_userMod;
+                done();
+            });
         });
         after(function() {
             // do not listen for events

@@ -1,84 +1,91 @@
-require(['jquery', 'router', 'amd-page-loader', 'templates/page', 'singletons',
-    'logger', 'events/event-manager'],
-    function($, Router, PageLoader, Page, singletons, Logger, EventManager) {
+// require(['jquery', 'router', 'amd-page-loader', 'templates/page', 'singletons',
+//     'logger', 'events/event-manager'],
+//     function($, Router, PageLoader, Page, singletons, Logger, EventManager) {
+require(['jquery', 'logger', 'templates/page-manager', 'page-definitions'],
+    function($, Logger, PageManager, pageDefinitions) {
 
     var log = new Logger('app');
-
-    var pageLoader = PageLoader.init({
-        selector: '#pages',
-        htmlPrefix: 'pages',
-        jsPrefix: '../pages'
+    var pageManager = new PageManager({
+        name: 'page-manager(app)',
+        pages: pageDefinitions.pages
     });
 
-    var status = {
-        lastModule: undefined,
-        loggedIn: false,
-        pageAfterLogin: undefined,
-        currentUrl: undefined
-    };
 
-    var events = new EventManager('app', status);
-    events.listen({
-        login: function() {
-            this.loggedIn = true;
-            events.dispatch('redirect', status.pageAfterLogin || 'page1' );
-            status.pageAfterLogin = undefined;
-        },
-        logout: function() {
-            this.loggedIn = false;
-            status.pageAfterLogin = status.currentUrl;
-            events.dispatch('redirect', 'login');
-        }
-    });
+    // var pageLoader = PageLoader.init({
+    //     selector: '#pages',
+    //     htmlPrefix: 'pages',
+    //     jsPrefix: '../pages'
+    // });
 
-    var loading = singletons.loading;
+    // var status = {
+    //     lastModule: undefined,
+    //     loggedIn: false,
+    //     pageAfterLogin: undefined,
+    //     currentUrl: undefined
+    // };
 
-    singletons.router = new Router({
-        onRouteChange: function(p_pageId) {
-            if (!status.loggedIn && !pages.isPublic(p_pageId)) {
-                status.pageAfterLogin = p_pageId;
-                events.dispatch('redirect', 'login');
-                return;
-            }
+    // var events = new EventManager('app', status);
+    // events.listen({
+    //     login: function() {
+    //         this.loggedIn = true;
+    //         events.dispatch('redirect', status.pageAfterLogin || 'page1' );
+    //         status.pageAfterLogin = undefined;
+    //     },
+    //     logout: function() {
+    //         this.loggedIn = false;
+    //         status.pageAfterLogin = status.currentUrl;
+    //         events.dispatch('redirect', 'login');
+    //     }
+    // });
 
-            loading.show();
+    // var loading = singletons.loading;
 
-            if (status.lastModule) {
-                status.lastModule.hide();
-                status.lastModule = undefined;
-            }
+    // singletons.router = new Router({
+    //     onRouteChange: function(p_pageId) {
+    //         if (!status.loggedIn && !pages.isPublic(p_pageId)) {
+    //             status.pageAfterLogin = p_pageId;
+    //             events.dispatch('redirect', 'login');
+    //             return;
+    //         }
 
-            pageLoader.load(p_pageId)
-                .success(pageLoaded)
-                .fail(pageError);
-            status.currentUrl = p_pageId;
-        }
-    });
+    //         loading.show();
 
-    function pageLoaded(module, element, expired) {
-        if (expired) {
-            return;
-        }
+    //         if (status.lastModule) {
+    //             status.lastModule.hide();
+    //             status.lastModule = undefined;
+    //         }
 
-        if (module instanceof Page === false) {
-            throw Error('module for ' + element.id + ' should be a Page');
-        }
+    //         pageLoader.load(p_pageId)
+    //             .success(pageLoaded)
+    //             .fail(pageError);
+    //         status.currentUrl = p_pageId;
+    //     }
+    // });
 
-        if (!module.bindingsApplied) module.bind(element);
+    // function pageLoaded(module, element, expired) {
+    //     if (expired) {
+    //         return;
+    //     }
 
-        module.show();
+    //     if (module instanceof Page === false) {
+    //         throw Error('module for ' + element.id + ' should be a Page');
+    //     }
 
-        status.lastModule = module;
+    //     if (!module.bindingsApplied) module.bind(element);
 
-        loading.hide();
-    }
+    //     module.show();
 
-    function pageError(err) {
-        log.error('error loading page: ' + err.message + '. ' + err.stack);
-        pageLoader.load('error')
-            .success(pageLoaded);
-            // TODO fix don't go into endless loop if failed to load error page
-    }
+    //     status.lastModule = module;
+
+    //     loading.hide();
+    // }
+
+    // function pageError(err) {
+    //     log.error('error loading page: ' + err.message + '. ' + err.stack);
+    //     pageLoader.load('error')
+    //         .success(pageLoaded);
+    //         // TODO fix don't go into endless loop if failed to load error page
+    // }
 
     $(document).ready(function() {
         // initialize botstrap

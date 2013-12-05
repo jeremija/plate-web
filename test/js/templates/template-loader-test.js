@@ -1,7 +1,6 @@
 define(['templates/template-loader', 'jquery'],
     function(TemplateLoader, $) {
 
-
     describe('templates/template-loader-test.js', function() {
         var templateLoader;
         before(function() {
@@ -10,13 +9,12 @@ define(['templates/template-loader', 'jquery'],
 
         after(function() {
             $('#test').html('');
-            templateLoader.events.clear();
         });
 
         describe('constructor', function() {
             it('should create a new instance', function() {
                 templateLoader = new TemplateLoader({
-                    name: 'template-loader',
+                    name: 'template-loader-test',
                     selector: 'pages',
                 });
             });

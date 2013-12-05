@@ -16,15 +16,12 @@ define(['extendable', 'jquery', 'events/event-manager'],
         this.pagePrefix = p_params.pagePrefix || 'page-';
         this.$el = $('#' + p_params.selector);
 
-        this.events = new EventManager(this.name, this);
-        this.events.listen({
-            'load-page': function(p_page) {
-                var url = '/pages/' + p_page.name + '.html';
-                this.load(url, p_page);
-            }
-        });
-
-        this.previousPage = undefined;
+        // this.events = new EventManager(this.name, this);
+        // this.events.listen({
+        //     'load-page': function(p_url, p_callback) {
+        //         this.load(p_url, p_callback);
+        //     }
+        // });
     };
 
     var TemplateLoaderPrototype = /** @lends TemplateLoader.prototype */ {
@@ -35,8 +32,10 @@ define(['extendable', 'jquery', 'events/event-manager'],
         },
         /**
          * Loads the html for the page or shows the already loaded page.
-         * @param  {String} p_url  Url of the html template for the page
-         * @param  {Page}   p_page Page to bind to the html
+         * @param  {String} p_url            Url of the html template for the
+         * page
+         * @param  {Function} p_callback     Callback to execute when everything
+         * is done
          */
         load: function(p_url, p_callback) {
             var id = this._getPageId(p_url);

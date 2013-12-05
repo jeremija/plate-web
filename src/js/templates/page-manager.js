@@ -3,16 +3,20 @@ define(['extendable', 'events/event-manager', 'router', 'jquery'],
     function(Extendable, EventManager, Router, $) {
 
     /**
-     * Manages pages
+     * @class It has a list of all the {@link Page} instances in the application
+     * and listens to `login` and `logout` events to register or unregister the
+     * routes (states) of the pages.
+     * @name PageManager
      * @param {Object} p_params           Configuration object
      * @param {String} p_params.name      Page manager name
      * @param {Array}  p_params.pages     A list of {@link Page}s
+     * @param {Router} p_params.router    Router instance
+     * @listens login
+     * @listens logout
      */
     function PageManager(p_params) {
         this.name = p_params.name;
-        this.router = new Router({
-            name: 'page-router'
-        });
+        this.router = p_params.router;
 
         this.publicPages = [];
         this.protectedPages = [];
@@ -25,13 +29,13 @@ define(['extendable', 'events/event-manager', 'router', 'jquery'],
             },
             'logout': function() {
                 this._unregisterPages(this.protectedPages);
-            },
+            }
         });
 
         this._registerPages(this.publicPages);
     }
 
-    var PageManagerPrototype = {
+    var PageManagerPrototype = /** @lends PageManager.prototype */ {
         /**
          * Divides the pages into `protectedPages` and `publicPages`, depending
          * on the `requireLogin` property of {@link Page} instance.
