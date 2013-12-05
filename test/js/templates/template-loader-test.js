@@ -21,7 +21,7 @@ define(['templates/template-loader', 'jquery'],
         });
         describe('load()', function() {
             it('should load the html', function(done) {
-                templateLoader.load('../src/pages/login.html',
+                templateLoader.load('pages/test-page.html',
                     function(err, el) {
 
                     expect(err).to.not.be.ok();
