@@ -22,13 +22,13 @@ define(['templates/page', 'knockout', 'net/authentication'],
         name: 'login-page',
         viewModel: vm,
         events: {
-            'login': function(p_user) {
+            'logged-in': function(p_user) {
                 this.log.debug('login event');
                 // router.go('page1');
             },
         },
         states: {
-            'login': function() {}
+            'logged-in': function() {}
         }
     });
 

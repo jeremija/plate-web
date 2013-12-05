@@ -14,7 +14,7 @@ define(['events/event-manager', 'signals'], function(EventManager, signals) {
                 a: 'value-of-a'
             });
         });
-        var triggered1, triggered2, triggered3;
+        var triggered1, triggered2, triggered3, triggeredErrorEvent;
         beforeEach(function() {
             triggered1 = false;
             triggered2 = false;

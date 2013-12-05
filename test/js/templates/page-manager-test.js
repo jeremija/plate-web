@@ -50,17 +50,17 @@ define(['templates/page-manager', 'templates/page', 'events/event-manager'],
                 expect(registeredPages[0]).to.be(page1);
             });
         });
-        describe('`login` event', function() {
+        describe('`logged-in` event', function() {
             it('should register page2 after the login event', function() {
-                events.dispatch('login', {});
+                events.dispatch('logged-in', {});
                 expect(registeredPages.length).to.be(2);
                 expect(registeredPages[0]).to.be(page1);
                 expect(registeredPages[1]).to.be(page2);
             });
         });
-        describe('`logout` event', function() {
+        describe('`logged-out` event', function() {
             it('should unregister page2 after the logout event', function() {
-                events.dispatch('logout');
+                events.dispatch('logged-out');
                 // this didn't change because of mock, this test is to make
                 // sure that nothing more was registered in the mean time
                 expect(registeredPages.length).to.be(2);

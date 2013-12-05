@@ -7,12 +7,12 @@ define(['jquery', 'events/event-manager', 'singletons', 'logger'],
     var log = new Logger('net/authentication');
 
     /**
-     * @event EventManager#login
+     * @event EventManager#logged-in
      * @param {User} user
      */
 
     /**
-     * @event EventManager#logout
+     * @event EventManager#logged-out
      */
 
     /**
@@ -24,7 +24,7 @@ define(['jquery', 'events/event-manager', 'singletons', 'logger'],
          * @param  {Object} p_credentials login credentials
          * @param  {String} p_credentials.username
          * @param  {String} p_credentials.password
-         * @fires login if authenticated successfully
+         * @fires EventManager#logged-in if authenticated successfully
          * @fires error on error
          */
         login: function(p_credentials) {
@@ -41,30 +41,30 @@ define(['jquery', 'events/event-manager', 'singletons', 'logger'],
                     }
                     log.debug('user logged in!');
                     // notify logged on user
-                    events.dispatch('login', res.data);
+                    events.dispatch('logged-in', res.data);
                 },
                 error: function() {
-                    events.dispatch('error', 'error.server.login');
-                    // notify error
+                    log.error('error while logging in');
+                    events.dispatchError('error.server.login');
                 }
             });
         },
         /**
          * Logs out the current user
-         * @fires logout  If logged out successfully
-         * @fires error   On error
+         * @fires logged-out  If logged out successfully
+         * @fires error       On error
          */
         logout: function() {
             log.debug('attempting to log out');
             ajax.get({
                 url: '/logout',
                 success: function() {
-                    events.dispatch('logout');
+                    events.dispatch('logged-out');
                     // router.go('login');
                 },
                 error: function() {
                     log.error('error while logging out');
-                    events.dispatch('error', 'error.server.logout');
+                    events.dispatchError('error.server.logout');
                 }
             });
         }

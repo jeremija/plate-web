@@ -15,12 +15,13 @@ define(['templates/bindable', 'knockout', 'singletons', 'net/authentication'],
         name: 'user-mod',
         viewModel: vm,
         events: {
-            'login': function(p_user) {
-                this.log.debug('login event, setting user: ', p_user);
+            'logged-in': function(p_user) {
+                this.log.debug('logged-in event, setting user: ', p_user);
                 this.viewModel.user(p_user);
                 this.viewModel.loggedIn(true);
             },
-            'logout': function() {
+            'logged-out': function() {
+                this.log.debug('logged-out event, unsetting user');
                 this.viewModel.loggedIn(false);
                 this.viewModel.user(undefined);
             }

@@ -8,8 +8,8 @@ define(['extendable', 'events/event-manager', 'logger'],
     /**
      * @class Wrapper for localStorage
      * @name Storage
-     * @listens EventManager#login
-     * @listens EventManager#logout
+     * @listens EventManager#logged-in
+     * @listens EventManager#logged-out
      */
     function Storage() {
         if (!localStorageSupported) {
@@ -20,10 +20,10 @@ define(['extendable', 'events/event-manager', 'logger'],
         this.events = new EventManager('util/storage', this);
 
         this.events.listen({
-            'login': function(p_user) {
+            'logged-in': function(p_user) {
                 this.save('user', p_user);
             },
-            'logout': function() {
+            'logged-out': function() {
                 this.delete('user');
             }
         });

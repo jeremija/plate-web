@@ -24,15 +24,15 @@ define(['events/event-manager', 'templates/bindable'],
             // to make it listen to the events
             // userMod.show(); // or userMod.events.listen()
         });
-        describe('`login` event', function() {
+        describe('`logged-in` event', function() {
             it('should listen to the event', function() {
-                events.dispatch('login', user);
+                events.dispatch('logged-in', user);
                 expect(userMod.viewModel.user()).to.be(user);
             });
         });
-        describe('`logout` event', function() {
+        describe('`logged-out` event', function() {
             it('should listen to the event', function() {
-                events.dispatch('logout');
+                events.dispatch('logged-out');
                 expect(userMod.viewModel.user()).to.be(undefined);
             });
         });

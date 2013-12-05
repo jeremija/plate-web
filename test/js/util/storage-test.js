@@ -51,19 +51,19 @@ define(['util/storage', 'events/event-manager'],
                 expect(value).to.not.be.ok();
             });
         });
-        describe('`login` event', function() {
+        describe('`logged-in` event', function() {
             it('should save the user to local storage', function() {
                 var user = {
                     username: 'john'
                 };
-                events.dispatch('login', user);
+                events.dispatch('logged-in', user);
                 var usr = storage.load('user');
                 expect(user.username).to.be('john');
             });
         });
-        describe('`logout` event', function() {
+        describe('`logged-out` event', function() {
             it('should save the user to local storage', function() {
-                events.dispatch('logout');
+                events.dispatch('logged-out');
                 var user = storage.load('user');
                 expect(user).to.not.be.ok();
             });
