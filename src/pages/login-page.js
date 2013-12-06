@@ -28,7 +28,7 @@ define(['templates/page', 'knockout', 'net/authentication'],
             },
         },
         states: {
-            'logged-in': function() {}
+            'login': function() {}
         }
     });
 
