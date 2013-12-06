@@ -8,7 +8,11 @@ require([
     'templates/page-manager',
     'router',
     'templates/page-binder',
-    'templates/page-definitions'
+    'templates/page-definitions',
+
+    'ui/menu',
+    'net/authentication',
+    'modules/user-mod'
     ],
     function(
         $,
@@ -17,7 +21,11 @@ require([
         PageManager,
         Router,
         PageBinder,
-        pageDefinitions) {
+        pageDefinitions,
+
+        menu,
+        authentication,
+        userMod) {
 
     var log = new Logger('app');
 
@@ -26,11 +34,7 @@ require([
         require(['bootstrap']);
 
         // initialize static modules
-        require(['net/authentication', 'modules/user-mod', 'ui/menu'],
-            function(authentication, userMod, menu) {
-
-            userMod.bind(document.getElementById('user-mod'));
-        });
+        userMod.bind(document.getElementById('user-mod'));
 
         // initialize module for loading templates
         var templateLoader = new TemplateLoader({

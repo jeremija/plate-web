@@ -19,7 +19,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">Brand</a>
+			<a class="navbar-brand" href="#">plate-web</a>
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
@@ -27,10 +27,10 @@
 			<ul class="nav navbar-nav">
 				<li><a href="#/page1">Page 1</a></li>
 				<li><a href="#/page2">Page 2</a></li>
+				<li><a href="#/companies/list">Companies</a></li>
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
 					<ul class="dropdown-menu">
-						<li><a href="#/companies/list">Companies</a></li>
 						<li><a href="#/page4">Page 4</a></li>
 						<li><a href="#">Something else here</a></li>
 						<li class="divider"></li>
@@ -40,29 +40,30 @@
 					</ul>
 				</li>
 			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li id="user-mod" class="dropdown">
-					<form class="navbar-form hidden" data-bind="submit: login, css: {hidden: $data.loggedIn()}">
-						<div class="form-group">
-							<input type="email" class="form-control" placeholder="email" data-bind="value: form.email">
-						</div>
-						<div class="form-group">
-							<input type="password" class="form-control" placeholder="password" data-bind="value: form.password">
-						</div>
-						<button type="submit" class="btn btn-default hidden-submit">Submit</button>
-					</form>
-
-					<a href="#" class="dropdown-toggle hidden" data-toggle="dropdown" data-bind="with: $data.user, css: {hidden: !$data.loggedIn()}">
-						<span data-bind="text: $data.email"></span><b class="caret"></b>
-					</a>
-					<ul class="dropdown-menu hidden" data-bind="css: {hidden: !$data.loggedIn()}">
-						<li><a href="#">Another action</a></li>
-						<li><a href="#">Something else here</a></li>
-						<li class="divider"></li>
-						<li><a href="#" data-bind="click: $data.logout">Logout</a></li>
-					</ul>
-				</li>
-			</ul>
+			<div class="navbar-right" id="user-mod">
+				<form class="navbar-form hidden" data-bind="submit: login, css: {hidden: $data.loggedIn()}">
+					<div class="form-group">
+						<input type="email" class="form-control" placeholder="email" data-bind="value: form.email">
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control" placeholder="password" data-bind="value: form.password">
+					</div>
+					<button type="submit" class="btn btn-default hidden-submit">Submit</button>
+				</form>
+				<ul class="nav navbar-nav navbar-right hidden" data-bind="css: {hidden: !$data.loggedIn()}">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-bind="with: $data.user">
+							<span data-bind="text: $data.email"></span><b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Another action</a></li>
+							<li><a href="#">Something else here</a></li>
+							<li class="divider"></li>
+							<li><a href="#" data-bind="click: $data.logout">Logout</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
 		</div><!-- /.navbar-collapse -->
 	</nav>
 
