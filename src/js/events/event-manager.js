@@ -94,10 +94,11 @@ define(['extendable', 'signals', 'logger'],
         dispatch: function(p_eventName, p_arguments) {
             var eventSignal = this._eventSignals[p_eventName];
             if (!eventSignal) {
-                log.warn('no listeners for event ' + p_eventName);
+                log.warn('no listeners for event `' + p_eventName + '`');
                 return;
             }
 
+            log.debug('Dispatching event `' + p_eventName + '`:', p_arguments);
             [].splice.call(arguments, 0, 1);
             eventSignal.dispatch.apply(eventSignal, arguments);
         },
@@ -105,14 +106,13 @@ define(['extendable', 'signals', 'logger'],
          * Dispatches the {@link EventManager#error} event and logs out the user
          * if necceessarry
          * @param  {String} p_key              Error string for localization
-         * @param  {[type]} p_logout           Whether or not to log out the
-         * user
+         * @param  {Boolean} p_logout          Flag to log out the user
          * @fires EventManager#error
+         * @fires EventManager#logout if p_logout is `true`
          */
         dispatchError: function(p_key, p_logout) {
             this.dispatch('error', p_key);
-            // TODO fix this shit
-            this.dispatch('loggggout//');
+            if (p_logout) this.dispatch('logout');
         },
         /**
          * Ignore events for the current module

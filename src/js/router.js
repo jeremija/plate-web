@@ -62,6 +62,9 @@ define(['extendable', 'crossroads', 'hasher', 'logger', 'events/event-manager',
         _setupCrossroads: function() {
             var self = this;
 
+            // ignore previous state (trigger the same route twice)
+            crossroads.ignoreState = true;
+
             this._routedBinding = crossroads.routed.add(
                 function(request, data) {
 

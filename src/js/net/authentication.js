@@ -7,12 +7,19 @@ define(['jquery', 'events/event-manager', 'singletons', 'logger'],
     var log = new Logger('net/authentication');
 
     /**
+     * Event dispatched after the user has successfully logged in
      * @event EventManager#logged-in
      * @param {User} user
      */
 
     /**
+     * Event dispatched when the user has finished logging out
      * @event EventManager#logged-out
+     */
+
+    /**
+     * Dispatch this event to forcefully log out the user
+     * @event EventManager#logout
      */
 
     /**
@@ -33,9 +40,9 @@ define(['jquery', 'events/event-manager', 'singletons', 'logger'],
                 url: '/login',
                 data: p_credentials,
                 success: function(textStatus, res) {
-                    if (res.err) {
+                    if (res.error) {
                         log.debug('wrong username or password');
-                        // TODO notify wrong password
+                        // notify wrong password error
                         events.dispatch('error', 'error.login.credentials');
                         return;
                     }
@@ -60,7 +67,7 @@ define(['jquery', 'events/event-manager', 'singletons', 'logger'],
                 url: '/logout',
                 success: function() {
                     events.dispatch('logged-out');
-                    // router.go('login');
+                    events.dispatch('redirect', '');
                 },
                 error: function() {
                     log.error('error while logging out');
@@ -69,6 +76,13 @@ define(['jquery', 'events/event-manager', 'singletons', 'logger'],
             });
         }
     };
+
+    events.listen({
+        'logout': function() {
+            log.debug('`logout` event, logging out the current user');
+            authentication.logout();
+        }
+    });
 
     return authentication;
 });

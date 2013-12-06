@@ -1,4 +1,5 @@
-define(['jquery', 'extendable', 'logger'], function($, Extendable, Logger) {
+define(['jquery', 'extendable', 'logger', 'events/event-manager'],
+    function($, Extendable, Logger, EventManager) {
 
     /**
      * @class Wrapped jQuery.ajax calls
@@ -9,9 +10,16 @@ define(['jquery', 'extendable', 'logger'], function($, Extendable, Logger) {
     function Ajax(p_loading) {
         this.loading = p_loading;
         this.log = new Logger('ajax');
+        this.events = new EventManager('event-manager(ajax)');
     }
 
     var AjaxPrototype = /** @lends Ajax.prototype **/ {
+        _xhrErrorHandlers: {
+            401: function() {
+                this.log.debug('got error 401, logging out');
+                this.events.dispatch('logout');
+            }
+        },
         /**
          * Handle error graceefully
          * @param  {Error} err
@@ -72,6 +80,10 @@ define(['jquery', 'extendable', 'logger'], function($, Extendable, Logger) {
                 data: p_params.data ? JSON.stringify(p_params.data) : undefined,
                 error: function(jqXHR, textStatus, errorThrown) {
                     self.log.debug(msg + ' ' + textStatus + ': ' + errorThrown);
+
+                    var errorHandler = self._xhrErrorHandlers[jqXHR.status];
+                    if (errorHandler) errorHandler.call(self);
+
                     if (p_params.error) {
                         // try {
                             p_params.error(textStatus, errorThrown);

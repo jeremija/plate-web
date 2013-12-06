@@ -26,13 +26,15 @@ require([
         require(['bootstrap']);
 
         // initialize static modules
-        require(['modules/user-mod', 'ui/menu'], function(userMod, menu) {
+        require(['net/authentication', 'modules/user-mod', 'ui/menu'],
+            function(authentication, userMod, menu) {
+
             userMod.bind(document.getElementById('user-mod'));
         });
 
         // initialize module for loading templates
         var templateLoader = new TemplateLoader({
-            name: 'template-loader',
+            name: 'template-loader(app)',
             selector: 'pages',
             pagePrefix: 'page-'
         });
@@ -40,7 +42,7 @@ require([
         // initialize page binder (listens to `page-route-found` and
         // `page-route-not-found`)
         var pageBinder = new PageBinder({
-            name: 'pageBinder',
+            name: 'page-binder(app)',
             errorRoute: 'error',
             templateLoader: templateLoader,
             templatePath: '/pages',
@@ -49,7 +51,7 @@ require([
 
         // pageManager will initialize the router
         var router = new Router({
-            name: 'router'
+            name: 'router(app)'
         });
 
         var pageManager = new PageManager({

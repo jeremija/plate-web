@@ -60,6 +60,8 @@ define(['extendable', 'jquery', 'logger', 'knockout', 'events/event-manager',
             ko.applyBindings(this.viewModel, p_element);
             this.log.debug('bind() binding applied');
 
+            this.onBind();
+
             return this;
         },
         /**
@@ -91,6 +93,12 @@ define(['extendable', 'jquery', 'logger', 'knockout', 'events/event-manager',
             this.events.ignore();
 
             return this;
+        },
+        /**
+         * Method called after the module gets bound to an element. Under normal
+         * circumstances, this method will be called only once.
+         */
+        onBind: function() {
         },
         /**
          * Method called just before the module becomes visible. Does nothing,

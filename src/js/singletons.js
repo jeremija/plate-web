@@ -1,4 +1,5 @@
-define(['net/ajax', 'ui/loading'], function(Ajax, Loading) {
+define(['net/ajax', 'ui/loading', 'util/storage'],
+    function(Ajax, Loading, Storage) {
 
     var loading = new Loading({
         selector: '#loading',
@@ -8,8 +9,11 @@ define(['net/ajax', 'ui/loading'], function(Ajax, Loading) {
 
     var ajax = new Ajax(loading);
 
+    var storage = new Storage();
+
     return {
         ajax: ajax,
-        loading: loading
+        loading: loading,
+        storage: storage,
     };
 });

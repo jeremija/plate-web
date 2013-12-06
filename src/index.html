@@ -40,21 +40,22 @@
 					</ul>
 				</li>
 			</ul>
-			<!--<form class="navbar-form navbar-left" role="search">
-				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Search">
-				</div>
-				<button type="submit" class="btn btn-default">Submit</button>
-			</form>-->
 			<ul class="nav navbar-nav navbar-right">
-				<!--<li><a href="#">Link</a></li>-->
-				<li id="user-mod" data-bind="css: {dropdown: $data.user}">
-					<a href="#/login" data-bind="visible: !$data.user()">Login</a>
+				<li id="user-mod" class="dropdown">
+					<form class="navbar-form hidden" data-bind="submit: login, css: {hidden: $data.loggedIn()}">
+						<div class="form-group">
+							<input type="email" class="form-control" placeholder="email" data-bind="value: form.email">
+						</div>
+						<div class="form-group">
+							<input type="password" class="form-control" placeholder="password" data-bind="value: form.password">
+						</div>
+						<button type="submit" class="btn btn-default hidden-submit">Submit</button>
+					</form>
 
-					<a href="#" class="dropdown-toggle hidden" data-toggle="dropdown" data-bind="with: $data.user, css: {hidden: !$data.user()}">
+					<a href="#" class="dropdown-toggle hidden" data-toggle="dropdown" data-bind="with: $data.user, css: {hidden: !$data.loggedIn()}">
 						<span data-bind="text: $data.email"></span><b class="caret"></b>
 					</a>
-					<ul class="dropdown-menu hidden" data-bind="css: {hidden: !$data.user()}">
+					<ul class="dropdown-menu hidden" data-bind="css: {hidden: !$data.loggedIn()}">
 						<li><a href="#">Another action</a></li>
 						<li><a href="#">Something else here</a></li>
 						<li class="divider"></li>
