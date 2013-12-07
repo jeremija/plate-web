@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: templates/page-manager.js</title>
+    <title>JSDoc: Source: util/storage.js</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Source: templates/page-manager.js</h1>
+    <h1 class="page-title">Source: util/storage.js</h1>
     
     
 
@@ -25,85 +25,98 @@
     
     <section>
         <article>
-            <pre class="prettyprint source"><code>define(['extendable', 'events/event-manager', 'router', 'jquery'],
+            <pre class="prettyprint source"><code>define(['extendable', 'events/event-manager', 'logger'],
+    function(Extendable, EventManager, Logger) {
 
-    function(Extendable, EventManager, Router, $) {
+    this.localStorageSupported = localStorage &&
+        typeof localStorage.setItem === 'function' &&
+        typeof localStorage.getItem === 'function';
 
     /**
-     * @class It has a list of all the {@link Page} instances in the application
-     * and listens to `logged-in` and `logged-out` events to register or
-     * unregister the routes of the pages.
-     * @name PageManager
-     * @param {Object} p_params           Configuration object
-     * @param {String} p_params.name      Page manager name
-     * @param {Array}  p_params.pages     A list of {@link Page}s
-     * @param {Router} p_params.router    Router instance
-     * @listens logged-in
-     * @listens logged-out
+     * @class Wrapper for localStorage
+     * @name Storage
+     * @listens EventManager#logged-in
+     * @listens EventManager#logged-out
      */
-    function PageManager(p_params) {
-        this.name = p_params.name;
-        this.router = p_params.router;
+    function Storage() {
+        if (!localStorageSupported) {
+            log.warn('localStorage not supported on this browser, some ' +
+                'persistence features may be disabled');
+        }
 
-        this.publicPages = [];
-        this.protectedPages = [];
-        this._setPages(p_params.pages);
+        this.events = new EventManager('util/storage', this);
 
-        this.events = new EventManager(this.name, this);
         this.events.listen({
             'logged-in': function(p_user) {
-                this._registerPages(this.protectedPages);
+                this.save('user', p_user);
             },
             'logged-out': function() {
-                this._unregisterPages(this.protectedPages);
+                this.delete('user');
             }
         });
-
-        this._registerPages(this.publicPages);
-
-        if (!this.router.initialized) {
-            this.router.init();
-        }
     }
 
-    var PageManagerPrototype = /** @lends PageManager.prototype */ {
+    var StoragePrototype = /** @lends Storage.prototype */ {
+        log: new Logger('util/storage'),
         /**
-         * Divides the pages into `protectedPages` and `publicPages`, depending
-         * on the `requireLogin` property of {@link Page} instance.
-         * @param {Page} p_pages
+         * Stores the item to the local storage
+         * @param  {String} p_key   The key to store the item under
+         * @param  {*}      p_value Value to store
+         * @return {*}              The previous value
          */
-        _setPages: function(p_pages) {
-            for (var i in p_pages) {
-                var page = p_pages[i];
+        save: function(p_key, p_value) {
+            if (!localStorageSupported) return undefined;
 
-                if (page.requireLogin) this.protectedPages.push(page);
-                else this.publicPages.push(page);
+            var previousValue = this.load(p_key);
+
+            var json;
+            try {
+                json = JSON.stringify(p_value);
             }
+            catch(err) {
+                json = p_value;
+            }
+
+            localStorage.setItem(p_key, json);
+
+            return previousValue;
         },
         /**
-         * Registers the pages to the router
-         * @param  {Array} p_pages    an array of {@link Page}s to register
+         * Gets the item from local storage
+         * @param  {String} p_key
+         * @return {Object}            The stored object
          */
-        _registerPages: function(p_pages) {
-            for (var i in p_pages) {
-                var page = p_pages[i];
-                this.router.registerPage(page);
+        load: function(p_key) {
+            if (!localStorageSupported) return undefined;
+
+            var item = localStorage.getItem(p_key);
+
+            var value;
+            try {
+                value = JSON.parse(item);
             }
+            catch(err) {
+                value = item;
+            }
+
+            return value;
         },
         /**
-         * Unregisters the pages from the router
-         * @param  {Array} p_pages    an aray of {@link Page}s to unregister
+         * Deletes the item from local storage
+         * @param  {String} p_key Key
+         * @return {*}            Previously stored value
          */
-        _unregisterPages: function(p_pages) {
-            for (var i in p_pages) {
-                var page = p_pages[i];
-                this.router.unregisterPage(page);
-            }
-        }
+        delete: function(p_key) {
+            if (!localStorageSupported) return undefined;
+
+            var value = this.load(p_key);
+            localStorage.removeItem(p_key);
+            return value;
+        },
+        enabled: localStorageSupported
     };
 
-    return Extendable.extend(PageManager, PageManagerPrototype);
-
+    return Extendable.extend(Storage, StoragePrototype);
 });</code></pre>
         </article>
     </section>

@@ -31,7 +31,7 @@
     </h2>
     
         <div class="class-description">This object handles the `page-route-found` event and coordinates
-the page show/hide method calls and page state changes.
+the page show/hide method calls and page route changes.
 It also listens to `page-route-not-found` event and redirects to the
 error page.</div>
     
@@ -332,7 +332,7 @@ templates (defautls to `.html`)</td>
         <dl>
             
 <dt>
-    <h4 class="name" id="changePage"><span class="type-signature"></span>changePage<span class="signature">(p_page, p_stateUrl, p_stateArgs)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="changePage"><span class="type-signature"></span>changePage<span class="signature">(p_page, p_routeUrl, p_routeArgs)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -341,7 +341,7 @@ templates (defautls to `.html`)</td>
     
     <div class="description">
         Hiddes the current page (if any). If the new page is already bound,
-it will be shown and it's state callback applied.
+it will be shown and it's route callback applied.
 
 If the new page is not yet bound to an element, it's template
 will be loaded.
@@ -401,7 +401,7 @@ will be loaded.
 	
         <tr>
             
-                <td class="name"><code>p_stateUrl</code></td>
+                <td class="name"><code>p_routeUrl</code></td>
             
             
             <td class="type">
@@ -417,14 +417,14 @@ will be loaded.
             
             
             
-            <td class="description last">State url</td>
+            <td class="description last">Route url</td>
         </tr>
 	
 	
 	
         <tr>
             
-                <td class="name"><code>p_stateArgs</code></td>
+                <td class="name"><code>p_routeArgs</code></td>
             
             
             <td class="type">
@@ -440,7 +440,7 @@ will be loaded.
             
             
             
-            <td class="description last">Arguments for the state callback</td>
+            <td class="description last">Arguments for the route callback</td>
         </tr>
 	
 	
@@ -471,7 +471,7 @@ will be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="page-binder.js.html">templates/page-binder.js</a>, <a href="page-binder.js.html#line78">line 78</a>
+        <a href="page-binder.js.html">templates/page-binder.js</a>, <a href="page-binder.js.html#line79">line 79</a>
     </li></ul></dd>
     
     
@@ -512,13 +512,13 @@ will be loaded.
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-authentication.html">authentication</a></li><li><a href="module-localizer.html">localizer</a></li><li><a href="module-menu.html">menu</a></li><li><a href="module-traversal.html">traversal</a></li></ul><h3>Classes</h3><ul><li><a href="Ajax.html">Ajax</a></li><li><a href="Bindable.html">Bindable</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="Loading.html">Loading</a></li><li><a href="Logger.html">Logger</a></li><li><a href="Model.html">Model</a></li><li><a href="Page.html">Page</a></li><li><a href="PageBinder.html">PageBinder</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="Queue.html">Queue</a></li><li><a href="QueuedTimer.html">QueuedTimer</a></li><li><a href="Router.html">Router</a></li><li><a href="TemplateLoader.html">TemplateLoader</a></li></ul><h3>Events</h3><ul><li><a href="EventManager.html#event:login">login</a></li><li><a href="EventManager.html#event:logout">logout</a></li><li><a href="EventManager.html#event:page-loading-end">page-loading-end</a></li><li><a href="EventManager.html#event:page-loading-start">page-loading-start</a></li><li><a href="EventManager.html#event:page-route-found">page-route-found</a></li><li><a href="EventManager.html#event:page-route-not-found">page-route-not-found</a></li><li><a href="EventManager.html#event:redirect">redirect</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-authentication.html">authentication</a></li><li><a href="module-localizer.html">localizer</a></li><li><a href="module-menu.html">menu</a></li><li><a href="module-traversal.html">traversal</a></li></ul><h3>Classes</h3><ul><li><a href="Ajax.html">Ajax</a></li><li><a href="Bindable.html">Bindable</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="Loading.html">Loading</a></li><li><a href="Logger.html">Logger</a></li><li><a href="Model.html">Model</a></li><li><a href="Page.html">Page</a></li><li><a href="PageBinder.html">PageBinder</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="Queue.html">Queue</a></li><li><a href="QueuedTimer.html">QueuedTimer</a></li><li><a href="Router.html">Router</a></li><li><a href="Storage.html">Storage</a></li><li><a href="TemplateLoader.html">TemplateLoader</a></li></ul><h3>Events</h3><ul><li><a href="EventManager.html#event:logged-in">logged-in</a></li><li><a href="EventManager.html#event:logged-out">logged-out</a></li><li><a href="EventManager.html#event:logout">logout</a></li><li><a href="EventManager.html#event:page-loading-end">page-loading-end</a></li><li><a href="EventManager.html#event:page-loading-start">page-loading-start</a></li><li><a href="EventManager.html#event:page-route-found">page-route-found</a></li><li><a href="EventManager.html#event:page-route-not-found">page-route-not-found</a></li><li><a href="EventManager.html#event:redirect">redirect</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Thu Dec 05 2013 15:19:24 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Sat Dec 07 2013 10:35:56 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

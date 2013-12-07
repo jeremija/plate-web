@@ -605,7 +605,7 @@ event handlers (Function callbacks) as value</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="event-manager.js.html">events/event-manager.js</a>, <a href="event-manager.js.html#line113">line 113</a>
+        <a href="event-manager.js.html">events/event-manager.js</a>, <a href="event-manager.js.html#line126">line 126</a>
     </li></ul></dd>
     
     
@@ -793,6 +793,154 @@ event handlers (Function callbacks) as value</td>
         
             
 <dt>
+    <h4 class="name" id="dispatchError"><span class="type-signature"></span>dispatchError<span class="signature">(p_key, p_logout)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Dispatches the EventManager#error event and logs out the user
+if necceessarry
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>p_key</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Error string for localization</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>p_logout</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Flag to log out the user</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="event-manager.js.html">events/event-manager.js</a>, <a href="event-manager.js.html#line113">line 113</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>EventManager#event:error</li>
+    
+        <li>EventManager#event:logout if p_logout is `true`</li>
+    </ul>
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
     <h4 class="name" id="ignore"><span class="type-signature"></span>ignore<span class="signature">()</span><span class="type-signature"></span></h4>
     
     
@@ -834,7 +982,7 @@ event handlers (Function callbacks) as value</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="event-manager.js.html">events/event-manager.js</a>, <a href="event-manager.js.html#line107">line 107</a>
+        <a href="event-manager.js.html">events/event-manager.js</a>, <a href="event-manager.js.html#line120">line 120</a>
     </li></ul></dd>
     
     
@@ -990,12 +1138,16 @@ event callback as values.</td>
         <dl>
             
 <dt>
-    <h4 class="name" id="event:login">login</h4>
+    <h4 class="name" id="event:logged-in">logged-in</h4>
     
     
 </dt>
 <dd>
     
+    
+    <div class="description">
+        Event dispatched after the user has successfully logged in
+    </div>
     
 
     
@@ -1092,6 +1244,11 @@ event callback as values.</td>
     
 
     
+    <h5>Listeners of This Event:</h5>
+    <ul>
+        <li><a href="Storage.html">Storage</a></li>
+    </ul>
+    
     
     
     
@@ -1103,12 +1260,16 @@ event callback as values.</td>
         
             
 <dt>
-    <h4 class="name" id="event:logout">logout</h4>
+    <h4 class="name" id="event:logged-out">logged-out</h4>
     
     
 </dt>
 <dd>
     
+    
+    <div class="description">
+        Event dispatched when the user has finished logging out
+    </div>
     
 
     
@@ -1141,6 +1302,80 @@ event callback as values.</td>
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="authentication.js.html">net/authentication.js</a>, <a href="authentication.js.html#line11">line 11</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    <h5>Listeners of This Event:</h5>
+    <ul>
+        <li><a href="Storage.html">Storage</a></li>
+    </ul>
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="event:logout">logout</h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Dispatch this event to forcefully log out the user
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="authentication.js.html">net/authentication.js</a>, <a href="authentication.js.html#line13">line 13</a>
     </li></ul></dd>
     
     
@@ -1472,7 +1707,7 @@ event callback as values.</td>
 	
         <tr>
             
-                <td class="name"><code>stateUrl</code></td>
+                <td class="name"><code>routeUrl</code></td>
             
             
             <td class="type">
@@ -1495,7 +1730,7 @@ event callback as values.</td>
 	
         <tr>
             
-                <td class="name"><code>stateArgs</code></td>
+                <td class="name"><code>routeArgs</code></td>
             
             
             <td class="type">
@@ -1511,7 +1746,7 @@ event callback as values.</td>
             
             
             
-            <td class="description last">Arguments for the state</td>
+            <td class="description last">Arguments for the route</td>
         </tr>
 	
 	
@@ -1811,13 +2046,13 @@ event callback as values.</td>
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-authentication.html">authentication</a></li><li><a href="module-localizer.html">localizer</a></li><li><a href="module-menu.html">menu</a></li><li><a href="module-traversal.html">traversal</a></li></ul><h3>Classes</h3><ul><li><a href="Ajax.html">Ajax</a></li><li><a href="Bindable.html">Bindable</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="Loading.html">Loading</a></li><li><a href="Logger.html">Logger</a></li><li><a href="Model.html">Model</a></li><li><a href="Page.html">Page</a></li><li><a href="PageBinder.html">PageBinder</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="Queue.html">Queue</a></li><li><a href="QueuedTimer.html">QueuedTimer</a></li><li><a href="Router.html">Router</a></li><li><a href="TemplateLoader.html">TemplateLoader</a></li></ul><h3>Events</h3><ul><li><a href="EventManager.html#event:login">login</a></li><li><a href="EventManager.html#event:logout">logout</a></li><li><a href="EventManager.html#event:page-loading-end">page-loading-end</a></li><li><a href="EventManager.html#event:page-loading-start">page-loading-start</a></li><li><a href="EventManager.html#event:page-route-found">page-route-found</a></li><li><a href="EventManager.html#event:page-route-not-found">page-route-not-found</a></li><li><a href="EventManager.html#event:redirect">redirect</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-authentication.html">authentication</a></li><li><a href="module-localizer.html">localizer</a></li><li><a href="module-menu.html">menu</a></li><li><a href="module-traversal.html">traversal</a></li></ul><h3>Classes</h3><ul><li><a href="Ajax.html">Ajax</a></li><li><a href="Bindable.html">Bindable</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="Loading.html">Loading</a></li><li><a href="Logger.html">Logger</a></li><li><a href="Model.html">Model</a></li><li><a href="Page.html">Page</a></li><li><a href="PageBinder.html">PageBinder</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="Queue.html">Queue</a></li><li><a href="QueuedTimer.html">QueuedTimer</a></li><li><a href="Router.html">Router</a></li><li><a href="Storage.html">Storage</a></li><li><a href="TemplateLoader.html">TemplateLoader</a></li></ul><h3>Events</h3><ul><li><a href="EventManager.html#event:logged-in">logged-in</a></li><li><a href="EventManager.html#event:logged-out">logged-out</a></li><li><a href="EventManager.html#event:logout">logout</a></li><li><a href="EventManager.html#event:page-loading-end">page-loading-end</a></li><li><a href="EventManager.html#event:page-loading-start">page-loading-start</a></li><li><a href="EventManager.html#event:page-route-found">page-route-found</a></li><li><a href="EventManager.html#event:page-route-not-found">page-route-not-found</a></li><li><a href="EventManager.html#event:redirect">redirect</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Thu Dec 05 2013 15:19:23 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Sat Dec 07 2013 10:35:56 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

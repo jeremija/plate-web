@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Router</title>
+    <title>JSDoc: Class: Storage</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Class: Router</h1>
+    <h1 class="page-title">Class: Storage</h1>
     
     
 
@@ -27,10 +27,10 @@
     
 <header>
     <h2>
-    Router
+    Storage
     </h2>
     
-        <div class="class-description">Module for handling navigation</div>
+        <div class="class-description">Wrapper for localStorage</div>
     
 </header>  
 
@@ -41,7 +41,7 @@
     
         
 <dt>
-    <h4 class="name" id="Router"><span class="type-signature"></span>new Router<span class="signature">(p_params)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Storage"><span class="type-signature"></span>new Storage<span class="signature">()</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -53,102 +53,6 @@
     
     
     
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>p_params</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Configuration object
-                <h6>Properties</h6>
-                
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Name of the router</td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-            </td>
-        </tr>
-	
-	
-	</tbody>
-</table>
     
     
     
@@ -174,7 +78,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="router.js.html">router.js</a>, <a href="router.js.html#line12">line 12</a>
+        <a href="storage.js.html">util/storage.js</a>, <a href="storage.js.html#line8">line 8</a>
     </li></ul></dd>
     
     
@@ -187,18 +91,13 @@
 
     
     
-    <h5>Fires:</h5>
-    <ul>
-        <li>event:page-route-found              If route found</li>
-    
-        <li>event:page-route-not-found          If route not found</li>
-    </ul>
-    
 
     
     <h5>Listens to Events:</h5>
     <ul>
-        <li>event:redirect</li>
+        <li><a href="EventManager.html#event:logged-in">EventManager#event:logged-in</a></li>
+    
+        <li><a href="EventManager.html#event:logged-out">EventManager#event:logged-out</a></li>
     </ul>
     
 
@@ -214,12 +113,6 @@
     
     </div>
     
-    
-        <h3 class="subsection-title">Extends</h3>
-        
-        <ul>
-            <li>Extendable</li>
-        </ul>
     
     
     
@@ -238,7 +131,7 @@
         <dl>
             
 <dt>
-    <h4 class="name" id="_setupCrossroads"><span class="type-signature"></span>_setupCrossroads<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="delete"><span class="type-signature"></span>delete<span class="signature">(p_key)</span><span class="type-signature"> &rarr; {*}</span></h4>
     
     
 </dt>
@@ -246,77 +139,7 @@
     
     
     <div class="description">
-        Adds the binding on crossroads' routed and bypassed bingdinsgs.
-Adds the properties bypassedBinding and routedBinding
-    </div>
-    
-
-    
-    
-    
-    
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="router.js.html">router.js</a>, <a href="router.js.html#line62">line 62</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="go"><span class="type-signature"></span>go<span class="signature">(p_url)</span><span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Changes the location to p_url. Use `redirect` event instead.a
+        Deletes the item from local storage
     </div>
     
 
@@ -350,7 +173,146 @@ Adds the properties bypassedBinding and routedBinding
 	
         <tr>
             
-                <td class="name"><code>p_url</code></td>
+                <td class="name"><code>p_key</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Key</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="storage.js.html">util/storage.js</a>, <a href="storage.js.html#line82">line 82</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Previously stored value
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">*</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="load"><span class="type-signature"></span>load<span class="signature">(p_key)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Gets the item from local storage
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>p_key</code></td>
             
             
             <td class="type">
@@ -397,7 +359,7 @@ Adds the properties bypassedBinding and routedBinding
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="router.js.html">router.js</a>, <a href="router.js.html#line97">line 97</a>
+        <a href="storage.js.html">util/storage.js</a>, <a href="storage.js.html#line62">line 62</a>
     </li></ul></dd>
     
     
@@ -418,6 +380,190 @@ Adds the properties bypassedBinding and routedBinding
     
     
     
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    The stored object
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">Object</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="save"><span class="type-signature"></span>save<span class="signature">(p_key, p_value)</span><span class="type-signature"> &rarr; {*}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Stores the item to the local storage
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>p_key</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The key to store the item under</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>p_value</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Value to store</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="storage.js.html">util/storage.js</a>, <a href="storage.js.html#line40">line 40</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    The previous value
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">*</span>
+
+
+	</dd>
+</dl>
+
+        
     
     
 </dd>

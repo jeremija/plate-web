@@ -31,8 +31,8 @@
     </h2>
     
         <div class="class-description">It has a list of all the <a href="Page.html">Page</a> instances in the application
-and listens to `login` and `logout` events to register or unregister the
-routes (states) of the pages.</div>
+and listens to `logged-in` and `logged-out` events to register or
+unregister the routes of the pages.</div>
     
 </header>  
 
@@ -239,9 +239,9 @@ routes (states) of the pages.</div>
     
     <h5>Listens to Events:</h5>
     <ul>
-        <li>event:login</li>
+        <li>event:logged-in</li>
     
-        <li>event:logout</li>
+        <li>event:logged-out</li>
     </ul>
     
 
@@ -364,7 +364,7 @@ routes (states) of the pages.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="page-manager.js.html">templates/page-manager.js</a>, <a href="page-manager.js.html#line56">line 56</a>
+        <a href="page-manager.js.html">templates/page-manager.js</a>, <a href="page-manager.js.html#line60">line 60</a>
     </li></ul></dd>
     
     
@@ -482,7 +482,7 @@ on the `requireLogin` property of <a href="Page.html">Page</a> instance.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="page-manager.js.html">templates/page-manager.js</a>, <a href="page-manager.js.html#line44">line 44</a>
+        <a href="page-manager.js.html">templates/page-manager.js</a>, <a href="page-manager.js.html#line48">line 48</a>
     </li></ul></dd>
     
     
@@ -599,7 +599,7 @@ on the `requireLogin` property of <a href="Page.html">Page</a> instance.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="page-manager.js.html">templates/page-manager.js</a>, <a href="page-manager.js.html#line66">line 66</a>
+        <a href="page-manager.js.html">templates/page-manager.js</a>, <a href="page-manager.js.html#line70">line 70</a>
     </li></ul></dd>
     
     
@@ -640,13 +640,13 @@ on the `requireLogin` property of <a href="Page.html">Page</a> instance.
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-authentication.html">authentication</a></li><li><a href="module-localizer.html">localizer</a></li><li><a href="module-menu.html">menu</a></li><li><a href="module-traversal.html">traversal</a></li></ul><h3>Classes</h3><ul><li><a href="Ajax.html">Ajax</a></li><li><a href="Bindable.html">Bindable</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="Loading.html">Loading</a></li><li><a href="Logger.html">Logger</a></li><li><a href="Model.html">Model</a></li><li><a href="Page.html">Page</a></li><li><a href="PageBinder.html">PageBinder</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="Queue.html">Queue</a></li><li><a href="QueuedTimer.html">QueuedTimer</a></li><li><a href="Router.html">Router</a></li><li><a href="TemplateLoader.html">TemplateLoader</a></li></ul><h3>Events</h3><ul><li><a href="EventManager.html#event:login">login</a></li><li><a href="EventManager.html#event:logout">logout</a></li><li><a href="EventManager.html#event:page-loading-end">page-loading-end</a></li><li><a href="EventManager.html#event:page-loading-start">page-loading-start</a></li><li><a href="EventManager.html#event:page-route-found">page-route-found</a></li><li><a href="EventManager.html#event:page-route-not-found">page-route-not-found</a></li><li><a href="EventManager.html#event:redirect">redirect</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-authentication.html">authentication</a></li><li><a href="module-localizer.html">localizer</a></li><li><a href="module-menu.html">menu</a></li><li><a href="module-traversal.html">traversal</a></li></ul><h3>Classes</h3><ul><li><a href="Ajax.html">Ajax</a></li><li><a href="Bindable.html">Bindable</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="Loading.html">Loading</a></li><li><a href="Logger.html">Logger</a></li><li><a href="Model.html">Model</a></li><li><a href="Page.html">Page</a></li><li><a href="PageBinder.html">PageBinder</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="Queue.html">Queue</a></li><li><a href="QueuedTimer.html">QueuedTimer</a></li><li><a href="Router.html">Router</a></li><li><a href="Storage.html">Storage</a></li><li><a href="TemplateLoader.html">TemplateLoader</a></li></ul><h3>Events</h3><ul><li><a href="EventManager.html#event:logged-in">logged-in</a></li><li><a href="EventManager.html#event:logged-out">logged-out</a></li><li><a href="EventManager.html#event:logout">logout</a></li><li><a href="EventManager.html#event:page-loading-end">page-loading-end</a></li><li><a href="EventManager.html#event:page-loading-start">page-loading-start</a></li><li><a href="EventManager.html#event:page-route-found">page-route-found</a></li><li><a href="EventManager.html#event:page-route-not-found">page-route-not-found</a></li><li><a href="EventManager.html#event:redirect">redirect</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Thu Dec 05 2013 15:19:24 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Sat Dec 07 2013 10:35:57 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

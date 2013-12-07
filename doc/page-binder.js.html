@@ -40,7 +40,7 @@
 
     /**
      * @class This object handles the `page-route-found` event and coordinates
-     * the page show/hide method calls and page state changes.
+     * the page show/hide method calls and page route changes.
      * It also listens to `page-route-not-found` event and redirects to the
      * error page.
      * @name PageBinder
@@ -72,11 +72,12 @@
         this.events = new EventManager(this.name, this);
         this.events.listen({
             'page-route-found': function(p_data) {
-                this.log.debug('handling page route', p_data.stateUrl);
-                this.changePage(p_data.page, p_data.stateUrl, p_data.stateArgs);
+                this.log.debug('handling page route', p_data.routeUrl);
+                this.changePage(p_data.page, p_data.routeUrl, p_data.routeArgs);
             },
             'page-route-not-found': function(p_route) {
-                this.log.debug('redirecting to errorPage', this.errorRoute);
+                this.log.debug('redirecting to error route `' +
+                    this.errorRoute + '`');
                 this._redirectError();
             }
         });
@@ -94,28 +95,28 @@
         },
         /**
          * Hiddes the current page (if any). If the new page is already bound,
-         * it will be shown and it's state callback applied.
+         * it will be shown and it's route callback applied.
          *
          * If the new page is not yet bound to an element, it's template
          * will be loaded.
          * @param  {Page}   p_page        Page
-         * @param  {String} p_stateUrl    State url
-         * @param  {Array}  p_stateArgs   Arguments for the state callback
+         * @param  {String} p_routeUrl    Route url
+         * @param  {Array}  p_routeArgs   Arguments for the route callback
          */
-        changePage: function(p_page, p_stateUrl, p_stateArgs) {
+        changePage: function(p_page, p_routeUrl, p_routeArgs) {
             this.events.dispatch('page-loading-start');
             this._setLastPage(p_page);
 
             if (p_page.bindingsApplied) {
-                this._applyStateCallback(p_page, p_stateUrl, p_stateArgs);
+                this._applyRouteCallback(p_page, p_routeUrl, p_routeArgs);
                 p_page.show();
                 this.events.dispatch('page-loading-end', undefined, p_page);
                 return;
             }
 
-            this._loadPageTemplate(p_page, p_stateUrl, p_stateArgs);
+            this._loadPageTemplate(p_page, p_routeUrl, p_routeArgs);
         },
-        _loadPageTemplate: function(p_page, p_stateUrl, p_stateArgs) {
+        _loadPageTemplate: function(p_page, p_routeUrl, p_routeArgs) {
             var url = this._getTemplateUrl(p_page.name);
             var self = this;
             this.templateLoader.load(url, function(err, el) {
@@ -127,7 +128,7 @@
                 }
 
                 p_page.bind(el);
-                self._applyStateCallback(p_page, p_stateUrl, p_stateArgs);
+                self._applyRouteCallback(p_page, p_routeUrl, p_routeArgs);
                 p_page.show();
                 self.events.dispatch('page-loading-end', undefined, p_page);
             });
@@ -136,14 +137,14 @@
             if (this.lastPage) this.lastPage.hide();
             this.lastPage = p_page;
         },
-        _applyStateCallback: function(p_page, p_stateUrl, p_stateArgs) {
-            var callback = p_page.states[p_stateUrl];
+        _applyRouteCallback: function(p_page, p_routeUrl, p_routeArgs) {
+            var callback = p_page.routes[p_routeUrl];
             if (!callback || typeof callback !== 'function') {
-                this.log.warn('invalid callback for state ' + p_stateUrl);
+                this.log.warn('invalid callback for route ' + p_routeUrl);
                 return;
             }
-            this.log.debug('applying callback for state ' + p_stateUrl);
-            callback.apply(p_page, p_stateArgs);
+            this.log.debug('applying callback for route ' + p_routeUrl);
+            callback.apply(p_page, p_routeArgs);
         }
     };
 
@@ -158,13 +159,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-authentication.html">authentication</a></li><li><a href="module-localizer.html">localizer</a></li><li><a href="module-menu.html">menu</a></li><li><a href="module-traversal.html">traversal</a></li></ul><h3>Classes</h3><ul><li><a href="Ajax.html">Ajax</a></li><li><a href="Bindable.html">Bindable</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="Loading.html">Loading</a></li><li><a href="Logger.html">Logger</a></li><li><a href="Model.html">Model</a></li><li><a href="Page.html">Page</a></li><li><a href="PageBinder.html">PageBinder</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="Queue.html">Queue</a></li><li><a href="QueuedTimer.html">QueuedTimer</a></li><li><a href="Router.html">Router</a></li><li><a href="TemplateLoader.html">TemplateLoader</a></li></ul><h3>Events</h3><ul><li><a href="EventManager.html#event:login">login</a></li><li><a href="EventManager.html#event:logout">logout</a></li><li><a href="EventManager.html#event:page-loading-end">page-loading-end</a></li><li><a href="EventManager.html#event:page-loading-start">page-loading-start</a></li><li><a href="EventManager.html#event:page-route-found">page-route-found</a></li><li><a href="EventManager.html#event:page-route-not-found">page-route-not-found</a></li><li><a href="EventManager.html#event:redirect">redirect</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-authentication.html">authentication</a></li><li><a href="module-localizer.html">localizer</a></li><li><a href="module-menu.html">menu</a></li><li><a href="module-traversal.html">traversal</a></li></ul><h3>Classes</h3><ul><li><a href="Ajax.html">Ajax</a></li><li><a href="Bindable.html">Bindable</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="Loading.html">Loading</a></li><li><a href="Logger.html">Logger</a></li><li><a href="Model.html">Model</a></li><li><a href="Page.html">Page</a></li><li><a href="PageBinder.html">PageBinder</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="Queue.html">Queue</a></li><li><a href="QueuedTimer.html">QueuedTimer</a></li><li><a href="Router.html">Router</a></li><li><a href="Storage.html">Storage</a></li><li><a href="TemplateLoader.html">TemplateLoader</a></li></ul><h3>Events</h3><ul><li><a href="EventManager.html#event:logged-in">logged-in</a></li><li><a href="EventManager.html#event:logged-out">logged-out</a></li><li><a href="EventManager.html#event:logout">logout</a></li><li><a href="EventManager.html#event:page-loading-end">page-loading-end</a></li><li><a href="EventManager.html#event:page-loading-start">page-loading-start</a></li><li><a href="EventManager.html#event:page-route-found">page-route-found</a></li><li><a href="EventManager.html#event:page-route-not-found">page-route-not-found</a></li><li><a href="EventManager.html#event:redirect">redirect</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Thu Dec 05 2013 15:19:23 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Sat Dec 07 2013 10:35:56 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>
