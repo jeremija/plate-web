@@ -3,8 +3,6 @@ define(['extendable', 'signals', 'logger'],
 
     var Signal = signals.Signal;
 
-    var log = new Logger('event-manager');
-
     /**
      * @class Module for dispatching events
      * @name EventManager
@@ -14,6 +12,7 @@ define(['extendable', 'signals', 'logger'],
     function EventManager(p_name, p_context) {
         // not used anywhere right now
         this.name = p_name;
+        this.log = new Logger(this.name, this.constructor.name);
         this.context = p_context;
         this._moduleSignalBindings = {};
     }
@@ -94,11 +93,10 @@ define(['extendable', 'signals', 'logger'],
         dispatch: function(p_eventName, p_arguments) {
             var eventSignal = this._eventSignals[p_eventName];
             if (!eventSignal) {
-                log.warn('no listeners for event `' + p_eventName + '`');
+                this.log.warn('dispatch() no listeners: `' + p_eventName + '`');
                 return;
             }
-
-            log.debug('Dispatching event `' + p_eventName + '`:', p_arguments);
+            this.log.debug('dispatch() `' + p_eventName + '`:', p_arguments);
             [].splice.call(arguments, 0, 1);
             eventSignal.dispatch.apply(eventSignal, arguments);
         },

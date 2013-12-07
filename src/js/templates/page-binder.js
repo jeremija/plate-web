@@ -40,9 +40,9 @@ define(['extendable', 'logger', 'events/event-manager'],
         this.templatePath = p_params.templatePath || '/pages';
         this.templateExtension = p_params.templateExtension || '.html';
 
-        this.log = new Logger(p_params.name);
+        this.log = new Logger(p_params.name, this.constructor.name);
 
-        this.events = new EventManager(this.name, this);
+        this.events = new EventManager(this.log.name, this);
         this.events.listen({
             'page-route-found': function(p_data) {
                 this.log.debug('handling page route', p_data.routeUrl);

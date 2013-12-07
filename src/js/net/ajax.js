@@ -9,8 +9,8 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
      */
     function Ajax(p_loading) {
         this.loading = p_loading;
-        this.log = new Logger('ajax');
-        this.events = new EventManager('event-manager(ajax)');
+        this.log = new Logger('', this.constructor.name);
+        this.events = new EventManager('ajax');
     }
 
     var AjaxPrototype = /** @lends Ajax.prototype **/ {

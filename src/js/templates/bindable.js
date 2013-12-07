@@ -18,7 +18,7 @@ define(['extendable', 'jquery', 'logger', 'knockout', 'events/event-manager',
     function Bindable(p_params) {
         var params = p_params || {};
 
-        this.log = new Logger(params.name);
+        this.log = new Logger(params.name, this.constructor.name);
         this.bindingsApplied = false;
 
         this.name = p_params.name;
@@ -26,7 +26,7 @@ define(['extendable', 'jquery', 'logger', 'knockout', 'events/event-manager',
         this.viewModel.locale = ko.observable(culture.locale);
 
         // set the event execution context to this bindable instance
-        this.events = new EventManager(params.name, this);
+        this.events = new EventManager(this.log.name, this);
         var listenedEvents = p_params.events || {};
         listenedEvents['locale-changed'] =  function(p_locale) {
             this.viewModel.locale(p_locale);

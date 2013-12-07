@@ -4,10 +4,12 @@ define(['extendable'], function(Extendable) {
      * @class Logger
      * @name Logger
      * @extends {Extendable}
-     * @param {String} p_name Name of the logger
+     * @param {String} p_name      Name of the logger
+     * @param {String} p_className (optional) name of the class using the logger
      */
-    function Logger(p_name) {
-        this.name = p_name;
+    function Logger(p_name, p_className) {
+        var name = p_name || '';
+        this.name = p_className ? p_className + ':' + name : name;
     }
 
     var LoggerPrototype = /** @lends Logger.prototype */ {

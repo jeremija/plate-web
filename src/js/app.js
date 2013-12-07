@@ -38,7 +38,7 @@ require([
 
         // initialize module for loading templates
         var templateLoader = new TemplateLoader({
-            name: 'template-loader(app)',
+            name: 'app',
             selector: 'pages',
             pagePrefix: 'page-'
         });
@@ -46,7 +46,7 @@ require([
         // initialize page binder (listens to `page-route-found` and
         // `page-route-not-found`)
         var pageBinder = new PageBinder({
-            name: 'page-binder(app)',
+            name: 'app',
             errorRoute: 'error',
             templateLoader: templateLoader,
             templatePath: '/pages',
@@ -55,11 +55,11 @@ require([
 
         // pageManager will initialize the router
         var router = new Router({
-            name: 'router(app)'
+            name: 'app'
         });
 
         var pageManager = new PageManager({
-            name: 'page-manager(app)',
+            name: 'app',
             pages: pageDefinitions.pages,
             router: router
         });

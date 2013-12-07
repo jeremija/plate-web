@@ -33,9 +33,9 @@ define(['extendable', 'crossroads', 'hasher', 'logger', 'events/event-manager',
      */
     function Router(p_params) {
         this.name = p_params.name;
-        this.log = new Logger(this.name);
+        this.log = new Logger(this.name, this.constructor.name);
 
-        this.events = new EventManager(this.names, this);
+        this.events = new EventManager(this.log.name, this);
         this.events.listen({
             'redirect': function(p_url) {
                 this.log.debug('redirecting to `' + p_url + '`');
