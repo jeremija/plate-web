@@ -5,7 +5,7 @@ define(['extendable', 'events/event-manager', 'router', 'jquery'],
     /**
      * @class It has a list of all the {@link Page} instances in the application
      * and listens to `logged-in` and `logged-out` events to register or
-     * unregister the routes (states) of the pages.
+     * unregister the routes of the pages.
      * @name PageManager
      * @param {Object} p_params           Configuration object
      * @param {String} p_params.name      Page manager name

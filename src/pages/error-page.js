@@ -2,7 +2,7 @@ define(['templates/page'], function(Page) {
     // do nothing
     return new Page({
         name: 'error-page',
-        states: {
+        routes: {
             'error': function() {}
         }
     });

@@ -10,7 +10,7 @@ define(['templates/page', 'knockout', 'singletons'],
     var page = new Page({
         name: 'companies-page',
         viewModel: vm,
-        states: {
+        routes: {
             'companies/list': function() {
                 ajax.get({
                     url: '/companies/find',

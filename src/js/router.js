@@ -7,8 +7,8 @@ define(['extendable', 'crossroads', 'hasher', 'logger', 'events/event-manager',
      * @event EventManager#page-route-found
      * @param {Object} params              Event object
      * @param {Page}   params.page         Page instance
-     * @param {String} params.stateUrl     Url of the route
-     * @param {Array}  params.stateArgs    Arguments for the state
+     * @param {String} params.routeUrl     Url of the route
+     * @param {Array}  params.routeArgs    Arguments for the route
      */
 
     /**
@@ -97,53 +97,53 @@ define(['extendable', 'crossroads', 'hasher', 'logger', 'events/event-manager',
         go: function(p_url) {
             hasher.setHash(p_url);
         },
-        _registerUrl: function(p_stateUrl, p_callback, p_page) {
+        _registerUrl: function(p_routeUrl, p_callback, p_page) {
             if (typeof p_callback !== 'function') {
-                throw new Error('p_callback for `' + p_stateUrl +
+                throw new Error('p_callback for `' + p_routeUrl +
                     '` should be a function');
             }
 
-            if (p_stateUrl in this.urlBindings) {
+            if (p_routeUrl in this.urlBindings) {
                 throw new Error('handler for `' + url + '` already registered');
             }
 
-            var route = crossroads.addRoute(p_stateUrl);
+            var route = crossroads.addRoute(p_routeUrl);
             route.matched.add(function() {
                 var args = [].slice.call(arguments);
                 this.events.dispatch('page-route-found', {
                     page: p_page,
-                    stateUrl: p_stateUrl,
-                    stateArgs: [].slice.call(arguments)
+                    routeUrl: p_routeUrl,
+                    routeArgs: [].slice.call(arguments)
                 });
             }, this);
 
-            this.urlBindings[p_stateUrl] = {
+            this.urlBindings[p_routeUrl] = {
                 route: route,
                 page: p_page
             };
         },
-        _unregisterUrl: function(p_stateUrl) {
-            var urlBinding = this.urlBindings[p_stateUrl];
+        _unregisterUrl: function(p_routeUrl) {
+            var urlBinding = this.urlBindings[p_routeUrl];
             if (!urlBinding) return;
 
             crossroads.removeRoute(urlBinding.route);
-            delete this.urlBindings[p_stateUrl];
+            delete this.urlBindings[p_routeUrl];
         },
         registerPage: function(page) {
             if (page instanceof Page === false) {
                 throw new Error('page is not an instance of Page');
             }
 
-            var states = page.states;
+            var routes = page.routes;
 
-            var statesCount = 0;
-            for (var stateUrl in states) {
-                var stateHandler = states[stateUrl];
-                this._registerUrl(stateUrl, stateHandler, page);
-                statesCount++;
+            var routesCount = 0;
+            for (var routeUrl in routes) {
+                var routeHandler = routes[routeUrl];
+                this._registerUrl(routeUrl, routeHandler, page);
+                routesCount++;
             }
-            if (!statesCount) {
-                this.log.warn('page `' + page.name + '` has no defined states');
+            if (!routesCount) {
+                this.log.warn('page `' + page.name + '` has no defined routes');
             }
         },
         unregisterPage: function(page) {
@@ -151,10 +151,10 @@ define(['extendable', 'crossroads', 'hasher', 'logger', 'events/event-manager',
                 throw new Error('page is not an instance of Page');
             }
 
-            var states = page.states;
+            var routes = page.routes;
 
-            for (var stateUrl in states) {
-                this._unregisterUrl(stateUrl);
+            for (var routeUrl in routes) {
+                this._unregisterUrl(routeUrl);
             }
         },
         clear: function() {

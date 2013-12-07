@@ -14,7 +14,7 @@ define(['jquery', 'router', 'crossroads', 'hasher', 'events/event-manager',
                 viewModel: {
                     data: undefined
                 },
-                states: {
+                routes: {
                     'page/a-page/new': function() {
                         this.viewModel.data = 'new-data';
                     },
@@ -55,9 +55,9 @@ define(['jquery', 'router', 'crossroads', 'hasher', 'events/event-manager',
                     'page-route-found': function(data) {
                         expect(data).to.be.ok();
                         expect(data.page).to.be(page);
-                        expect(data.stateUrl).to.be('page/a-page/new');
-                        expect(data.stateArgs).to.be.an('array');
-                        expect(data.stateArgs.length).to.be(0);
+                        expect(data.routeUrl).to.be('page/a-page/new');
+                        expect(data.routeArgs).to.be.an('array');
+                        expect(data.routeArgs.length).to.be(0);
                         done();
                     }
                 });
@@ -70,10 +70,10 @@ define(['jquery', 'router', 'crossroads', 'hasher', 'events/event-manager',
                     'page-route-found': function(data) {
                         expect(data).to.be.ok();
                         expect(data.page).to.be(page);
-                        expect(data.stateUrl).to.be('page/a-page/edit/{id}');
-                        expect(data.stateArgs).to.be.an('array');
-                        expect(data.stateArgs.length).to.be(1);
-                        expect(data.stateArgs[0]).to.be('123');
+                        expect(data.routeUrl).to.be('page/a-page/edit/{id}');
+                        expect(data.routeArgs).to.be.an('array');
+                        expect(data.routeArgs.length).to.be(1);
+                        expect(data.routeArgs[0]).to.be('123');
                         done();
                     }
                 });

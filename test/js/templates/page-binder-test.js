@@ -4,7 +4,7 @@ define(['jquery', 'knockout', 'templates/page-binder', 'events/event-manager',
 
     describe('templates/page-binder-test.js', function() {
         var pageBinder, events, templateLoaderMock, loadUrl, el1, el2,
-        page1, page1stateHandlerArgs, page2, page2stateHandlerArgs, error;
+        page1, page1routeHandlerArgs, page2, page2routeHandlerArgs, error;
 
         before(function() {
             el1 = $('<div>').attr('id', 'page1').appendTo('#test')[0];
@@ -26,18 +26,18 @@ define(['jquery', 'knockout', 'templates/page-binder', 'events/event-manager',
 
             page1 = new Page({
                 name: 'page1',
-                states: {
-                    'page1/state1': function() {
-                        page1stateHandlerArgs = arguments;
+                routes: {
+                    'page1/route1': function() {
+                        page1routeHandlerArgs = arguments;
                     }
                 }
             });
 
             page2 = new Page({
                 name: 'page2',
-                states: {
-                    'page2/state1': function() {
-                        page2stateHandlerArgs = arguments;
+                routes: {
+                    'page2/route1': function() {
+                        page2routeHandlerArgs = arguments;
                     }
                 }
             });
@@ -81,9 +81,9 @@ define(['jquery', 'knockout', 'templates/page-binder', 'events/event-manager',
                         expect(err).to.be(undefined);
                         expect(page).to.be(page1);
                         expect(page.element).to.be(el1);
-                        expect(page1stateHandlerArgs).to.be.ok();
-                        expect(page1stateHandlerArgs[0]).to.be(1);
-                        expect(page1stateHandlerArgs[1]).to.be(2);
+                        expect(page1routeHandlerArgs).to.be.ok();
+                        expect(page1routeHandlerArgs[0]).to.be(1);
+                        expect(page1routeHandlerArgs[1]).to.be(2);
                         expect($(el1).is(':visible')).to.be(true);
                         done();
                     },
@@ -91,8 +91,8 @@ define(['jquery', 'knockout', 'templates/page-binder', 'events/event-manager',
 
                 events.dispatch('page-route-found', {
                     page: page1,
-                    stateUrl: 'page1/state1',
-                    stateArgs: [1, 2]
+                    routeUrl: 'page1/route1',
+                    routeArgs: [1, 2]
                 });
             });
             it('page1: should attempt to hide the page2', function(done) {
@@ -107,8 +107,8 @@ define(['jquery', 'knockout', 'templates/page-binder', 'events/event-manager',
 
                         expect(err).to.be(undefined);
                         expect(page).to.be(page2);
-                        expect(page2stateHandlerArgs).to.be.ok();
-                        expect(page2stateHandlerArgs[0]).to.be(3);
+                        expect(page2routeHandlerArgs).to.be.ok();
+                        expect(page2routeHandlerArgs[0]).to.be(3);
                         expect($(el1).is(':visible')).to.be(false);
                         expect($(el2).is(':visible')).to.be(true);
                         done();
@@ -117,15 +117,15 @@ define(['jquery', 'knockout', 'templates/page-binder', 'events/event-manager',
 
                 events.dispatch('page-route-found', {
                     page: page2,
-                    stateUrl: 'page2/state1',
-                    stateArgs: [3]
+                    routeUrl: 'page2/route1',
+                    routeArgs: [3]
                 });
             });
             it('should redirect to error page on error', function(done) {
                 ko.cleanNode(el1);
                 page1.element = undefined;
                 page1.bindingsApplied = false;
-                page1stateHandlerArgs = undefined;
+                page1routeHandlerArgs = undefined;
                 templateLoaderMock.generateError = true;
 
                 var pageLoadingEnd, startCount = 0;
@@ -146,15 +146,15 @@ define(['jquery', 'knockout', 'templates/page-binder', 'events/event-manager',
                         expect(page).to.be(undefined);
                         expect(page1.bindingsApplied).to.be(false);
                         expect(page1.element).to.be(undefined);
-                        expect(page1stateHandlerArgs).to.be(undefined);
+                        expect(page1routeHandlerArgs).to.be(undefined);
                         pageLoadingEnd = true;
                     }
                 });
 
                 events.dispatch('page-route-found', {
                     page: page1,
-                    stateUrl: 'page1/state1',
-                    stateArgs: [4]
+                    routeUrl: 'page1/route1',
+                    routeArgs: [4]
                 });
             });
         });

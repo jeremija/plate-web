@@ -7,7 +7,7 @@ define(['jquery', 'events/event-manager', 'logger'],
     log.debug('registering `page-route-found` listener');
     events.listen({
         'page-route-found': function(params) {
-            menu.markCurrentMenuItem(params.stateUrl);
+            menu.markCurrentMenuItem(params.routeUrl);
         }
     });
 
