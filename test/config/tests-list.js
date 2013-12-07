@@ -27,12 +27,14 @@ var tests = [
     'test/js/ui/menu-test',
     'test/js/ui/loading-test',
     'test/js/ui/culture-test',
+    'test/js/ui/loading-listener-test',
 
     // events
     'test/js/events/event-manager-test',
 
     // modules
     'test/js/modules/user-mod-test',
+    'test/js/modules/messages-mod-test',
 
     // pages
     'test/pages/error-test'

@@ -96,7 +96,8 @@ define(['extendable', 'signals', 'logger'],
                 this.log.warn('dispatch() no listeners: `' + p_eventName + '`');
                 return;
             }
-            this.log.debug('dispatch() `' + p_eventName + '`:', p_arguments);
+            this.log.debug(
+                'dispatch() `' + p_eventName + '`:', p_arguments || []);
             [].splice.call(arguments, 0, 1);
             eventSignal.dispatch.apply(eventSignal, arguments);
         },

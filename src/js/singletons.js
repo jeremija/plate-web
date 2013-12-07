@@ -1,19 +1,12 @@
-define(['net/ajax', 'ui/loading', 'util/storage'],
-    function(Ajax, Loading, Storage) {
+define(['net/ajax', 'util/storage'],
+    function(Ajax, Storage) {
 
-    var loading = new Loading({
-        selector: '#loading',
-        duration: 200,
-        hideDelay: 100
-    });
-
-    var ajax = new Ajax(loading);
+    var ajax = new Ajax('singletons');
 
     var storage = new Storage();
 
     return {
         ajax: ajax,
-        loading: loading,
         storage: storage,
     };
 });

@@ -35,7 +35,7 @@ define(['jquery', 'events/event-manager', 'singletons', 'logger'],
          * @fires error on error
          */
         login: function(p_credentials) {
-            log.debug('attempting to log in' + p_credentials.email);
+            log.debug('attempting to log in: ' + p_credentials.email);
             ajax.post({
                 url: '/login',
                 data: p_credentials,
@@ -53,7 +53,8 @@ define(['jquery', 'events/event-manager', 'singletons', 'logger'],
                 error: function() {
                     log.error('error while logging in');
                     events.dispatchError('error.server.login');
-                }
+                },
+                noEvents: true
             });
         },
         /**
@@ -72,7 +73,8 @@ define(['jquery', 'events/event-manager', 'singletons', 'logger'],
                 error: function() {
                     log.error('error while logging out');
                     events.dispatchError('error.server.logout');
-                }
+                },
+                noEvents: true
             });
         }
     };

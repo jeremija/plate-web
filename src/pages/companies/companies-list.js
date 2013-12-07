@@ -8,7 +8,7 @@ define(['templates/page', 'knockout', 'singletons'],
     };
 
     var page = new Page({
-        name: 'companies-page',
+        name: 'companies/companies-list',
         viewModel: vm,
         routes: {
             'companies/list': function() {

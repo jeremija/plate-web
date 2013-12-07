@@ -11,7 +11,10 @@ require([
     'templates/page-definitions',
 
     'ui/menu',
+    'ui/loading',
+    'ui/loading-listener',
     'net/authentication',
+    'modules/messages-mod',
     'modules/user-mod'
     ],
     function(
@@ -24,7 +27,10 @@ require([
         pageDefinitions,
 
         menu,
+        Loading,
+        LoadingListener,
         authentication,
+        messagesMod,
         userMod) {
 
     var log = new Logger('app');
@@ -33,8 +39,18 @@ require([
         // initialize bootstrap
         require(['bootstrap']);
 
+        var loadingListener = new LoadingListener({
+            name: 'app',
+            loading: new Loading({
+                selector: '#loading',
+                duration: 200,
+                hideDelay: 100
+            })
+        });
+
         // initialize static modules
         userMod.bind(document.getElementById('user-mod'));
+        messagesMod.listen();
 
         // initialize module for loading templates
         var templateLoader = new TemplateLoader({

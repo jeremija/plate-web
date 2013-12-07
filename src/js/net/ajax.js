@@ -2,15 +2,23 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
     function($, Extendable, Logger, EventManager) {
 
     /**
+     * Event dispatched when an ajax request starts
+     * @event EventManager#ajax-start
+     */
+
+    /**
+     * Event dispatched when an ajax request completes
+     * @event EventManager#ajax-end
+     */
+
+    /**
      * @class Wrapped jQuery.ajax calls
      * @name Ajax
-     * @param  {Loading} p_loading loading display
-     * @return {Ajax}              an instance of Ajax
+     * @param {String} p_name      Name of the instance
      */
-    function Ajax(p_loading) {
-        this.loading = p_loading;
-        this.log = new Logger('', this.constructor.name);
-        this.events = new EventManager('ajax');
+    function Ajax(p_name) {
+        this.log = new Logger(p_name, this.constructor.name);
+        this.events = new EventManager(this.log.name);
     }
 
     var AjaxPrototype = /** @lends Ajax.prototype **/ {
@@ -38,6 +46,10 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
          * @param {Function} p_params.error      Error callback
          * @param {Object} p_params.data         Data to be sent to the server.
          * @param {String} p_params.url          Url
+         * @param {String} p_params.noEvents     If true, do not dispatch the
+         * `ajax-start` and `ajax-end` events
+         * @fires EventManager#ajax-start        Before ajax request is placed
+         * @fires EventManager#ajax-end          After ajax request completes
          */
         get: function(p_params) {
             this._ajaxRequest(p_params, 'GET');
@@ -51,14 +63,17 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
          * @param {Function} p_params.error      Error callback
          * @param {Object} p_params.data         Data to be sent to the server.
          * @param {String} p_params.url          Url
+         * @fires EventManager#ajax-start        Before ajax request is placed
+         * @fires EventManager#ajax-end          After ajax request completes
          */
         post: function(p_params) {
             this._ajaxRequest(p_params, 'POST');
         },
         _ajaxRequest: function(p_params, p_type) {
             var self = this;
-            var loading = this.loading;
-            loading.show();
+            if (!p_params.noEvents) {
+                this.events.dispatch('ajax-start');
+            }
 
             var msg = (p_type || 'GET') + ' ' + p_params.url + '  ';
             this.log.debug(msg);
@@ -73,7 +88,9 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
                         //     self._handleError(err);
                         // }
                     }
-                    loading.hide();
+                    if (!p_params.noEvents) {
+                        self.events.dispatch('ajax-end');
+                    }
                 },
                 dataType: 'json',
                 contentType: 'application/json;charset=utf-8',

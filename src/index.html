@@ -27,7 +27,16 @@
 			<ul class="nav navbar-nav">
 				<li><a href="#/page1">Page 1</a></li>
 				<li><a href="#/page2">Page 2</a></li>
-				<li><a href="#/companies/list">Companies</a></li>
+
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Companies <b class="caret"></b></a>
+
+					<ul class="dropdown-menu">
+						<li><a href="#/companies/new">New</a></li>
+						<li><a href="#/companies/list">List</a></li>
+					</ul>
+				</li>
+
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
 					<ul class="dropdown-menu">
@@ -69,8 +78,15 @@
 
 	<!--<h1>This is the site</h1>-->
 	<div class="container">
+
 		<div id="messages-mod">
-			<div id="messages-error" class="text-danger"></div>
+			<!--<div id="messages-success" class="alert alert-success"></div>
+			<div id="messages-info" class="alert alert-info"></div>
+			<div id="messages-warning" class="alert alert-warning">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  				<strong>Warning!</strong> Best check yo self, you're not looking too good.
+			</div>
+			<div id="messages-error" class="alert alert-danger"></div>-->
 		</div>
 		<div id="pages">
 			<div id="loading"></div>

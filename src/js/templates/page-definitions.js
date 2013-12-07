@@ -3,7 +3,7 @@ define([
     'pages/page1',
     'pages/page2',
     'pages/error-page',
-    'pages/companies-page',
+    'pages/companies/companies-list',
 ], function() {
 
     return {
