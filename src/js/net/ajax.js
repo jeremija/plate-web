@@ -15,9 +15,11 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
      * @class Wrapped jQuery.ajax calls
      * @name Ajax
      * @param {String} p_name      Name of the instance
+     * @param {String} p_urlPrefix Prefix for the url
      */
-    function Ajax(p_name) {
+    function Ajax(p_name, p_urlPrefix) {
         this.log = new Logger(p_name, this.constructor.name);
+        this.urlPrefix = p_urlPrefix || '';
         this.events = new EventManager(this.log.name);
     }
 
@@ -26,6 +28,9 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
             401: function() {
                 this.log.debug('got error 401, logging out');
                 this.events.dispatch('logout');
+            },
+            500: function() {
+                this.log.debug('got error 500');
             }
         },
         /**
@@ -36,7 +41,13 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
         _handleError: function(err) {
             this.log.error('error while executing ajax callback: ' + err.stack);
         },
-
+        _getErrorData: function(jqXHR) {
+            var errorData;
+            try {
+                errorData = JSON.parse(jqXHR.responseText);
+            } catch (err) {}
+            return errorData || {};
+        },
         /**
          * Send a GET request to the server
          * @param  {Object} p_params parameters
@@ -57,12 +68,12 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
         /**
          * Send a GET request to the server
          * @param  {Object} p_params parameters
-         * @param {Function} p_params.complete   A function to be called when
+         * @param {String} p_params.url          Url
+         * @param {Object} p_params.data         Data to be sent to the server.
          * the request finishes.
          * @param {Function} p_params.success    Success callback
          * @param {Function} p_params.error      Error callback
-         * @param {Object} p_params.data         Data to be sent to the server.
-         * @param {String} p_params.url          Url
+         * @param {Function} p_params.complete   A function to be called when
          * @fires EventManager#ajax-start        Before ajax request is placed
          * @fires EventManager#ajax-end          After ajax request completes
          */
@@ -70,7 +81,6 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
             this._ajaxRequest(p_params, 'POST');
         },
         _ajaxRequest: function(p_params, p_type) {
-            var self = this;
             if (!p_params.noEvents) {
                 this.events.dispatch('ajax-start');
             }
@@ -79,51 +89,55 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
             this.log.debug(msg);
 
             $.ajax({
+                context: this,
+                url: this.urlPrefix + p_params.url,
+                data: p_params.data ? JSON.stringify(p_params.data) : undefined,
+                dataType: 'json',
+                contentType: 'application/json;charset=utf-8',
+                type: p_type || 'GET',
+                statusCode: this._xhrErrorHandlers,
+                success: function(data, textStatus, jqXHR) {
+                    this.log.debug(msg + ' ' + textStatus);
+                    if (p_params.success) {
+                        this.log.debug('success', data);
+                        // try {
+                            p_params.success(textStatus, data.data);
+                        // }
+                        // catch(err) {
+                        //     this._handleError(err);
+                        // }
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    this.log.debug(msg + ' ' + textStatus + ': ' + errorThrown);
+
+                    var data = this._getErrorData(jqXHR);
+                    if (data.error && data.error.key) {
+                        this.events.dispatch('msg-error', data.error.key);
+                    }
+
+                    if (p_params.error) {
+                        // try {
+                            p_params.error(textStatus, data.error);
+                        // }
+                        // catch(err) {
+                        //     this._handleError(err);
+                        // }
+                    }
+                },
                 complete: function(jqXHR, textStatus) {
                     if (p_params.complete) {
                         // try {
                             p_params.complete(textStatus);
                         // }
                         // catch (err) {
-                        //     self._handleError(err);
+                        //     this._handleError(err);
                         // }
                     }
                     if (!p_params.noEvents) {
-                        self.events.dispatch('ajax-end');
+                        this.events.dispatch('ajax-end');
                     }
-                },
-                dataType: 'json',
-                contentType: 'application/json;charset=utf-8',
-                data: p_params.data ? JSON.stringify(p_params.data) : undefined,
-                error: function(jqXHR, textStatus, errorThrown) {
-                    self.log.debug(msg + ' ' + textStatus + ': ' + errorThrown);
-
-                    var errorHandler = self._xhrErrorHandlers[jqXHR.status];
-                    if (errorHandler) errorHandler.call(self);
-
-                    if (p_params.error) {
-                        // try {
-                            p_params.error(textStatus, errorThrown);
-                        // }
-                        // catch(err) {
-                        //     self._handleError(err);
-                        // }
-                    }
-                },
-                success: function(data, textStatus, jqXHR) {
-                    self.log.debug(msg + ' ' + textStatus);
-                    if (p_params.success) {
-                            self.log.debug('success', data);
-                        // try {
-                            p_params.success(textStatus, data);
-                        // }
-                        // catch(err) {
-                        //     self._handleError(err);
-                        // }
-                    }
-                },
-                type: p_type || 'GET',
-                url: p_params.url
+                }
             });
         }
     };

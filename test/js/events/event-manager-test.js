@@ -44,7 +44,7 @@ define(['events/event-manager', 'signals'], function(EventManager, signals) {
                         expect(this.a).to.be('value-of-a');
                         triggered3 = true;
                     },
-                    'error': function() {
+                    'msg-error': function() {
                         triggeredErrorEvent = true;
                     }
                 });

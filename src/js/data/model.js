@@ -107,15 +107,17 @@ define(['knockout', 'extendable', 'singletons', 'util/traversal'],
                 data: p_data,
                 error: function(textStatus, errorThrown) {
                     var err = new Error(textStatus + ': ' + errorThrown);
-                    if (!p_callback) {
-                        throw err;
+                    if (p_callback) {
+                        p_callback.call(self, err);
                     }
-                    p_callback.call(self, err);
                 },
                 success: function(textStatus, p_data) {
+                    //TODO check if p_data.error or p_data.data
                     self.data(p_data);
                     self._postLoad();
-                    p_callback.call(self, undefined, p_data);
+                    if (p_callback) {
+                        p_callback.call(self, undefined, p_data);
+                    }
                 },
                 complete: function(textStatus) {
                     // do nothing
@@ -142,6 +144,9 @@ define(['knockout', 'extendable', 'singletons', 'util/traversal'],
          */
         load: function(p_key, p_callback) {
             this._sendRequest('get', this.getUrl, p_key, p_callback);
+        },
+        loadRest: function(p_key, p_callback) {
+            this._sendRequest('get', this.getUrl + '/' + p_key, p_callback);
         }
     };
 

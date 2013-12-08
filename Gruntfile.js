@@ -22,11 +22,20 @@ module.exports = function(grunt) {
             }
         },
         mocha_phantomjs: {
-            //all: ['test/**/*.html']
-            all: ['test/*.html']
+            unit: ['test/*.html'],
+            // integration: ['test-integration/*.html']
+        },
+        shell: {
+            mocha_phantomjs_integration: {
+                options: {
+                    stdout: true,
+                    failOnError: true
+                },
+                command: 'mocha-phantomjs test-integration/test.html -s localToRemoteUrlAccessEnabled=true'
+            }
         },
         jshint: {
-            files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js', '!src/lib/**/*']
+            files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js', 'test-integration/**/*.js', '!src/lib/**/*']
         },
         jsdoc : {
             dist : {
@@ -49,8 +58,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-mocha-phantomjs');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-jsdoc');
+    grunt.loadNpmTasks('grunt-shell');
 
-    grunt.registerTask('test', ['jshint', 'mocha_phantomjs']);
-    grunt.registerTask('doc', ['jshint', 'mocha_phantomjs', 'clean', 'jsdoc']);
-    grunt.registerTask('default', ['jshint', 'mocha_phantomjs', 'concat', 'uglify']);
+    grunt.registerTask('test', ['jshint', 'mocha_phantomjs:unit']);
+    grunt.registerTask('integration-test', ['jshint', 'shell:mocha_phantomjs_integration']);
+
+    grunt.registerTask('doc', ['jshint', 'mocha_phantomjs:unit', 'clean', 'jsdoc']);
+    grunt.registerTask('default', ['jshint', 'mocha_phantomjs:unit', 'concat', 'uglify']);
 };

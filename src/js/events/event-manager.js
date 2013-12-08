@@ -110,7 +110,7 @@ define(['extendable', 'signals', 'logger'],
          * @fires EventManager#logout if p_logout is `true`
          */
         dispatchError: function(p_key, p_logout) {
-            this.dispatch('error', p_key);
+            this.dispatch('msg-error', p_key);
             if (p_logout) this.dispatch('logout');
         },
         /**

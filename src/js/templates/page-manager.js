@@ -1,6 +1,6 @@
-define(['extendable', 'events/event-manager', 'router', 'jquery'],
+define(['extendable', 'events/event-manager', 'router', 'jquery', 'logger'],
 
-    function(Extendable, EventManager, Router, $) {
+    function(Extendable, EventManager, Router, $, Logger) {
 
     /**
      * @class It has a list of all the {@link Page} instances in the application
@@ -16,13 +16,14 @@ define(['extendable', 'events/event-manager', 'router', 'jquery'],
      */
     function PageManager(p_params) {
         this.name = p_params.name;
+        this.log = new Logger(this.name);
         this.router = p_params.router;
 
         this.publicPages = [];
         this.protectedPages = [];
         this._setPages(p_params.pages);
 
-        this.events = new EventManager(this.name, this);
+        this.events = new EventManager(this.log.name, this);
         this.events.listen({
             'logged-in': function(p_user) {
                 this._registerPages(this.protectedPages);
@@ -48,6 +49,10 @@ define(['extendable', 'events/event-manager', 'router', 'jquery'],
         _setPages: function(p_pages) {
             for (var i in p_pages) {
                 var page = p_pages[i];
+                if (!page || !page.name) {
+                    this.log.warn('skipped page, it was not defined properly');
+                    continue;
+                }
 
                 if (page.requireLogin) this.protectedPages.push(page);
                 else this.publicPages.push(page);

@@ -31,7 +31,7 @@ define(['events/event-manager', 'jquery'], function(EventManager, $) {
 
         var $title = $('<strong>').text(p_title);
         var $msg = $('<span>').text(p_msg);
-        var $text = $('<p>').append($title).append($msg);
+        var $text = $('<p>').append($title).append('&nbsp;').append($msg);
 
         $el.append($button).append($text).appendTo('#messages-mod');
     }

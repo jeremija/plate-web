@@ -16,7 +16,7 @@ define(['templates/page', 'knockout', 'singletons'],
                     url: '/companies/find',
                     success: function(p_status, response) {
                         if (!response) return; //todo report error
-                        vm.companies(response.data);
+                        vm.companies(response);
                     },
                     fail: function(p_status, errorThrown) {
 

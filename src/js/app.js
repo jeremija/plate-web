@@ -10,13 +10,15 @@ require([
     'templates/page-binder',
     'templates/page-definitions',
 
-    'ui/knockout-extend',
+
     'ui/menu',
     'ui/loading',
     'ui/loading-listener',
     'net/authentication',
     'modules/messages-mod',
-    'modules/user-mod'
+    'modules/user-mod',
+
+    'ko-bindings/index'
     ],
     function(
         $,

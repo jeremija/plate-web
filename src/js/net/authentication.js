@@ -40,19 +40,12 @@ define(['jquery', 'events/event-manager', 'singletons', 'logger'],
                 url: '/login',
                 data: p_credentials,
                 success: function(textStatus, res) {
-                    if (res.error) {
-                        log.debug('wrong username or password');
-                        // notify wrong password error
-                        events.dispatch('error', 'error.login.credentials');
-                        return;
-                    }
                     log.debug('user logged in!');
                     // notify logged on user
-                    events.dispatch('logged-in', res.data);
+                    events.dispatch('logged-in', res);
                 },
-                error: function() {
-                    log.error('error while logging in');
-                    events.dispatchError('error.server.login');
+                error: function(textStatus, error) {
+                    log.error('error while logging in', error);
                 },
                 noEvents: true
             });
