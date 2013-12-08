@@ -32,6 +32,9 @@ var tests = [
     // events
     'test/js/events/event-manager-test',
 
+    // ko-bindings
+    'test/js/ko-bindings/localize-test',
+
     // modules
     'test/js/modules/user-mod-test',
     'test/js/modules/messages-mod-test',

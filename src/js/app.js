@@ -10,6 +10,7 @@ require([
     'templates/page-binder',
     'templates/page-definitions',
 
+    'ui/knockout-extend',
     'ui/menu',
     'ui/loading',
     'ui/loading-listener',
