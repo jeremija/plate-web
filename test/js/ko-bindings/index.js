@@ -1,1 +1,0 @@
-require(['ko-bindings/localize-test']);
