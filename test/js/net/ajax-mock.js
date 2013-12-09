@@ -13,22 +13,27 @@ define(['net/ajax'], function(Ajax) {
 
     // mock main ajax function
     Ajax.prototype._ajaxRequest = function(p_params, p_type) {
-        var type = (p_type === 'GET' || p_type === 'POST') ? p_type : 'GET';
 
-        var urlMock = mocks[p_type][p_params.url];
-        var status;
-        if (!urlMock) {
-            status = 'error';
-            p_params.error(status, 'NOT FOUND');
-        }
-        else {
-            status = 'success';
-            var data = p_params.data ? JSON.stringify(p_params.data) : 'undefined';
+        setTimeout(function() {
+            var type = (p_type === 'GET' || p_type === 'POST') ? p_type : 'GET';
 
-            var mockedData = urlMock[data];
-            p_params.success(status, mockedData);
-        }
-        p_params.complete(status);
+            var urlMock = mocks[p_type][p_params.url];
+            var status;
+            if (!urlMock) {
+                status = 'error';
+                p_params.error(status, 'NOT FOUND');
+            }
+            else {
+                status = 'success';
+                var data = p_params.data ?
+                    JSON.stringify(p_params.data) : 'undefined';
+
+                var mockedData = urlMock[data];
+                p_params.success(status, mockedData);
+            }
+            p_params.complete(status);
+        });
+
     };
 
     Ajax.prototype.mockRequest = function(p_url, p_data, p_type, p_response) {

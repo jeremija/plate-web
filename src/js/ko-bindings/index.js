@@ -1,1 +1,1 @@
-require(['ko-bindings/localize']);
+require(['ko-bindings/localize', 'ko-bindings/form-state']);

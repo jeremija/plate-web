@@ -37,6 +37,7 @@ var tests = [
 
     // ko-bindings
     'test/js/ko-bindings/localize-test',
+    'test/js/ko-bindings/form-state-test',
 
     // modules
     'test/js/modules/user-mod-test',

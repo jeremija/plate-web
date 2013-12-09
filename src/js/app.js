@@ -3,6 +3,7 @@
 //     function($, Router, PageLoader, Page, singletons, Logger, EventManager) {
 require([
     'jquery',
+    'bootstrap',
     'logger',
     'templates/template-loader',
     'templates/page-manager',
@@ -22,6 +23,7 @@ require([
     ],
     function(
         $,
+        bootstrap,
         Logger,
         TemplateLoader,
         PageManager,
@@ -39,9 +41,6 @@ require([
     var log = new Logger('app');
 
     function onReady() {
-        // initialize bootstrap
-        require(['bootstrap']);
-
         var loadingListener = new LoadingListener({
             name: 'app',
             loading: new Loading({

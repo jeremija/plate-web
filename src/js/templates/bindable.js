@@ -8,6 +8,7 @@ define(['extendable', 'jquery', 'logger', 'knockout', 'events/event-manager',
      * @extends {Extendable}
      * @param {Object} p_params              Configuration object
      * @param {String} p_params.name         Identification
+     * @param {String} p_params.title        Title key
      * @param {Object} p_params.viewModel    ViewModel object to bind to the
      * @param {Object} p_params.events       Events to listen to. The
      * `locale-changed` event will be listened automatically
@@ -22,6 +23,7 @@ define(['extendable', 'jquery', 'logger', 'knockout', 'events/event-manager',
         this.bindingsApplied = false;
 
         this.name = p_params.name;
+        // this.title = ko.observable(p_params.title);
         this.viewModel = p_params.viewModel || {};
         this.viewModel.locale = ko.observable(culture.locale);
 

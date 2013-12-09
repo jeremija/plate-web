@@ -37,6 +37,10 @@ define(['data/model', 'singletons', 'knockout'],
                     postUrl: '/model-wrong-url/save',
                     data: initialData,
                     form: {
+                        a: new Model.FormElement({
+                            value: ko.observable(),
+                            path: 'a'
+                        }),
                         cd: new Model.FormElement({
                             value: ko.observable(),
                             path: 'c.d'
@@ -55,14 +59,17 @@ define(['data/model', 'singletons', 'knockout'],
                 expect(model.load).to.be.a('function');
             });
             it('should fail to load data', function(done) {
+                expect(model.state()).to.be('idle');
                 model.load({
                     id: 123,
                 }, function(p_err, p_data) {
                     expect(p_err instanceof Error).to.be(true);
                     expect(p_data).to.not.be.ok();
                     expect(model.data()).to.be(initialData);
+                    expect(model.state()).to.be('load-error');
                     done();
                 });
+                expect(model.state()).to.be('loading');
             });
             it('should load data', function(done) {
                 model.getUrl = '/model/load';
@@ -74,8 +81,10 @@ define(['data/model', 'singletons', 'knockout'],
                     expect(p_data).to.be(mockedGet);
                     expect(model.data()).to.be(p_data);
                     expect(model.form.cd.value()).to.be(3);
+                    expect(model.state()).to.be('loaded');
                     done();
                 });
+                expect(model.state()).to.be('loading');
             });
         });
         describe('change form data', function() {
@@ -98,8 +107,10 @@ define(['data/model', 'singletons', 'knockout'],
                     expect(p_data).to.not.be.ok();
                     // not changed
                     expect(model.data()).to.be(previousData);
+                    expect(model.state()).to.be('save-error');
                     done();
                 });
+                expect(model.state()).to.be('saving');
             });
             it('should save data and update model', function(done) {
                 model.postUrl = '/model/save';
@@ -113,8 +124,26 @@ define(['data/model', 'singletons', 'knockout'],
                     expect(p_data).to.be(mockedGet);
                     expect(model.data()).to.be(p_data);
                     expect(p_data.c.d).to.be(4);
+                    expect(model.state()).to.be('saved');
                     done();
                 });
+                expect(model.state()).to.be('saving');
+            });
+        });
+        describe('clear()', function() {
+            it('should clear the data and the observables', function() {
+                model.form.a.value('0');
+                model.clear();
+
+                var data = model.data();
+                expect(data).to.have.property('c');
+                expect(data.c.d).to.be(undefined);
+                expect(model.form.a.value()).to.be(undefined);
+                expect(model.form.cd.value()).to.be(undefined);
+
+                model.form.cd.value('123');
+                expect(data.c.d).to.be('123');
+                expect(model.state()).to.be('idle');
             });
         });
     });

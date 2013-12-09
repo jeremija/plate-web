@@ -53,14 +53,18 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
          * @param  {Object} p_params parameters
          * @param {Function} p_params.complete   A function to be called when
          * the request finishes.
+         * @param {String} p_params.url          Url
+         * @param {Object} p_params.data         Data to be sent to the server.
          * @param {Function} p_params.success    Success callback
          * @param {Function} p_params.error      Error callback
-         * @param {Object} p_params.data         Data to be sent to the server.
-         * @param {String} p_params.url          Url
-         * @param {String} p_params.noEvents     If true, do not dispatch the
+         * @param {Function} p_params.complete   A function to be called when
+         * the request finishes.
+         * @param {String} p_params.noEvents     If true, does not dispatch the
          * `ajax-start` and `ajax-end` events
          * @fires EventManager#ajax-start        Before ajax request is placed
          * @fires EventManager#ajax-end          After ajax request completes
+         * @fires EventManager#msg-error         If an error ocurrs (regardless
+         * of the noEvents setting)
          */
         get: function(p_params) {
             this._ajaxRequest(p_params, 'GET');
@@ -70,12 +74,16 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
          * @param  {Object} p_params parameters
          * @param {String} p_params.url          Url
          * @param {Object} p_params.data         Data to be sent to the server.
-         * the request finishes.
          * @param {Function} p_params.success    Success callback
          * @param {Function} p_params.error      Error callback
          * @param {Function} p_params.complete   A function to be called when
+         * the request finishes.
+         * @param {String} p_params.noEvents     If true, does not dispatch the
+         * `ajax-start` and `ajax-end` events
          * @fires EventManager#ajax-start        Before ajax request is placed
          * @fires EventManager#ajax-end          After ajax request completes
+         * @fires EventManager#msg-error         If an error ocurrs (regardless
+         * of the noEvents setting)
          */
         post: function(p_params) {
             this._ajaxRequest(p_params, 'POST');
@@ -113,6 +121,7 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
 
                     var data = this._getErrorData(jqXHR);
                     if (data.error && data.error.key) {
+                        this.log.error('received an error res:', data.error);
                         this.events.dispatch('msg-error', data.error.key);
                     }
 

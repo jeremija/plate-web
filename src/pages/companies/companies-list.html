@@ -1,15 +1,23 @@
 <h1>Companies</h1>
-<table class="table">
+<table class="table table-striped">
 	<thead>
 		<tr>
+			<th>#</th>
 			<th>Name</th>
 			<th>Oib</th>
+			<th>Action</th>
 		</tr>
 	</thead>
 	<tbody data-bind="foreach: companies">
 		<tr>
-			<td data-bind="text: name"></td>
-			<td data-bind="text: oib"></td>
+			<td data-bind="text: $index() + 1">
+			<td>
+				<a data-bind="attr: {href: '#/companies/edit/' + shortId}, text: $data.name"></a>
+			</td>
+			<td data-bind="text: $data.oib"></td>
+			<td>
+				<a class="link" data-bind="click: $root.remove">Delete</a>
+			</td>
 		</tr>
 	</tbody>
 </table>

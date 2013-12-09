@@ -1,10 +1,23 @@
-define(['templates/page', 'knockout', 'singletons'],
-    function(Page, ko, singletons, authentication) {
+define(['templates/page', 'knockout', 'singletons', 'jquery'],
+    function(Page, ko, singletons, $) {
 
     var ajax = singletons.ajax;
 
     var vm = {
-        companies: ko.observableArray()
+        companies: ko.observableArray(),
+        remove: function(p_company) {
+            var shortId = p_company.shortId;
+            ajax.post({
+                url: '/companies/delete',
+                data: {
+                    shortId: shortId
+                },
+                success: function(p_status, response) {
+                    vm.companies.remove(p_company);
+                },
+                noEvents: true
+            });
+        }
     };
 
     var page = new Page({
@@ -18,11 +31,9 @@ define(['templates/page', 'knockout', 'singletons'],
                         if (!response) return; //todo report error
                         vm.companies(response);
                     },
-                    fail: function(p_status, errorThrown) {
-
-                    }
+                    noEvents: true
                 });
-            }
+            },
         }
     });
 

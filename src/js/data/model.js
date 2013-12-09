@@ -7,7 +7,7 @@ define(['knockout', 'extendable', 'singletons', 'util/traversal'],
      *
      * @param {Object} p_params Configuration object
      * @param {Observable} p_params.value     If defined, must be an Observable.
-     * @param {String}    p_params.path       Path to the property in the data
+     * @param {String}     p_params.path       Path to the property in the data
      * object.
      */
     function FormElement(p_params) {
@@ -42,12 +42,18 @@ define(['knockout', 'extendable', 'singletons', 'util/traversal'],
          * Raw data
          * @type {Observable}
          */
-        this.data = ko.observable(p_params.data);
+        this.data = ko.observable(p_params.data || {});
         /**
          * Object of observables which can be used for direct binding
-         * @type {Object}
+         * @type {FormElement}
          */
         this.form = p_params.form || {};
+        /**
+         * State of the model. Can be one of the following:
+         * 'loading', 'loaded', 'saving', 'saved', 'save-error', 'load-error'
+         * @type {Observable}
+         */
+        this.state = ko.observable('idle');
         this._subscribe();
     }
 
@@ -68,7 +74,7 @@ define(['knockout', 'extendable', 'singletons', 'util/traversal'],
                 obj.value.subscribe(createSubscribeCallback(obj.path));
             }
         },
-        _postLoad: function() {
+        _resetObservables: function() {
             var data = this.data();
             var form = this.form;
 
@@ -96,6 +102,8 @@ define(['knockout', 'extendable', 'singletons', 'util/traversal'],
          * @private
          */
         _sendRequest: function(p_type, p_url, p_data, p_callback) {
+            this.state(p_type === 'post' ? 'saving' : 'loading');
+
             if (typeof p_url !== 'string') {
                 throw new Error('wrong url ' + p_url);
             }
@@ -106,22 +114,23 @@ define(['knockout', 'extendable', 'singletons', 'util/traversal'],
                 url: p_url,
                 data: p_data,
                 error: function(textStatus, errorThrown) {
+                    self.state(p_type === 'post' ? 'save-error' : 'load-error');
                     var err = new Error(textStatus + ': ' + errorThrown);
                     if (p_callback) {
                         p_callback.call(self, err);
                     }
                 },
                 success: function(textStatus, p_data) {
-                    //TODO check if p_data.error or p_data.data
+                    self.state(p_type === 'post' ? 'saved' : 'loaded');
                     self.data(p_data);
-                    self._postLoad();
+                    self._resetObservables();
                     if (p_callback) {
                         p_callback.call(self, undefined, p_data);
                     }
                 },
                 complete: function(textStatus) {
-                    // do nothing
-                }
+                },
+                noEvents: true
             });
         },
         /**
@@ -147,6 +156,11 @@ define(['knockout', 'extendable', 'singletons', 'util/traversal'],
         },
         loadRest: function(p_key, p_callback) {
             this._sendRequest('get', this.getUrl + '/' + p_key, p_callback);
+        },
+        clear: function() {
+            this.data({});
+            this._resetObservables();
+            this.state('idle');
         }
     };
 

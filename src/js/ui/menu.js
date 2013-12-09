@@ -11,7 +11,6 @@ define(['jquery', 'events/event-manager', 'logger'],
         }
     });
 
-    // var $MENU = $('#menu .nav');
     /**
      * Object with util functions for the menu
      * @exports menu
@@ -30,9 +29,6 @@ define(['jquery', 'events/event-manager', 'logger'],
          */
         markCurrentMenuItem: function(request) {
             var $a = $('#menu .nav a');
-            // var $a = $MENU.find('a');
-
-            this._unmarkAll($a);
 
             if (request === '') return;
 
@@ -48,9 +44,8 @@ define(['jquery', 'events/event-manager', 'logger'],
                 }
             });
 
-            // this._unmarkAll($a);
-
             if ($activeLi && $activeLi.length) {
+                this._unmarkAll($a);
                 // mark the active
                 $activeLi.addClass('active');
             }
