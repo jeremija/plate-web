@@ -11,7 +11,7 @@
 		<tr>
 			<td data-bind="text: $index() + 1">
 			<td>
-				<a data-bind="attr: {href: '#/companies/edit/' + shortId}, text: $data.name"></a>
+				<a class="link" data-bind="subpage: 'companies/edit/' + shortId, text: $data.name"></a>
 			</td>
 			<td data-bind="text: $data.oib"></td>
 			<td>

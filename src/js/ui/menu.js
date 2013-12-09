@@ -28,7 +28,7 @@ define(['jquery', 'events/event-manager', 'logger'],
          * @param  {String} request hash string afte the '#/'
          */
         markCurrentMenuItem: function(request) {
-            var $a = $('#left-menu .nav a');
+            var $a = $('#menu .nav a');
 
             if (request === '') return;
 

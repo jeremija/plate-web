@@ -1,6 +1,12 @@
 define(['events/event-manager', 'knockout', 'templates/bindable'],
     function(EventManager, ko, Bindable) {
 
+    /**
+     * Set the breadcrumbs
+     * @event EventManager#breadcrumbs-set
+     * @param {Array} p_routes     An array of Strings
+     */
+
     var bcArray = [];
 
     function setLastBcActive(p_active) {
@@ -17,26 +23,20 @@ define(['events/event-manager', 'knockout', 'templates/bindable'],
         name: 'breadcrumbs-mod',
         viewModel: vm,
         events: {
-            'breadcrumb-add': function(p_breadcrumb) {
-                if (p_breadcrumb.title === 'bc.') {
-                    // do not display breadcrumb for homepage
-                    return;
-                }
-                setLastBcActive(false);
-
-                p_breadcrumb.active = ko.observable(true);
-                this.viewModel.breadcrumbs.push(p_breadcrumb);
-            },
-            'breadcrumb-remove': function(p_breadcrumb) {
-                this.viewModel.breadcrumbs.remove(p_breadcrumb);
-                setLastBcActive(true);
-            },
-            'breadcrumb-pop': function() {
-                this.viewModel.breadcrumbs.pop();
-                setLastBcActive(true);
-            },
-            'breadcrumbs-removeAll': function() {
+            'breadcrumbs-set': function(p_routes) {
                 this.viewModel.breadcrumbs.removeAll();
+                var addedRoutes = [];
+                for (var i in p_routes) {
+                    var route = p_routes[i];
+                    // skip homepage
+                    if (route.literal === '') continue;
+
+                    addedRoutes.push(route.literal);
+                    this.viewModel.breadcrumbs.push({
+                        title: 'bc.' + route.abstract,
+                        href: '#/' + addedRoutes.join('#'),
+                    });
+                }
             }
         },
         visible: true

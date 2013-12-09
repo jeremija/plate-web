@@ -38,6 +38,7 @@ var tests = [
     // ko-bindings
     'test/js/ko-bindings/localize-test',
     'test/js/ko-bindings/form-state-test',
+    'test/js/ko-bindings/subpage-test',
 
     // modules
     'test/js/modules/breadcrumbs-mod-test',

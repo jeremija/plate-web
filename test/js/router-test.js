@@ -80,6 +80,31 @@ define(['jquery', 'router', 'crossroads', 'hasher', 'events/event-manager',
                 events.dispatch('redirect', 'page/a-page/edit/123');
             });
         });
+        describe('`subpage` event for `page/a-page/new#page/a-page/edit/123',
+            function(done) {
+
+            it('should emit `page-route-found` for `....edit/123`', function(done) {
+                events.listen({
+                    'page-route-found': function(data) {
+                        expect(data).to.be.ok();
+                        expect(data.page).to.be(page);
+                        expect(data.routeUrl).to.be('page/a-page/edit/{id}');
+                        expect(data.routeArgs).to.be.an('array');
+                        expect(data.routeArgs.length).to.be(1);
+                        expect(data.routeArgs[0]).to.be('123');
+                        expect(data.routesPath).to.be.ok();
+                        expect(data.routesPath.literal).to.be(
+                            'route1#route2#route3#page/a-page/edit/123');
+                        expect(data.routesPath.abstract).to.be(
+                            'route1#route2#route3#page/a-page/edit/{id}');
+                        done();
+                    }
+                });
+                router.routesPath.literal = 'route1#route2#route3';
+                router.routesPath.abstract = 'route1#route2#route3';
+                events.dispatch('subpage', 'page/a-page/edit/123');
+            });
+        });
         describe('unregisterPage()', function() {
             it('should unregister a page', function() {
                 router.unregisterPage(page);

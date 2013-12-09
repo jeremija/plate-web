@@ -12,26 +12,31 @@ define(['modules/breadcrumbs-mod', 'knockout', 'templates/bindable'],
                 breadcrumbsArray = breadcrumbsMod.viewModel.breadcrumbs();
             });
         });
-        var bc1 = {}, bc2 = {};
-        describe('`breadcrumb-add` event', function() {
+        var routes = [{
+            literal: 'route/1',
+            abstract: 'route/{id}'
+        }, {
+            literal: 'route2',
+            abstract: 'route2'
+        }, {
+            literal: 'route/3/4',
+            abstract: 'route/{page1}/{page2}'
+        }];
+        describe('`breadcrumbs-set` event', function() {
             it('should add breadcrumb', function() {
-                events.dispatch('breadcrumb-add', bc1);
-                expect(breadcrumbsArray.length).to.be(1);
-                expect(breadcrumbsArray[0]).to.be(bc1);
+                events.dispatch('breadcrumbs-set', routes);
+                expect(breadcrumbsArray.length).to.be(3);
 
-                events.dispatch('breadcrumb-add', bc2);
-                expect(breadcrumbsArray.length).to.be(2);
-                expect(breadcrumbsArray[1]).to.be(bc2);
-            });
-        });
-        describe('`breadcrumb-remove` event', function() {
-            it('should remove breadcrumb', function() {
-                events.dispatch('breadcrumb-remove', bc1);
-                expect(breadcrumbsArray.length).to.be(1);
-                expect(breadcrumbsArray[0]).to.be(bc2);
+                expect(breadcrumbsArray[0].href).to.be('#/route/1');
+                expect(breadcrumbsArray[0].title).to.be('bc.route/{id}');
 
-                events.dispatch('breadcrumb-remove', bc2);
-                expect(breadcrumbsArray.length).to.be(0);
+                expect(breadcrumbsArray[1].href).to.be('#/route/1#route2');
+                expect(breadcrumbsArray[1].title).to.be('bc.route2');
+
+                expect(breadcrumbsArray[2].href)
+                    .to.be('#/route/1#route2#route/3/4');
+                expect(breadcrumbsArray[2].title)
+                    .to.be('bc.route/{page1}/{page2}');
             });
         });
     });

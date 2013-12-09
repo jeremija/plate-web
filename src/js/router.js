@@ -5,10 +5,12 @@ define(['extendable', 'crossroads', 'hasher', 'logger', 'events/event-manager',
 
     /**
      * @event EventManager#page-route-found
-     * @param {Object} params              Event object
-     * @param {Page}   params.page         Page instance
-     * @param {String} params.routeUrl     Url of the route
-     * @param {Array}  params.routeArgs    Arguments for the route
+     * @param {Object} params                   Event object
+     * @param {Page}   params.page              Page instance
+     * @param {String} params.routeUrl          Url of the route
+     * @param {Array}  params.routeArgs         Arguments for the route
+     * @param {Object} params.routesPath        Routes path object containing
+     * literal and abstract route
      */
 
     /**
@@ -19,6 +21,12 @@ define(['extendable', 'crossroads', 'hasher', 'logger', 'events/event-manager',
     /**
      * @event EventManager#redirect
      * @param {String} p_url               The url to redirect to
+     */
+
+    /**
+     * @event EventManager#subpage
+     * @param {String} p_url               The url to redirect to, but the
+     * current page will be remebered as the parent page
      */
 
     /**
@@ -40,13 +48,30 @@ define(['extendable', 'crossroads', 'hasher', 'logger', 'events/event-manager',
             'redirect': function(p_url) {
                 this.log.debug('redirecting to `' + p_url + '`');
                 this.go(p_url);
+            },
+            'subpage': function(p_url) {
+                var url = this.routesPath.literal + '#' + p_url;
+                this.log.debug('redirecting to `' + url + '`');
+                this.go(url);
             }
         });
 
         this.urlBindings = {};
-        this.lastUrl = undefined;
 
         this.initialized = false;
+        /**
+         * The full route path
+         * @type {Object}
+         */
+        this.routesPath = {
+            abstract: '',
+            literal: ''
+        };
+        /**
+         * Last routed url
+         * @type {String}
+         */
+        this.lastUrl = undefined;
     }
 
     var RouterPrototype = /** @lends Router.prototype */ {
@@ -83,8 +108,12 @@ define(['extendable', 'crossroads', 'hasher', 'logger', 'events/event-manager',
             }, this);
         },
         _setupHasher: function() {
+            var self = this;
             function parseHash(newHash, oldHash) {
-                crossroads.parse(newHash);
+                var routes = newHash.split('#');
+                self.routesPath.literal = newHash;
+                self.routesPath.abstract = self._getAbstractUrls(routes);
+                crossroads.parse(routes[routes.length - 1]);
             }
             this._hasherInitializedBinding = hasher.initialized.add(parseHash);
             this._hasherChangedBinding = hasher.changed.add(parseHash);
@@ -113,7 +142,8 @@ define(['extendable', 'crossroads', 'hasher', 'logger', 'events/event-manager',
                 this.events.dispatch('page-route-found', {
                     page: p_page,
                     routeUrl: p_routeUrl,
-                    routeArgs: [].slice.call(arguments)
+                    routeArgs: [].slice.call(arguments),
+                    routesPath: this.routesPath
                 });
             }, this);
 
@@ -121,6 +151,26 @@ define(['extendable', 'crossroads', 'hasher', 'logger', 'events/event-manager',
                 route: route,
                 page: p_page
             };
+        },
+        _getAbstractUrl: function(p_routeUrl) {
+            for (var abstractUrl in this.urlBindings) {
+                var urlBinding = this.urlBindings[abstractUrl];
+                var route = urlBinding.route;
+                if (route.match(p_routeUrl)) {
+                    return abstractUrl;
+                }
+            }
+            return false;
+        },
+        _getAbstractUrls: function(p_routes) {
+            var url = '';
+            for (var i in p_routes) {
+                var route = p_routes[i];
+                if (url.length) url += '#';
+                var abstractUrl = this._getAbstractUrl(route);
+                url += abstractUrl ? abstractUrl : route;
+            }
+            return url;
         },
         _unregisterUrl: function(p_routeUrl) {
             var urlBinding = this.urlBindings[p_routeUrl];
