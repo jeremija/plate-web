@@ -24,50 +24,28 @@
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav" id="left-menu">
-				<li><a href="#/page1">Page 1</a></li>
-				<li><a href="#/page2">Page 2</a></li>
+			<ul class="nav navbar-nav" id="main-menu-mod">
+				<li><a href="#/page1" data-bind="localize: 'bc.page1'">Page 1</a></li>
 
 				<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Companies <b class="caret"></b></a>
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+						<span data-bind="localize: 'menu.companies'">Companies</span><b class="caret"></b>
+					</a>
 
 					<ul class="dropdown-menu">
-						<li><a href="#/companies/new">New</a></li>
-						<li><a href="#/companies/list">List</a></li>
+						<li><a href="#/companies/new" data-bind="localize: 'bc.companies/new'">New</a></li>
+						<li><a href="#/companies/list" data-bind="localize: 'bc.companies/list'">List</a></li>
 					</ul>
 				</li>
 
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-					<ul class="dropdown-menu">
-						<li><a href="#/page4">Page 4</a></li>
-						<li><a href="#">Something else here</a></li>
-						<li class="divider"></li>
-						<li><a href="#">Separated link</a></li>
-						<li class="divider"></li>
-						<li><a href="#">One more separated link</a></li>
-					</ul>
-				</li>
 			</ul>
 			<div class="navbar-right" id="user-mod">
-				<!-- languages selector -->
-				<ul class="nav navbar-nav">
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Language <b class="caret"></b></a>
-						<ul class="dropdown-menu" data-bind="foreach: cultures">
-							<li data-bind="css: {active: $root.isActiveLocale($data)}">
-								<a data-bind="click: $root.changeLocale, text: $data.name"></a>
-							</li>
-						</ul>
-					</li>
-				</ul>
-				<!-- end of languages selector -->
 				<form class="navbar-form hidden" data-bind="submit: login, css: {hidden: $data.loggedIn()}">
 					<div class="form-group">
-						<input type="email" class="form-control" placeholder="email" data-bind="value: form.email">
+						<input type="email" class="form-control" data-bind="value: form.email, placeholder: 'menu.email'">
 					</div>
 					<div class="form-group">
-						<input type="password" class="form-control" placeholder="password" data-bind="value: form.password">
+						<input type="password" class="form-control" data-bind="value: form.password, placeholder: 'menu.password'">
 					</div>
 					<button type="submit" class="btn btn-default hidden-submit">Submit</button>
 				</form>
@@ -77,10 +55,7 @@
 							<span data-bind="text: $data.email"></span><b class="caret"></b>
 						</a>
 						<ul class="dropdown-menu">
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else here</a></li>
-							<li class="divider"></li>
-							<li><a href="#" data-bind="click: $data.logout">Logout</a></li>
+							<li><a href="#" data-bind="click: $data.logout, localize: 'menu.logout'">Logout</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -90,6 +65,8 @@
 
 	<!--<h1>This is the site</h1>-->
 	<div class="container">
+		<div id="messages-mod">
+		</div>
 
 		<ol id="breadcrumbs-mod" class="breadcrumb">
 			<li><a href="#/" data-bind="localize: 'bc.home'"></a></li>
@@ -97,20 +74,17 @@
 			<li><a data-bind="attr: {href: $data.href}, localize: $data.title"></a></li>
 			<!-- /ko -->
 		</ol>
-		<div id="messages-mod">
-			<!--<div id="messages-success" class="alert alert-success"></div>
-			<div id="messages-info" class="alert alert-info"></div>
-			<div id="messages-warning" class="alert alert-warning">
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-  				<strong>Warning!</strong> Best check yo self, you're not looking too good.
-			</div>
-			<div id="messages-error" class="alert alert-danger"></div>-->
-		</div>
 		<div id="pages">
 			<div id="loading">
 				<div class="animation"></div>
 			</div>
 			<!-- pages will be dynamically loaded here -->
+		</div>
+
+		<div>
+			<div id="language-mod" class="pull-right" data-bind="foreach: cultures">
+				<a class="link" data-bind="click: $root.changeLocale, text: $data.name"></a>
+			</div>
 		</div>
 	</div>
 </body>

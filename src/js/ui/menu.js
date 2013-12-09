@@ -30,6 +30,8 @@ define(['jquery', 'events/event-manager', 'logger'],
         markCurrentMenuItem: function(request) {
             var $a = $('#menu .nav a');
 
+            this._unmarkAll($a);
+
             if (request === '') return;
 
             var matcher = new RegExp('#\/' + request);
@@ -44,7 +46,6 @@ define(['jquery', 'events/event-manager', 'logger'],
                 }
             });
 
-            this._unmarkAll($a);
 
             if ($activeLi && $activeLi.length) {
                 // mark the active

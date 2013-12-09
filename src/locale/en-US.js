@@ -7,6 +7,11 @@ define(['globalize', '../locale/globalize.culture.en-US'],
 
             'error.validation': 'Error while validation the data',
 
+            'menu.companies': 'Companies',
+            'menu.logout': 'Log out',
+            'menu.email': 'E-Mail',
+            'menu.password': 'Zaporka',
+
             'bc.home': 'Home',
             'bc.page1': 'Page 1',
             'bc.page2': 'Page 2',
@@ -14,6 +19,14 @@ define(['globalize', '../locale/globalize.culture.en-US'],
             'bc.companies/new': 'New Company',
             'bc.companies/edit/{shortId}': 'Edit Company',
             'bc.companies/list': 'Companies List',
+
+            'common.action': 'Action',
+            'common.delete': 'Delete',
+            'common.save': 'Save',
+
+            'companies.name': 'Name',
+            'companies.oib': 'Oib',
+
         }
     });
 });

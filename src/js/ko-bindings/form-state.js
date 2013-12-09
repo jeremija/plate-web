@@ -33,6 +33,15 @@ define(['knockout', 'jquery'], function(ko, $) {
 
             iconElement.className = iconStateMap[state] || 'glyphicon';
 
+            if (state === 'load-error' || state === 'save-error') {
+                $el.removeClass('btn-success');
+                $el.addClass('btn-danger');
+            }
+            else {
+                $el.removeClass('btn-danger');
+                $el.addClass('btn-success');
+            }
+
             switch(state) {
                 case 'saved':
                     element.timeout = window.setTimeout(function() {

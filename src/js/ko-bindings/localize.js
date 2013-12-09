@@ -38,7 +38,7 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
     ko.bindingHandlers.placeholder = {
         update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
             var text = getLocalizedText(valueAccessor);
-            $(element).placeholder(text);
+            element.placeholder = text;
         }
     };
 });

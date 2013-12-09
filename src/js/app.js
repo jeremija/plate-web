@@ -17,9 +17,13 @@ require([
     'ui/loading-listener',
     'ui/culture',
     'net/authentication',
-    'modules/breadcrumbs-mod',
-    'modules/messages-mod',
-    'modules/user-mod',
+
+    'modules/index',
+    // 'modules/breadcrumbs-mod',
+    // 'modules/messages-mod',
+    // 'modules/user-mod',
+    // 'modules/language-mod',
+    // 'modules/main-menu-mod',
 
     'ko-bindings/index'
     ],
@@ -39,9 +43,11 @@ require([
         LoadingListener,
         culture,
         authentication,
-        breadcrumbsMod,
-        messagesMod,
-        userMod) {
+
+        modulesIndex,
+
+        koBindingsIndex
+        ) {
 
     var log = new Logger('app');
 
@@ -54,11 +60,6 @@ require([
                 hideDelay: 100
             })
         });
-
-        // initialize static modules
-        userMod.bind(document.getElementById('user-mod'));
-        breadcrumbsMod.bind(document.getElementById('breadcrumbs-mod'));
-        messagesMod.listen();
 
         // initialize managers
         breadcrumbsManager.listen();
@@ -91,6 +92,9 @@ require([
             router: router
         });
 
+        setTimeout(function() {
+            $('body').fadeIn()
+        }, 25);
         log.debug('started');
     }
 

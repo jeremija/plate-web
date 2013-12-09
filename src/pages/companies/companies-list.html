@@ -2,9 +2,9 @@
 	<thead>
 		<tr>
 			<th>#</th>
-			<th>Name</th>
-			<th>Oib</th>
-			<th>Action</th>
+			<th data-bind="localize: 'companies.name'"></th>
+			<th data-bind="localize: 'companies.oib'">Oib</th>
+			<th data-bind="localize: 'common.action'">Action</th>
 		</tr>
 	</thead>
 	<tbody data-bind="foreach: companies">
@@ -15,7 +15,7 @@
 			</td>
 			<td data-bind="text: $data.oib"></td>
 			<td>
-				<a class="link" data-bind="click: $root.remove">Delete</a>
+				<a class="link" data-bind="click: $root.remove, localize: 'common.delete'"></a>
 			</td>
 		</tr>
 	</tbody>
