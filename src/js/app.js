@@ -10,12 +10,14 @@ require([
     'router',
     'templates/page-binder',
     'templates/page-definitions',
-
+    'templates/breadcrumbs-manager',
 
     'ui/menu',
     'ui/loading',
     'ui/loading-listener',
+    'ui/culture',
     'net/authentication',
+    'modules/breadcrumbs-mod',
     'modules/messages-mod',
     'modules/user-mod',
 
@@ -30,11 +32,14 @@ require([
         Router,
         PageBinder,
         pageDefinitions,
+        breadcrumbsManager,
 
         menu,
         Loading,
         LoadingListener,
+        culture,
         authentication,
+        breadcrumbsMod,
         messagesMod,
         userMod) {
 
@@ -52,7 +57,11 @@ require([
 
         // initialize static modules
         userMod.bind(document.getElementById('user-mod'));
+        breadcrumbsMod.bind(document.getElementById('breadcrumbs-mod'));
         messagesMod.listen();
+
+        // initialize managers
+        breadcrumbsManager.listen();
 
         // initialize module for loading templates
         var templateLoader = new TemplateLoader({

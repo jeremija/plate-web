@@ -1,1 +1,1 @@
-require(['ko-bindings/localize', 'ko-bindings/form-state']);
+define(['ko-bindings/localize', 'ko-bindings/form-state'], function() {});

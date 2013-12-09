@@ -5,11 +5,11 @@ define(['jquery', 'knockout', 'logger', 'templates/bindable'],
      * @class Page
      * @name Page
      * @extends {Bindable}
-     * @param {Object} p_params               Configuration object, see also
+     * @param {Object}  p_params                 Configuration object, see also
      * {@link Bindable} constructor description.
-     * @param {Array} p_params.routes         Array of strings which define
-     * @param {Boolean} p_params.requireLogin Redirect to login if not logged in
-     * module routes
+     * @param {Array}   p_params.routes          Array of strings which define
+     * @param {Boolean} p_params.requireLogin    Redirect to login if not logged
+     * in module routes
      */
     function Page(p_params) {
         this.superclass(p_params);

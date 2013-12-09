@@ -1,5 +1,5 @@
-define(['globalize', 'events/event-manager', 'logger'],
-    function(Globalize, EventManager, Logger) {
+define(['globalize', 'events/event-manager', 'logger', 'singletons'],
+    function(Globalize, EventManager, Logger, singletons) {
 
     var log = new Logger('ui/culture');
 
@@ -16,6 +16,7 @@ define(['globalize', 'events/event-manager', 'logger'],
                 self.locale = p_locale;
                 log.debug('loaded locale ' + p_locale);
                 events.dispatch('locale-changed', p_locale);
+                singletons.storage.save('locale', p_locale);
             }, function(err) {
                 log.error('unable to load locale ' + p_locale, err);
             });
@@ -27,8 +28,10 @@ define(['globalize', 'events/event-manager', 'logger'],
         }
     };
 
+    var locale = singletons.storage.load('locale');
+
     // load default locale
-    // culture.setLocale('en-US');
+    culture.setLocale(locale || 'en-US');
 
     return culture;
 });

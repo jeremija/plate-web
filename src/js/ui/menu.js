@@ -44,8 +44,9 @@ define(['jquery', 'events/event-manager', 'logger'],
                 }
             });
 
+            this._unmarkAll($a);
+
             if ($activeLi && $activeLi.length) {
-                this._unmarkAll($a);
                 // mark the active
                 $activeLi.addClass('active');
             }

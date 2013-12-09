@@ -1,5 +1,5 @@
-define(['templates/bindable', 'knockout', 'singletons', 'net/authentication'],
-    function(Bindable, ko, singletons, authentication) {
+define(['templates/bindable', 'knockout', 'singletons', 'net/authentication', 'ui/culture'],
+    function(Bindable, ko, singletons, authentication, culture) {
 
     var ajax = singletons.ajax;
     var storage = singletons.storage;
@@ -20,6 +20,16 @@ define(['templates/bindable', 'knockout', 'singletons', 'net/authentication'],
                 password: this.form.password()
             });
             this.form.password('');
+        },
+        cultures: ko.observableArray([{
+            name: 'English',
+            code: 'en-US'
+        }, {
+            name: 'Hrvatski',
+            code: 'hr-HR'
+        }]),
+        changeLocale: function(p_locale) {
+            culture.setLocale(p_locale.code);
         }
     };
 

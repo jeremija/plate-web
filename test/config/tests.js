@@ -40,6 +40,7 @@ var tests = [
     'test/js/ko-bindings/form-state-test',
 
     // modules
+    'test/js/modules/breadcrumbs-mod-test',
     'test/js/modules/user-mod-test',
     'test/js/modules/messages-mod-test',
 

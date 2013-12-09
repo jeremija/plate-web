@@ -50,6 +50,16 @@
 				</li>
 			</ul>
 			<div class="navbar-right" id="user-mod">
+				<!-- languages selector -->
+				<ul class="nav navbar-nav">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Language <b class="caret"></b></a>
+						<ul class="dropdown-menu" data-bind="foreach: cultures">
+							<li><a data-bind="click: $root.changeLocale, text: $data.name"></a></li>
+						</ul>
+					</li>
+				</ul>
+				<!-- end of languages selector -->
 				<form class="navbar-form hidden" data-bind="submit: login, css: {hidden: $data.loggedIn()}">
 					<div class="form-group">
 						<input type="email" class="form-control" placeholder="email" data-bind="value: form.email">
@@ -79,6 +89,12 @@
 	<!--<h1>This is the site</h1>-->
 	<div class="container">
 
+		<ol id="breadcrumbs-mod" class="breadcrumb">
+			<li><a href="#/" data-bind="localize: 'bc.home'"></a></li>
+			<!-- ko foreach: $data.breadcrumbs -->
+			<li><a data-bind="attr: {href: $data.href}, localize: $data.title"></a></li>
+			<!-- /ko -->
+		</ol>
 		<div id="messages-mod">
 			<!--<div id="messages-success" class="alert alert-success"></div>
 			<div id="messages-info" class="alert alert-info"></div>

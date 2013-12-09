@@ -1,4 +1,6 @@
-define(['events/event-manager', 'jquery'], function(EventManager, $) {
+define(['events/event-manager', 'jquery', 'ui/culture'],
+    function(EventManager, $, culture) {
+
     var events = new EventManager('ui/messages');
 
     /**
@@ -22,6 +24,8 @@ define(['events/event-manager', 'jquery'], function(EventManager, $) {
      */
 
     function createMessageElement(p_alertType, p_title, p_msg) {
+        var msg = culture.localize(p_msg) || p_msg;
+
         var css = 'alert alert-' + p_alertType + ' alert-dismissable';
         var $el = $('<div>').attr('class', css);
         var $button = $('<button>').attr('class', 'close')
@@ -30,7 +34,7 @@ define(['events/event-manager', 'jquery'], function(EventManager, $) {
             .html('&times;');
 
         var $title = $('<strong>').text(p_title);
-        var $msg = $('<span>').text(p_msg);
+        var $msg = $('<span>').text(msg);
         var $text = $('<p>').append($title).append('&nbsp;').append($msg);
 
         $el.append($button).append($text).appendTo('#messages-mod');

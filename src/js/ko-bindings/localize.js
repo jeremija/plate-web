@@ -3,7 +3,7 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
 
     var events = new EventManager('ko.bindingHandlers.localize');
 
-    var locale = ko.observable(culture.locale);
+    var locale = ko.observable();
     events.listen({
         'locale-changed': function(p_locale) {
             locale(p_locale);
@@ -22,7 +22,7 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
             // make knockout call this handler when this value changes
             var loc = locale();
 
-            var text = culture.localize(key);
+            var text = culture.localize(key) || key;
             $(element).text(text);
         }
     };
