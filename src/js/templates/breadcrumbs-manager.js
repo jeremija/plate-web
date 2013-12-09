@@ -1,12 +1,14 @@
-define(['events/event-manager'], function(EventManager) {
+define(['events/event-manager', 'ui/culture'], function(EventManager, culture) {
 
     var events = new EventManager('breadcrumbs-manager');
 
     var routes;
+    var route;
 
     function listen() {
         events.listen({
             'page-route-found': function(p_data) {
+                route = p_data.routeUrl;
                 var literalRoutes = p_data.routesPath.literal.split('#');
                 var abstractRoutes = p_data.routesPath.abstract.split('#');
                 routes = [];

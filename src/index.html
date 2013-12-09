@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-
+	<title>plate-web</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 
 	<script src="js/require/config.js"></script>
@@ -84,6 +84,7 @@
 		<div>
 			<div id="language-mod" class="pull-right" data-bind="foreach: cultures">
 				<a class="link" data-bind="click: $root.changeLocale, text: $data.name"></a>
+				<span data-bind="visible: $index() < $parent.cultures().length - 1">&bull;</span>
 			</div>
 		</div>
 	</div>

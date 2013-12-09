@@ -93,7 +93,7 @@ require([
         });
 
         setTimeout(function() {
-            $('body').fadeIn()
+            $('body').fadeIn();
         }, 25);
         log.debug('started');
     }
