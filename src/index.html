@@ -24,7 +24,7 @@
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
+			<ul class="nav navbar-nav" id="left-menu">
 				<li><a href="#/page1">Page 1</a></li>
 				<li><a href="#/page2">Page 2</a></li>
 
@@ -55,7 +55,9 @@
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Language <b class="caret"></b></a>
 						<ul class="dropdown-menu" data-bind="foreach: cultures">
-							<li><a data-bind="click: $root.changeLocale, text: $data.name"></a></li>
+							<li data-bind="css: {active: $root.isActiveLocale($data)}">
+								<a data-bind="click: $root.changeLocale, text: $data.name"></a>
+							</li>
 						</ul>
 					</li>
 				</ul>

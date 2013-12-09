@@ -28,8 +28,14 @@ define(['templates/bindable', 'knockout', 'singletons', 'net/authentication', 'u
             name: 'Hrvatski',
             code: 'hr-HR'
         }]),
+        locale: ko.observable(),
         changeLocale: function(p_locale) {
             culture.setLocale(p_locale.code);
+        },
+        isActiveLocale: function(locale) {
+            if (this.locale() === locale.code) {
+                return true;
+            }
         }
     };
 
@@ -46,6 +52,9 @@ define(['templates/bindable', 'knockout', 'singletons', 'net/authentication', 'u
                 this.log.debug('logged-out event, unsetting user');
                 this.viewModel.loggedIn(false);
                 this.viewModel.user(undefined);
+            },
+            'locale-changed': function(p_locale) {
+                this.viewModel.locale(p_locale);
             }
         },
         visible: true,
