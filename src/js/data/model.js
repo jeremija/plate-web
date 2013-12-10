@@ -110,7 +110,7 @@ define(['knockout', 'extendable', 'singletons', 'util/traversal'],
 
             var self = this;
             // send an ajax post or get request, depending on the p_type
-            ajax[p_type]({
+            return ajax[p_type]({
                 url: p_url,
                 data: p_data,
                 error: function(textStatus, errorThrown) {
@@ -142,7 +142,7 @@ define(['knockout', 'extendable', 'singletons', 'util/traversal'],
         save: function(p_callback) {
             var data = this.data();
             // this._preSave();
-            this._sendRequest('post', this.postUrl, data, p_callback);
+            return this._sendRequest('post', this.postUrl, data, p_callback);
         },
         /**
          * Get the model to the server. Updates (replaces) the current model
@@ -152,10 +152,11 @@ define(['knockout', 'extendable', 'singletons', 'util/traversal'],
          * on finish
          */
         load: function(p_key, p_callback) {
-            this._sendRequest('get', this.getUrl, p_key, p_callback);
+            return this._sendRequest('get', this.getUrl, p_key, p_callback);
         },
         loadRest: function(p_key, p_callback) {
-            this._sendRequest('get', this.getUrl + '/' + p_key, p_callback);
+            return this._sendRequest('get',
+                this.getUrl + '/' + p_key, p_callback);
         },
         clear: function() {
             this.data({});

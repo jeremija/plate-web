@@ -1,5 +1,5 @@
-define(['templates/page', 'data/model', 'knockout', 'singletons'],
-    function(Page, Model, ko, singletons) {
+define(['templates/page', 'data/model', 'knockout', 'singletons', 'jquery'],
+    function(Page, Model, ko, singletons, $) {
 
     var ajax = singletons.ajax;
 
@@ -12,6 +12,10 @@ define(['templates/page', 'data/model', 'knockout', 'singletons'],
                 name: new Model.FormElement({
                     value: ko.observable(),
                     path: 'name'
+                }),
+                carYear: new Model.FormElement({
+                    value: ko.observable(),
+                    path: 'carYear'
                 }),
                 licensePlate: new Model.FormElement({
                     value: ko.observable(),
@@ -50,27 +54,32 @@ define(['templates/page', 'data/model', 'knockout', 'singletons'],
         }
     };
 
-    var page = new Page({
-        name: 'car-insurances/car-insurances-form',
-        viewModel: vm,
-        routes: {
-            'carinsurances/new': function() {
-                vm.model.clear();
-            },
-            'carinsurances/edit/{shortId}': function(p_shortId) {
-                vm.model.loadRest(p_shortId);
-            }
-        }
-    });
-
-    page.onShow = function() {
-        ajax.get({
+    var $deferred;
+    function loadReferenceData() {
+        $deferred = ajax.get({
             url: '/companies/find',
             success: function(textStatus, response) {
                 vm.companies(response);
             }
         });
-    };
+    }
+
+    var page = new Page({
+        name: 'car-insurances/car-insurances-form',
+        viewModel: vm,
+        routes: {
+            'carinsurances/new': function() {
+                loadReferenceData();
+                vm.model.clear();
+            },
+            'carinsurances/edit/{shortId}': function(p_shortId) {
+                loadReferenceData();
+                $.when($deferred).then(function() {
+                    vm.model.loadRest(p_shortId);
+                });
+            }
+        }
+    });
 
     return page;
 });

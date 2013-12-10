@@ -67,7 +67,7 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
          * of the noEvents setting)
          */
         get: function(p_params) {
-            this._ajaxRequest(p_params, 'GET');
+            return this._ajaxRequest(p_params, 'GET');
         },
         /**
          * Send a GET request to the server
@@ -86,7 +86,7 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
          * of the noEvents setting)
          */
         post: function(p_params) {
-            this._ajaxRequest(p_params, 'POST');
+            return this._ajaxRequest(p_params, 'POST');
         },
         _ajaxRequest: function(p_params, p_type) {
             if (!p_params.noEvents) {
@@ -96,7 +96,7 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
             var msg = (p_type || 'GET') + ' ' + p_params.url + '  ';
             this.log.debug(msg);
 
-            $.ajax({
+            return $.ajax({
                 context: this,
                 url: this.urlPrefix + p_params.url,
                 data: p_params.data ? JSON.stringify(p_params.data) : undefined,

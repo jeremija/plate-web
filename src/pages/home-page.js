@@ -1,7 +1,13 @@
 define(['templates/page', 'knockout'], function(Page, ko) {
 
+    var previous;
     function generateRandomNumber(p_max) {
-        return Math.floor(Math.random() * p_max);
+        var current = previous;
+        while(previous === current) {
+            current = Math.floor(Math.random() * p_max);
+        }
+        previous = current;
+        return current;
     }
 
     var quotes = [{

@@ -41,4 +41,42 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
             element.placeholder = text;
         }
     };
+
+    ko.bindingHandlers.dateText = {
+        update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+            var value = valueAccessor();
+            var date = typeof value === 'function' ? value() : value;
+            date = Date.parse(date);
+            date = isNaN(date) ? '' : culture.format(new Date(date), 'd');
+            $(element).text(date);
+        }
+    };
+
+    ko.bindingHandlers.dateValue = {
+        init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+            var observable = valueAccessor();
+
+            ko.utils.registerEventHandler(element, 'change', function() {
+                // parse date
+                var dateString = $(element).val();
+                var date = culture.parseDate(dateString, 'd');
+                if (date) {
+                    observable(date.toISOString());
+                }
+                else {
+                    observable('');
+                    element.value = '';
+                }
+            });
+        },
+        update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+            var value = valueAccessor();
+            var date = typeof value === 'function' ? value() : value;
+
+            date = Date.parse(date);
+            date = isNaN(date) ? '' : culture.format(new Date(date), 'd');
+
+            $(element).val(date);
+        }
+    };
 });
