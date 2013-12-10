@@ -71,7 +71,9 @@
 		<ol id="breadcrumbs-mod" class="breadcrumb">
 			<li><a href="#/" data-bind="localize: 'bc.home'"></a></li>
 			<!-- ko foreach: $data.breadcrumbs -->
-			<li><a data-bind="attr: {href: $data.href}, localize: $data.title"></a></li>
+			<li data-bind="css: {active: $data.active}">
+				<a class="link" data-bind="attr: {href: $data.href}, localize: $data.title, css: {active: $data.active}"></a>
+			</li>
 			<!-- /ko -->
 		</ol>
 		<div id="pages">

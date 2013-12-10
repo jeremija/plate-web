@@ -26,7 +26,8 @@ define(['events/event-manager', 'knockout', 'templates/bindable'],
             'breadcrumbs-set': function(p_routes) {
                 this.viewModel.breadcrumbs.removeAll();
                 var addedRoutes = [];
-                for (var i in p_routes) {
+                var count = p_routes.length;
+                for (var i = 0; i < count; i++) {
                     var route = p_routes[i];
                     // skip homepage
                     if (route.literal === '') continue;
@@ -35,6 +36,7 @@ define(['events/event-manager', 'knockout', 'templates/bindable'],
                     this.viewModel.breadcrumbs.push({
                         title: 'bc.' + route.abstract,
                         href: '#/' + addedRoutes.join('#'),
+                        active: i === count - 1
                     });
                 }
             }

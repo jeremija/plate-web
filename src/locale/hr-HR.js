@@ -24,8 +24,11 @@ define(['globalize', '../locale/globalize.culture.hr-HR'],
             'common.delete': 'Izbriši',
             'common.save': 'Spremi',
 
+            'home.text': 'Ovo je početna stranica',
+
             'companies.name': 'Ime',
             'companies.oib': 'Oib',
+
         }
     });
 });

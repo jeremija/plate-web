@@ -24,6 +24,8 @@ define(['globalize', '../locale/globalize.culture.en-US'],
             'common.delete': 'Delete',
             'common.save': 'Save',
 
+            'home.text': 'This is a home page',
+
             'companies.name': 'Name',
             'companies.oib': 'Oib',
 
