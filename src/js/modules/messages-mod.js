@@ -56,7 +56,9 @@ define(['events/event-manager', 'jquery', 'ui/culture'],
             },
             'page-loading-end': function(err, page) {
                 // clear messages on page change
-                $('#messages-mod').children().remove();
+                // if (page.name !== 'error-page') {
+                //     $('#messages-mod').children().remove();
+                // }
             }
         });
     }
