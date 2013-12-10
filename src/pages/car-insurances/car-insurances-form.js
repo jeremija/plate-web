@@ -44,7 +44,6 @@ define(['templates/page', 'data/model', 'knockout', 'singletons'],
             }
         }),
         submit: function() {
-            debugger;
             vm.model.save(function(err, data) {
 
             });
