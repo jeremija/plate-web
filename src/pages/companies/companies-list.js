@@ -37,8 +37,5 @@ define(['templates/page', 'knockout', 'singletons', 'jquery'],
         }
     });
 
-    page.onShow = function() {
-    };
-
     return page;
 });

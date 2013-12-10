@@ -8,6 +8,7 @@ define(['globalize', '../locale/globalize.culture.en-US'],
             'error.validation': 'Error while validation the data',
 
             'menu.companies': 'Companies',
+            'menu.carinsurances': 'Vehicle ins.',
             'menu.logout': 'Log out',
             'menu.email': 'E-Mail',
             'menu.password': 'Zaporka',
@@ -19,16 +20,28 @@ define(['globalize', '../locale/globalize.culture.en-US'],
             'bc.companies/new': 'New Company',
             'bc.companies/edit/{shortId}': 'Edit Company',
             'bc.companies/list': 'Companies List',
+            'bc.carinsurances/new': 'New insured vehicle',
+            'bc.carinsurances/edit/{shortId}': 'Edit insured vehicle',
+            'bc.carinsurances/list': 'Car Insurances List',
 
             'common.action': 'Action',
             'common.delete': 'Delete',
             'common.save': 'Save',
+            'common.reload': 'Reload',
 
-            'home.text': 'This is a home page',
+            'home.text': 'Some quotes:',
 
             'companies.name': 'Name',
             'companies.oib': 'Oib',
 
+            'carinsurances.name': 'Name',
+            'carinsurances.licensePlate': 'Tag',
+            'carinsurances.policyNumber': 'Policy No.',
+            'carinsurances.expires': 'Expires',
+            'carinsurances.power': 'Power',
+            'carinsurances.maxAllowedMass': 'MAM',
+            'carinsurances.vehicleType': 'Type',
+            'carinsurances.company': 'Company',
         }
     });
 });

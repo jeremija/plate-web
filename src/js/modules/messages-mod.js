@@ -53,6 +53,10 @@ define(['events/event-manager', 'jquery', 'ui/culture'],
             },
             'msg-success': function(p_key) {
                 createMessageElement('success', 'Success!', p_key);
+            },
+            'page-loading-end': function(err, page) {
+                // clear messages on page change
+                $('#messages-mod').children().remove();
             }
         });
     }

@@ -1,0 +1,36 @@
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th data-bind="localize: 'carinsurances.name'"></th>
+			<th data-bind="localize: 'carinsurances.licensePlate'"></th>
+			<th data-bind="localize: 'carinsurances.policyNumber'"></th>
+			<th data-bind="localize: 'carinsurances.expires'"></th>
+			<th data-bind="localize: 'carinsurances.power'"></th>
+			<th data-bind="localize: 'carinsurances.maxAllowedMass'"></th>
+			<th data-bind="localize: 'carinsurances.vehicleType'"></th>
+			<th data-bind="localize: 'carinsurances.company'"></th>
+			<th data-bind="localize: 'common.action'"></th>
+		</tr>
+	</thead>
+	<tbody data-bind="foreach: carInsurances">
+		<tr>
+			<td data-bind="text: $index() + 1"></td>
+			<td>
+				<a class="link" data-bind="subpage: 'carinsurances/edit/' + shortId, text: $data.name"></a>
+			</td>
+			<td data-bind="text: $data.licensePlate"></td>
+			<td data-bind="text: $data.policyNumber"></td>
+			<td data-bind="text: $data.expires"></td>
+			<td data-bind="text: $data.power"></td>
+			<td data-bind="text: $data.maxAllowedMass"></td>
+			<td data-bind="text: $data.vehicleType"></td>
+			<td data-bind="with: $data.company">
+				<span data-bind="text: $data.name"></span>
+			</td>
+			<td>
+				<a class="link" data-bind="click: $root.remove, localize: 'common.delete'"></a>
+			</td>
+		</tr>
+	</tbody>
+</table>

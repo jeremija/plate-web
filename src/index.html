@@ -25,19 +25,29 @@
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav" id="main-menu-mod">
-				<li><a href="#/page1" data-bind="localize: 'bc.page1'">Page 1</a></li>
+				<li><a href="#/page1" data-bind="localize: 'bc.page1'"></a></li>
 
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-						<span data-bind="localize: 'menu.companies'">Companies</span><b class="caret"></b>
+						<span data-bind="localize: 'menu.companies'"></span><b class="caret"></b>
 					</a>
 
 					<ul class="dropdown-menu">
-						<li><a href="#/companies/new" data-bind="localize: 'bc.companies/new'">New</a></li>
-						<li><a href="#/companies/list" data-bind="localize: 'bc.companies/list'">List</a></li>
+						<li><a href="#/companies/new" data-bind="localize: 'bc.companies/new'"></a></li>
+						<li><a href="#/companies/list" data-bind="localize: 'bc.companies/list'"></a></li>
 					</ul>
 				</li>
 
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+						<span data-bind="localize: 'menu.carinsurances'"></span><b class="caret"></b>
+					</a>
+
+					<ul class="dropdown-menu">
+						<li><a href="#/carinsurances/new" data-bind="localize: 'bc.carinsurances/new'"></a></li>
+						<li><a href="#/carinsurances/list" data-bind="localize: 'bc.carinsurances/list'"></a></li>
+					</ul>
+				</li>
 			</ul>
 			<div class="navbar-right" id="user-mod">
 				<form class="navbar-form hidden" data-bind="submit: login, css: {hidden: $data.loggedIn()}">
