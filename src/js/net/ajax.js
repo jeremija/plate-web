@@ -48,6 +48,21 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
         _defaultErrorHandler: function(p_params, error) {
             this.events.dispatch('msg-error', error.key);
         },
+        _ajaxHandleError: function(p_params, textStatus, error) {
+            var skipMessage = false;
+            if (error.name in this._errorNameHandlers) {
+                var handler = this._errorNameHandlers[error.name];
+                skipMessage = handler.call(this, p_params, error);
+            }
+
+            if (!skipMessage && error.key) {
+                this.events.dispatch('msg-error', error.key);
+            }
+
+            if (p_params.error) {
+                p_params.error(textStatus, error);
+            }
+        },
         /**
          * Handle error graceefully
          * @param  {Error} err
@@ -72,6 +87,9 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
          * @param {Object} p_params.data         Data to be sent to the server.
          * @param {Function} p_params.success    Success callback
          * @param {Function} p_params.error      Error callback
+         * @param {Function} p_params.invalid    Callback when there is
+         * a validation error. The default error callback will no matter if
+         * this is present or not.
          * @param {Function} p_params.complete   A function to be called when
          * the request finishes.
          * @param {String} p_params.noEvents     If true, does not dispatch the
@@ -127,12 +145,8 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
                     this.log.debug(msg + ' ' + textStatus);
                     if (p_params.success) {
                         this.log.debug('success', data);
-                        // try {
-                            p_params.success(textStatus, data.data);
-                        // }
-                        // catch(err) {
-                        //     this._handleError(err);
-                        // }
+                        p_params.success(textStatus,
+                            data ? data.data : undefined);
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -142,28 +156,11 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
                     var error = data.error || {};
                     this.log.error('received an error response:', data);
 
-                    var skipMessage = false;
-                    if (error.name in this._errorNameHandlers) {
-                        var handler = this._errorNameHandlers[error.name];
-                        skipMessage = handler.call(this, p_params, error);
-                    }
-
-                    if (!skipMessage && error.key) {
-                        this.events.dispatch('msg-error', error.key);
-                    }
-
-                    if (p_params.error) {
-                        p_params.error(textStatus, data.error);
-                    }
+                    this._ajaxHandleError(p_params, textStatus, error);
                 },
                 complete: function(jqXHR, textStatus) {
                     if (p_params.complete) {
-                        // try {
-                            p_params.complete(textStatus);
-                        // }
-                        // catch (err) {
-                        //     this._handleError(err);
-                        // }
+                        p_params.complete(textStatus);
                     }
                     if (!p_params.noEvents) {
                         this.events.dispatch('ajax-end');

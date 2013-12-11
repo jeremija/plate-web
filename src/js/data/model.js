@@ -79,6 +79,10 @@ define(['knockout', 'extendable', 'singletons', 'util/traversal'],
                 obj.value.subscribe(createSubscribeCallback(obj.path));
             }
         },
+        /**
+         * This will add the fields defined in the form to the data object,
+         * but the initial values should be undefined
+         */
         _resetObservables: function() {
             var data = this.data();
             var form = this.form;
@@ -118,9 +122,10 @@ define(['knockout', 'extendable', 'singletons', 'util/traversal'],
             return ajax[p_type]({
                 url: p_url,
                 data: p_data,
-                error: function(textStatus, errorThrown) {
+                error: function(textStatus, error) {
                     self.state(p_type === 'post' ? 'save-error' : 'load-error');
-                    var err = new Error(textStatus + ': ' + errorThrown);
+                    var err = new Error(textStatus);
+                    err.cause = error;
                     if (p_callback) {
                         p_callback.call(self, err);
                     }
@@ -169,6 +174,10 @@ define(['knockout', 'extendable', 'singletons', 'util/traversal'],
             return this._sendRequest('get',
                 this.getUrl + '/' + p_key, p_callback);
         },
+        /**
+         * Clears the data, resets the observables, sets the state to `idle`
+         * and clears the `invalidFields` observable
+         */
         clear: function() {
             this.data({});
             this._resetObservables();

@@ -24,12 +24,20 @@ define(['net/ajax'], function(Ajax) {
                 p_params.error(status, 'NOT FOUND');
             }
             else {
-                status = 'success';
                 var data = p_params.data ?
                     JSON.stringify(p_params.data) : 'undefined';
 
                 var mockedData = urlMock[data];
-                p_params.success(status, mockedData);
+
+                if (mockedData.error) {
+                    status = 'error';
+                    Ajax.prototype
+                        ._ajaxHandleError(p_params, status, mockedData.error);
+                }
+                else {
+                    status = 'success';
+                    p_params.success(status, mockedData.data);
+                }
             }
             p_params.complete(status);
         });
@@ -46,6 +54,7 @@ define(['net/ajax'], function(Ajax) {
         mocks[p_type][p_url] = urlMock;
     };
 
+
     Ajax.prototype.mockGet = function(p_url, p_data, p_response) {
         this.mockRequest(p_url, p_data, 'GET', p_response);
     };
@@ -53,6 +62,7 @@ define(['net/ajax'], function(Ajax) {
     Ajax.prototype.mockPost = function(p_url, p_data, p_response) {
         this.mockRequest(p_url, p_data, 'POST', p_response);
     };
+
     Ajax.prototype.clearMocks = function() {
         clearMocks();
     };

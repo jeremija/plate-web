@@ -23,7 +23,9 @@ define(['data/model', 'singletons', 'knockout'],
             };
             ajax.mockGet('/model/load', {
                 id :123
-            }, mockedGet);
+            }, {
+                data: mockedGet
+            });
             //add mocks
         });
         after(function() {
@@ -117,7 +119,9 @@ define(['data/model', 'singletons', 'knockout'],
 
                 model.form.cd.value(4);
 
-                ajax.mockPost('/model/save', model.data(), model.data());
+                ajax.mockPost('/model/save', model.data(), {
+                    data: model.data()
+                });
 
                 model.save(function(p_err, p_data) {
                     expect(p_err).to.not.be.ok();
@@ -128,6 +132,27 @@ define(['data/model', 'singletons', 'knockout'],
                     done();
                 });
                 expect(model.state()).to.be('saving');
+            });
+            it('should fail to save invalid model', function(done) {
+                var validationError = {
+                    name: 'ValidationError',
+                    details: {
+                        errors: {
+                            fieldName: {}
+                        }
+                    }
+                };
+                ajax.mockPost('/model/save', model.data(), {
+                    error: validationError
+                });
+
+                model.save(function(p_err, p_data) {
+                    expect(p_err.cause).to.be(validationError);
+                    expect(p_data).to.be(undefined);
+                    expect(model.invalidFields()).to.be(
+                        validationError.details.errors);
+                    done();
+                });
             });
         });
         describe('clear()', function() {
