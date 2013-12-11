@@ -16,22 +16,22 @@ define(['ui/culture', 'events/event-manager'],
                 expect(culture.setLocale).to.be.a('function');
             });
             it('should have set the locale to hr-HR', function(done) {
-                culture.setLocale('hr-HR');
                 events.listen({
                     'locale-changed': function(p_locale) {
                         expect(culture.locale).to.be('hr-HR');
                         done();
                     }
                 });
+                culture.setLocale('hr-HR');
             });
             it('should have set the locale to en-US', function(done) {
-                culture.setLocale('en-US');
                 events.listen({
                     'locale-changed': function(p_locale) {
                         expect(culture.locale).to.be('en-US');
                         done();
                     }
                 });
+                culture.setLocale('en-US');
             });
         });
         describe('localize()', function() {
