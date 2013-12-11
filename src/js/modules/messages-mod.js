@@ -37,7 +37,7 @@ define(['events/event-manager', 'jquery', 'ui/culture'],
         var $msg = $('<span>').text(msg);
         var $text = $('<p>').append($title).append('&nbsp;').append($msg);
 
-        $el.append($button).append($text).appendTo('#messages-mod');
+        $el.append($button).append($text).prependTo('#messages-mod');
     }
 
     function listen() {

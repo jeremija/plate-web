@@ -6,6 +6,8 @@ define(['globalize', '../locale/globalize.culture.en-US'],
             'test': 'test en-US',
 
             'error.validation': 'Error while validation the data',
+            'error.save': 'Unable to save',
+            'error.load': 'An error occurred while loading the data',
 
             'menu.companies': 'Companies',
             'menu.carinsurances': 'Vehicles',
@@ -27,6 +29,9 @@ define(['globalize', '../locale/globalize.culture.en-US'],
             'common.action': 'Action',
             'common.delete': 'Delete',
             'common.save': 'Save',
+            'common.saving': 'Saving...',
+            'common.saved': 'Saved successfully',
+            'common.loading': 'Loading...',
             'common.reload': 'Reload',
 
             'home.text': 'Some quotes:',

@@ -6,6 +6,8 @@ define(['globalize', '../locale/globalize.culture.hr-HR'],
             'test': 'test hr-HR',
 
             'error.validation': 'Došlo je do pogreške u validaciji podataka',
+            'error.save': 'Podaci nisu spremljeni',
+            'error.load': 'Došlo je do pogreške pri dohvaćanju podataka',
 
             'menu.companies': 'Tvrtke',
             'menu.carinsurances': 'Vozila',
@@ -27,6 +29,9 @@ define(['globalize', '../locale/globalize.culture.hr-HR'],
             'common.action': 'Akcija',
             'common.delete': 'Izbriši',
             'common.save': 'Spremi',
+            'common.saving': 'Spremam...',
+            'common.saved': 'Podaci uspješno spremljeni',
+            'common.loading': 'Učitavam...',
             'common.reload': 'Ponovno učitaj',
 
             'home.text': 'Neki citati:',

@@ -1,46 +1,46 @@
 <div class="row">
 	<div class="col col-md-8 col-md-offset-2">
-		<form role="form" data-bind="with: $data.model.form, submit: $data.submit">
+		<form role="form" data-bind="with: $data.model.form, submit: $data.submit, invalidFields: $data.model.invalidFields">
 			<div class="panel panel-default">
 				<div class="panel-body">
 					<div class="col col-md-6">
 						<div class="form-group">
-							<label for="name" data-bind="localize: 'carinsurances.name'"></label>
-							<input id="name" type="text" class="form-control" data-bind="placeholder: 'carinsurances.name', value: $data.name.value">
+							<label for="name" class="control-label" data-bind="localize: 'carinsurances.name'"></label>
+							<input name="name" type="text" class="form-control" data-bind="placeholder: 'carinsurances.name', value: $data.name.value">
 						</div>
 						<div class="form-group">
-							<label for="carYear" data-bind="localize: 'carinsurances.carYear'"></label>
-							<input id="carYear" type="text" maxlength="4" class="form-control" data-bind="placeholder: 'carinsurances.carYear', value: $data.carYear.value">
+							<label for="carYear" class="control-label" data-bind="localize: 'carinsurances.carYear'"></label>
+							<input name="carYear" type="text" maxlength="4" class="form-control" data-bind="placeholder: 'carinsurances.carYear', value: $data.carYear.value">
 						</div>
 						<div class="form-group">
-							<label for="licensePlate" data-bind="localize: 'carinsurances.licensePlate'"></label>
-							<input id="licensePlate" type="text" maxlength="8" class="form-control" data-bind="placeholder: 'carinsurances.licensePlate', value: $data.licensePlate.value">
+							<label for="licensePlate" class="control-label" data-bind="localize: 'carinsurances.licensePlate'"></label>
+							<input name="licensePlate" type="text" maxlength="8" class="form-control" data-bind="placeholder: 'carinsurances.licensePlate', value: $data.licensePlate.value">
 						</div>
 						<div class="form-group">
-							<label for="policyNumber" data-bind="localize: 'carinsurances.policyNumber'"></label>
-							<input id="policyNumber" type="text" maxlength="12" class="form-control" data-bind="placeholder: 'carinsurances.policyNumber', value: $data.policyNumber.value">
+							<label for="policyNumber" class="control-label" data-bind="localize: 'carinsurances.policyNumber'"></label>
+							<input name="policyNumber" type="text" maxlength="12" class="form-control" data-bind="placeholder: 'carinsurances.policyNumber', value: $data.policyNumber.value">
 						</div>
 					</div>
 					<div class="col col-md-6">
 						<div class="form-group">
-							<label for="expires" data-bind="localize: 'carinsurances.expires'"></label>
-							<input id="expires" type="text" class="form-control" data-bind="placeholder: 'carinsurances.expires', dateValue: $data.expires.value">
+							<label for="expires" class="control-label" data-bind="localize: 'carinsurances.expires'"></label>
+							<input name="expires" type="text" class="form-control" data-bind="placeholder: 'carinsurances.expires', dateValue: $data.expires.value">
 						</div>
 						<div class="form-group">
-							<label for="power" data-bind="localize: 'carinsurances.power'"></label>
-							<input id="power" type="text" class="form-control" data-bind="placeholder: 'carinsurances.power', value: $data.power.value">
+							<label for="power" class="control-label" data-bind="localize: 'carinsurances.power'"></label>
+							<input name="power" type="text" class="form-control" data-bind="placeholder: 'carinsurances.power', value: $data.power.value">
 						</div>
 						<div class="form-group">
-							<label for="maxAllowedMass" data-bind="localize: 'carinsurances.maxAllowedMass'"></label>
-							<input id="maxAllowedMass" type="text" class="form-control" data-bind="placeholder: 'carinsurances.maxAllowedMass', value: $data.maxAllowedMass.value">
+							<label for="maxAllowedMass" class="control-label" data-bind="localize: 'carinsurances.maxAllowedMass'"></label>
+							<input name="maxAllowedMass" type="text" class="form-control" data-bind="placeholder: 'carinsurances.maxAllowedMass', value: $data.maxAllowedMass.value">
 						</div>
 						<div class="form-group">
-							<label for="vehicleType" data-bind="localize: 'carinsurances.vehicleType'"></label>
-							<input id="vehicleType" type="text" class="form-control" data-bind="placeholder: 'carinsurances.vehicleType', value: $data.vehicleType.value">
+							<label for="vehicleType" class="control-label" data-bind="localize: 'carinsurances.vehicleType'"></label>
+							<input name="vehicleType" type="text" class="form-control" data-bind="placeholder: 'carinsurances.vehicleType', value: $data.vehicleType.value">
 						</div>
 						<div class="form-group" data-bind="with: $root.companies">
-							<label for="company" data-bind="localize: 'carinsurances.company'"></label>
-							<select id="company" type="text" class="form-control" data-bind="options: $data, optionsText: 'name', optionsValue: '_id', optionsCaption: '--', value: $root.model.form.company.value"></select>
+							<label for="company" class="control-label" data-bind="localize: 'carinsurances.company'"></label>
+							<select name="company" type="text" class="form-control" data-bind="options: $data, optionsText: 'name', optionsValue: '_id', optionsCaption: '--', value: $root.model.form.company.value"></select>
 						</div>
 					</div>
 				</div>

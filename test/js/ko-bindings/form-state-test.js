@@ -1,4 +1,4 @@
-define(['knockout', 'jquery', 'ko-bindings/form-state'], function(ko, $, formStateHandler) {
+define(['knockout', 'jquery', 'ko-bindings/form-state', 'bootstrap'], function(ko, $, formStateHandler, bootstrap) {
 
     describe('ko-bindings/form-state-test.js', function() {
         var $el, vm, icon, button, icons = formStateHandler.iconStateMap;

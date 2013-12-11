@@ -49,6 +49,11 @@ define(['knockout', 'extendable', 'singletons', 'util/traversal'],
          */
         this.form = p_params.form || {};
         /**
+         * A map of invalid fields in the form
+         * @type {Object}
+         */
+        this.invalidFields = ko.observable();
+        /**
          * State of the model. Can be one of the following:
          * 'loading', 'loaded', 'saving', 'saved', 'save-error', 'load-error'
          * @type {Observable}
@@ -120,8 +125,12 @@ define(['knockout', 'extendable', 'singletons', 'util/traversal'],
                         p_callback.call(self, err);
                     }
                 },
+                invalid: function(errors) {
+                    self.invalidFields(errors);
+                },
                 success: function(textStatus, p_data) {
                     self.state(p_type === 'post' ? 'saved' : 'loaded');
+                    self.invalidFields(null);
                     self.data(p_data);
                     self._resetObservables();
                     if (p_callback) {
@@ -152,9 +161,11 @@ define(['knockout', 'extendable', 'singletons', 'util/traversal'],
          * on finish
          */
         load: function(p_key, p_callback) {
+            this.state('idle');
             return this._sendRequest('get', this.getUrl, p_key, p_callback);
         },
         loadRest: function(p_key, p_callback) {
+            this.state('idle');
             return this._sendRequest('get',
                 this.getUrl + '/' + p_key, p_callback);
         },
@@ -162,6 +173,7 @@ define(['knockout', 'extendable', 'singletons', 'util/traversal'],
             this.data({});
             this._resetObservables();
             this.state('idle');
+            this.invalidFields(null);
         }
     };
 

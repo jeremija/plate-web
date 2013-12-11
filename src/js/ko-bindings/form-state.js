@@ -1,4 +1,4 @@
-define(['knockout', 'jquery'], function(ko, $) {
+define(['knockout', 'jquery', 'ui/culture'], function(ko, $, culture) {
 
     var SUCCESS_TIMEOUT = 1000;
 
@@ -6,13 +6,39 @@ define(['knockout', 'jquery'], function(ko, $) {
         'idle'      : 'glyphicon glyphicon-ok-circle',
         'loading'   : 'glyphicon glyphicon-ok-circle',
         'loaded'    : 'glyphicon glyphicon-ok-circle',
-        'saving'    : 'glyphicon glyphicon-ok-circle',
-        'saved'     : 'glyphicon glyphicon-ok-sign',
+        'saving'    : 'glyphicon glyphicon-ok-sign',
+        'saved'     : 'glyphicon glyphicon-ok-circle',
         'save-error': 'glyphicon glyphicon-minus-sign',
         'load-error': 'glyphicon glyphicon-minus-sign'
     };
 
+    function setIcon($el, state) {
+        var iconElement = $el.children('span.glyphicon')[0];
+        iconElement.className = iconStateMap[state] || 'glyphicon';
+    }
+
+    function showError($el, key) {
+        $el.removeClass('btn-success').addClass('btn-danger');
+    }
+
+    function removeError($el) {
+        $el.removeClass('btn-danger').addClass('btn-success');
+    }
+
+    function showTooltip($el, key) {
+        var title = culture.localize(key);
+        $el.attr('title', title).tooltip('fixTitle').tooltip('show');
+    }
+
     ko.bindingHandlers.formState = {
+        init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+            var $el = $(element);
+            $('<span>').addClass('glyphicon').prependTo($el);
+            $el.tooltip({
+                // title: 'blaaaa',
+                trigger: 'manual'
+            });
+        },
         update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
             var value = valueAccessor();
             if (typeof value !== 'function') {
@@ -20,43 +46,60 @@ define(['knockout', 'jquery'], function(ko, $) {
             }
             var state = value();
 
-            if (element.timeout) {
-                window.clearTimeout(element.timeout);
-                element.timeout = undefined;
-            }
-
             var $el = $(element);
-            var iconElement = $el.children('span.glyphicon')[0];
-            if (!iconElement) {
-                iconElement = $('<span>').prependTo($el)[0];
-            }
 
-            iconElement.className = iconStateMap[state] || 'glyphicon';
-
-            if (state === 'load-error' || state === 'save-error') {
-                $el.removeClass('btn-success');
-                $el.addClass('btn-danger');
-            }
-            else {
-                $el.removeClass('btn-danger');
-                $el.addClass('btn-success');
-            }
+            setIcon($el, state);
 
             switch(state) {
-                case 'saved':
-                    element.timeout = window.setTimeout(function() {
-                        iconElement.className = iconStateMap.idle;
-                    }, SUCCESS_TIMEOUT);
-                    $el.removeAttr('disabled');
+                case 'idle':
+                    removeError($el);
+                    $el.removeAttr('disabled').tooltip('hide');
                     break;
                 case 'loading':
-                case 'saving':
-                case 'load-error':
+                    showTooltip($el, 'common.loading');
                     $el.attr('disabled', 'disabled');
                     break;
-                default:
+                case 'loaded':
+                    $el.removeAttr('disabled').tooltip('hide');
+                    break;
+                case 'saving':
                     $el.removeAttr('disabled');
+                    showTooltip($el, 'common.saving');
+                    break;
+                case 'saved':
+                    $el.removeAttr('disabled');
+                    removeError($el);
+                    showTooltip($el, 'common.saved');
+                    break;
+                case 'load-error':
+                    showError($el);
+                    showTooltip($el, 'error.load');
+                    break;
+                case 'save-error':
+                    $el.removeAttr('disabled');
+                    showError($el);
+                    showTooltip($el, 'error.save');
+                    break;
             }
+        }
+    };
+
+    ko.bindingHandlers.invalidFields = {
+        update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+            var $fields = $(element).find('.form-group > [name]');
+
+            var invalidFields = ko.utils.unwrapObservable(valueAccessor());
+            invalidFields = invalidFields || {};
+
+            $fields.each(function() {
+                var field = $(this).attr('name');
+                if (invalidFields[field]) {
+                    $(this).parent().addClass('has-error');
+                }
+                else {
+                    $(this).parent().removeClass('has-error');
+                }
+            });
         }
     };
 

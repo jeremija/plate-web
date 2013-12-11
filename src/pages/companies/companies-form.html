@@ -1,15 +1,15 @@
 <div class="row">
 	<div class="col col-md-6 col-md-offset-3">
-		<form role="form" data-bind="with: $data.model.form, submit: $data.submit">
+		<form role="form" data-bind="with: $data.model.form, submit: $data.submit, invalidFields: $data.model.invalidFields">
 			<div class="panel panel-default">
 				<div class="panel-body">
 						<div class="form-group">
-							<label for="name" data-bind="localize: 'companies.name'"></label>
-							<input id="name" type="text" class="form-control" data-bind="placeholder: 'companies.name', value: $data.name.value">
+							<label for="name" class="control-label" data-bind="localize: 'companies.name'"></label>
+							<input name="name" type="text" class="form-control" data-bind="placeholder: 'companies.name', value: $data.name.value">
 						</div>
 						<div class="form-group">
-							<label for="oib" data-bind="localize: 'companies.oib'"></label>
-							<input id="oib" type="text" class="form-control" data-bind="placeholder: 'companies.oib', value: $data.oib.value">
+							<label for="oib" class="control-label" data-bind="localize: 'companies.oib'"></label>
+							<input name="oib" type="text" class="form-control" data-bind="placeholder: 'companies.oib', value: $data.oib.value">
 						</div>
 				</div>
 				<div class="panel-footer">

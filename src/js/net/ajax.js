@@ -76,6 +76,10 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
          * @param {Object} p_params.data         Data to be sent to the server.
          * @param {Function} p_params.success    Success callback
          * @param {Function} p_params.error      Error callback
+         * @param {Function} p_params.invalid    Callback when there is
+         * a validation error. The default error callback will no matter if
+         * this is present or not.
+         * be used. The default error callback will be called too!
          * @param {Function} p_params.complete   A function to be called when
          * the request finishes.
          * @param {String} p_params.noEvents     If true, does not dispatch the
@@ -120,9 +124,18 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
                     this.log.debug(msg + ' ' + textStatus + ': ' + errorThrown);
 
                     var data = this._getErrorData(jqXHR);
-                    if (data.error && data.error.key) {
-                        this.log.error('received an error res:', data.error);
-                        this.events.dispatch('msg-error', data.error.key);
+                    var error = data.error;
+                    this.log.error('received an error response:', data);
+                    if (error && error.key &&
+                        error.name !== 'ValidationError') {
+                        this.events.dispatch('msg-error', error.key);
+                    }
+
+                    if (p_params.invalid && error &&
+                        error.name === 'ValidationError') {
+                        var details = error.details;
+                        var errors = details ? details.errors : {};
+                        p_params.invalid(errors);
                     }
 
                     if (p_params.error) {
