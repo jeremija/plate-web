@@ -41,3 +41,13 @@ body {
 .pre {
 	white-space: pre-wrap;
 }
+
+#messages-mod {
+	position: absolute;
+	right: 20px;
+}
+
+#messages-mod .alert {
+	opacity: 0.8;
+	box-shadow: 0px 0px 5px #ccc;
+}

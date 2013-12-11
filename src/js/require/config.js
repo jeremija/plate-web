@@ -3,6 +3,7 @@ var require = {
     paths: {
         'bower': '../../bower_components',
         'pages': '../pages',
+        'locale': '../locale',
 
         // 'jquery': '../../bower_components/jquery/jquery',
         // 'extendable': '../../bower_components/extendable.js/dist/extendable',
