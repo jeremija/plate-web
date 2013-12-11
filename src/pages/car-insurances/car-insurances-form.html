@@ -20,6 +20,14 @@
 							<label for="policyNumber" class="control-label" data-bind="localize: 'carinsurances.policyNumber'"></label>
 							<input name="policyNumber" type="text" maxlength="12" class="form-control" data-bind="placeholder: 'carinsurances.policyNumber', value: $data.policyNumber.value">
 						</div>
+						<div class="form-group">
+							<label for="bonus" class="control-label" data-bind="localize: 'carinsurances.bonus'"></label>
+							<input name="bonus" type="text" maxlength="12" class="form-control" data-bind="placeholder: 'carinsurances.bonus', value: $data.bonus.value">
+						</div>
+						<div class="form-group">
+							<label for="premium" class="control-label" data-bind="localize: 'carinsurances.premium'"></label>
+							<input name="premium" type="text" maxlength="12" class="form-control" data-bind="placeholder: 'carinsurances.premium', numberValue: $data.premium.value">
+						</div>
 					</div>
 					<div class="col col-md-6">
 						<div class="form-group">
@@ -41,6 +49,22 @@
 						<div class="form-group" data-bind="with: $root.companies">
 							<label for="company" class="control-label" data-bind="localize: 'carinsurances.company'"></label>
 							<select name="company" type="text" class="form-control" data-bind="options: $data, optionsText: 'name', optionsValue: '_id', optionsCaption: '--', value: $root.model.form.company.value"></select>
+						</div>
+						<div class="form-group">
+							<div class="checkbox">
+							    <label>
+							      <input type="checkbox" data-bind="checked: $data.accident.value">
+							      <span data-bind="localize: 'carinsurances.accident'"></span>
+							    </label>
+							  </div>
+						</div>
+						<div class="form-group">
+							<div class="checkbox">
+							    <label>
+							      <input type="checkbox" data-bind="checked: $data.leasing.value">
+							      <span data-bind="localize: 'carinsurances.leasing'"></span>
+							    </label>
+							  </div>
 						</div>
 					</div>
 				</div>

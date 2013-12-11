@@ -101,6 +101,8 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
             });
         },
         update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+            locale();
+
             var value = valueAccessor();
             var date = typeof value === 'function' ? value() : value;
 
@@ -108,6 +110,29 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
             date = isNaN(date) ? '' : culture.format(new Date(date), 'd');
 
             $(element).val(date);
+        }
+    };
+
+    ko.bindingHandlers.numberValue = {
+        init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+            var observable = valueAccessor();
+            ko.utils.registerEventHandler(element, 'change', function() {
+                var formattedNumber = $(element).val();
+                var value = culture.parseFloat(formattedNumber);
+                if (value) {
+                    observable(value);
+                }
+                else {
+                    element.value = '';
+                }
+            });
+        },
+        update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+            locale();
+
+            var value = ko.utils.unwrapObservable(valueAccessor());
+            var formattedNumber = culture.format(value, 'n2');
+            $(element).val(formattedNumber);
         }
     };
 });

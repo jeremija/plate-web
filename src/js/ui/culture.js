@@ -32,6 +32,9 @@ define(['globalize', 'events/event-manager', 'logger', 'singletons',
         },
         parseDate: function(p_dateString, p_pattern) {
             return Globalize.parseDate(p_dateString, p_pattern, this.locale);
+        },
+        parseFloat: function(p_value, p_radix) {
+            return Globalize.parseFloat(p_value, p_radix || 10, this.locale);
         }
     };
 

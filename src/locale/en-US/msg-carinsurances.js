@@ -9,5 +9,9 @@ define([], function() {
         'carinsurances.maxAllowedMass': 'MAM (kg)',
         'carinsurances.vehicleType': 'Type',
         'carinsurances.company': 'Company',
+        'carinsurances.bonus': 'Bonus',
+        'carinsurances.premium': 'Premium',
+        'carinsurances.accident': 'Accident',
+        'carinsurances.leasing': 'Leasing'
     };
 });

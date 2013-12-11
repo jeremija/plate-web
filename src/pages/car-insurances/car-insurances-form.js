@@ -44,7 +44,23 @@ define(['templates/page', 'data/model', 'knockout', 'singletons', 'jquery'],
                 company: new Model.FormElement({
                     value: ko.observable(),
                     path: 'company'
-                })
+                }),
+                premium: new Model.FormElement({
+                    value: ko.observable(),
+                    path: 'premium'
+                }),
+                bonus: new Model.FormElement({
+                    value: ko.observable(),
+                    path: 'bonus'
+                }),
+                accident: new Model.FormElement({
+                    value: ko.observable(),
+                    path: 'accident'
+                }),
+                leasing: new Model.FormElement({
+                    value: ko.observable(),
+                    path: 'leasing'
+                }),
             }
         }),
         submit: function() {
