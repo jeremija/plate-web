@@ -9,6 +9,7 @@ define([], function() {
         'common.reload': 'Ponovno učitaj',
         'common.confirm.delete': 'Jeste li sigurni da želite obrisati ovaj dokument?',
         'common.yes': 'Da',
-        'common.no': 'Ne'
+        'common.no': 'Ne',
+        'common.route.not.found': 'Stranica koju ste tražili nije pronađena'
     };
 });

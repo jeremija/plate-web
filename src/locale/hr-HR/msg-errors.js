@@ -9,6 +9,7 @@ define([], function() {
         'error.not.authorized': 'Niste autorizirani za tu akciju!',
         'error.save': 'Podaci nisu spremljeni',
         'error.load': 'Došlo je do pogreške pri dohvaćanju podataka',
-        'error.delete.is.referred.to': 'Nemoguće je obrisati dokument jer o njemu ovisi drugi dokument!'
+        'error.delete.is.referred.to': 'Nemoguće je obrisati dokument jer o njemu ovisi drugi dokument!',
+        'error.loading.page.template': 'Dogodila se greška pri dohvaćanju stranice'
     };
 });

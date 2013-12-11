@@ -104,6 +104,8 @@ define(['extendable', 'crossroads', 'hasher', 'logger', 'events/event-manager',
                 // infinite loop because crossroads only reacts to a change of
                 // hash. when this is called the second time, the hash will
                 // already be `error`.
+
+                this.events.dispatch('msg-error', 'common.route.not.found');
                 this.go('error');
             }, this);
         },

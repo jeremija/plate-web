@@ -6,6 +6,7 @@ define([], function() {
         'menu.email': 'E-Mail',
         'menu.password': 'Password',
 
+        'bc.error': 'Greška',
         'bc.home': 'Početna',
         'bc.page1': 'Stranica 1',
         'bc.page2': 'Stranica 2',

@@ -49,9 +49,9 @@ define(['extendable', 'logger', 'events/event-manager'],
                 this.changePage(p_data.page, p_data.routeUrl, p_data.routeArgs);
             },
             'page-route-not-found': function(p_route) {
-                this.log.debug('redirecting to error route `' +
-                    this.errorRoute + '`');
-                this._redirectError();
+                // this.log.debug('redirecting to error route `' +
+                //     this.errorRoute + '`');
+                // this._redirectError();
             }
         });
 
@@ -96,7 +96,9 @@ define(['extendable', 'logger', 'events/event-manager'],
                 if (err) {
                     self.log.error('unable to load template ' + url);
                     self.events.dispatch('page-loading-end', err);
-                    self._redirectError();
+                    self.events.dispatch('msg-error',
+                        'error.loading.page.template');
+                    // self._redirectError();
                     return;
                 }
 

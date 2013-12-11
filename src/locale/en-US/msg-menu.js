@@ -6,6 +6,7 @@ define([], function() {
         'menu.email': 'E-Mail',
         'menu.password': 'Zaporka',
 
+        'bc.error': 'Error',
         'bc.home': 'Home',
         'bc.page1': 'Page 1',
         'bc.page2': 'Page 2',
