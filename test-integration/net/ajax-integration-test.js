@@ -69,6 +69,39 @@ define(['net/ajax', 'events/event-manager'], function(Ajax, EventManager) {
                         expect(textStatus).to.be('error');
                         expect(errorCalled).to.be(true);
                         finished();
+                    },
+                    invalid: function() {
+                        fail();
+                    }
+                });
+            });
+        });
+
+        describe('post() validation error', function() {
+            it('should call invalid handler', function(done) {
+                var errorCalled = false, invalidCalled = false;
+                ajax.post({
+                    url: '/test/validation-error',
+                    data: undefined,
+                    success: function(textStatus) {
+                        fail();
+                    },
+                    error: function(textStatus, err) {
+                        errorCalled = true;
+                        expect(err.name).to.be('ValidationError');
+                        expect(err.key).to.be('error.validation');
+                        expect(err.details).to.be.ok();
+                        expect(err.details.errors).to.be.ok();
+                    },
+                    invalid: function(errors) {
+                        invalidCalled = true;
+                        expect(errors).to.be.ok();
+                        expect(errors.field1).to.be.ok();
+                    },
+                    complete: function(textStatus) {
+                        expect(errorCalled).to.be(true);
+                        expect(invalidCalled).to.be(true);
+                        done();
                     }
                 });
             });
