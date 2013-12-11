@@ -121,42 +121,43 @@ define(['jquery', 'knockout', 'templates/page-binder', 'events/event-manager',
                     routeArgs: [3]
                 });
             });
-            it('should redirect to error page on error', function(done) {
-                ko.cleanNode(el1);
-                page1.element = undefined;
-                page1.bindingsApplied = false;
-                page1routeHandlerArgs = undefined;
-                templateLoaderMock.generateError = true;
+            // this is done by the router
+            // it('should redirect to error page on error', function(done) {
+            //     ko.cleanNode(el1);
+            //     page1.element = undefined;
+            //     page1.bindingsApplied = false;
+            //     page1routeHandlerArgs = undefined;
+            //     templateLoaderMock.generateError = true;
 
-                var pageLoadingEnd, startCount = 0;
-                events.listen({
-                    'redirect': function(p_where) {
-                        expect(p_where).to.be('errRoute');
-                        expect(pageLoadingEnd).to.be(true);
-                        done();
-                    },
-                    'page-loading-start': function() {
-                        startCount++;
-                    },
-                    'page-loading-end': function(err, page) {
-                        expect(err).to.be.ok();
-                        expect(err).to.be(error);
+            //     var pageLoadingEnd, startCount = 0;
+            //     events.listen({
+            //         'redirect': function(p_where) {
+            //             expect(p_where).to.be('errRoute');
+            //             expect(pageLoadingEnd).to.be(true);
+            //             done();
+            //         },
+            //         'page-loading-start': function() {
+            //             startCount++;
+            //         },
+            //         'page-loading-end': function(err, page) {
+            //             expect(err).to.be.ok();
+            //             expect(err).to.be(error);
 
-                        expect($(el2).is(':visible')).to.be(false);
-                        expect(page).to.be(undefined);
-                        expect(page1.bindingsApplied).to.be(false);
-                        expect(page1.element).to.be(undefined);
-                        expect(page1routeHandlerArgs).to.be(undefined);
-                        pageLoadingEnd = true;
-                    }
-                });
+            //             expect($(el2).is(':visible')).to.be(false);
+            //             expect(page).to.be(undefined);
+            //             expect(page1.bindingsApplied).to.be(false);
+            //             expect(page1.element).to.be(undefined);
+            //             expect(page1routeHandlerArgs).to.be(undefined);
+            //             pageLoadingEnd = true;
+            //         }
+            //     });
 
-                events.dispatch('page-route-found', {
-                    page: page1,
-                    routeUrl: 'page1/route1',
-                    routeArgs: [4]
-                });
-            });
+            //     events.dispatch('page-route-found', {
+            //         page: page1,
+            //         routeUrl: 'page1/route1',
+            //         routeArgs: [4]
+            //     });
+            // });
         });
     });
 });
