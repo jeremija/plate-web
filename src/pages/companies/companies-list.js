@@ -6,17 +6,21 @@ define(['templates/page', 'knockout', 'singletons', 'jquery'],
     var vm = {
         companies: ko.observableArray(),
         remove: function(p_company) {
-            var shortId = p_company.shortId;
-            ajax.post({
-                url: '/companies/delete',
-                data: {
-                    shortId: shortId
-                },
-                success: function(p_status, response) {
-                    vm.companies.remove(p_company);
-                },
-                noEvents: true
-            });
+            // page.events.dispatch('ask-yes-no', 'common.confirm.delete',
+                // function() {
+
+                    ajax.post({
+                        url: '/companies/delete',
+                        data: {
+                            shortId: p_company.shortId,
+                            _id: p_company._id
+                        },
+                        success: function(p_status, response) {
+                            vm.companies.remove(p_company);
+                        },
+                        noEvents: true
+                    });
+                // });
         }
     };
 

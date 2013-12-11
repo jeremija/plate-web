@@ -2,15 +2,15 @@
 	<thead>
 		<tr>
 			<th>#</th>
-			<th data-bind="localize: 'carinsurances.name'"></th>
-			<th data-bind="localize: 'carinsurances.carYear'"></th>
-			<th data-bind="localize: 'carinsurances.licensePlate'"></th>
-			<th data-bind="localize: 'carinsurances.policyNumber'"></th>
-			<th data-bind="localize: 'carinsurances.expires'"></th>
-			<th data-bind="localize: 'carinsurances.power'"></th>
-			<th data-bind="localize: 'carinsurances.maxAllowedMass'"></th>
-			<th data-bind="localize: 'carinsurances.vehicleType'"></th>
-			<th data-bind="localize: 'carinsurances.company'"></th>
+			<th data-bind="localize: 'carinsurances.name', sort: {arr: carInsurances, prop: 'name'}"></th>
+			<th data-bind="localize: 'carinsurances.carYear', sort: {arr: carInsurances, prop: 'carYear'}"></th>
+			<th data-bind="localize: 'carinsurances.licensePlate', sort: {arr: carInsurances, prop: 'licensePlate'}"></th>
+			<th data-bind="localize: 'carinsurances.policyNumber', sort: {arr: carInsurances, prop: 'policyNumber'}"></th>
+			<th data-bind="localize: 'carinsurances.expires', sort: {arr: carInsurances, prop: 'expires'}"></th>
+			<th data-bind="localize: 'carinsurances.power', sort: {arr: carInsurances, prop: 'power'}"></th>
+			<th data-bind="localize: 'carinsurances.maxAllowedMass', sort: {arr: carInsurances, prop: 'maxAllowedMass'}"></th>
+			<th data-bind="localize: 'carinsurances.vehicleType', sort: {arr: carInsurances, prop: 'vehicleType'}"></th>
+			<th data-bind="localize: 'carinsurances.company', sort: {arr: carInsurances, prop: 'company'}"></th>
 			<th data-bind="localize: 'common.action'"></th>
 		</tr>
 	</thead>

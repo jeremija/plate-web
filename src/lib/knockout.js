@@ -1,1 +1,1 @@
-../../bower_components/knockout.js/knockout.js
+../../bower_components/knockout.js/knockout.debug.js

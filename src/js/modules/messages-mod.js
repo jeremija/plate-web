@@ -28,8 +28,8 @@ define(['events/event-manager', 'jquery', 'ui/culture'],
         var title = culture.localize(p_titleKey) || p_titleKey;
 
         var css = 'alert alert-' + p_alertType + ' alert-dismissable';
-        var $el = $('<div>').attr('class', css);
-        var $button = $('<button>').attr('class', 'close')
+        var $el = $('<div>').addClass(css);
+        var $button = $('<button>').addClass('close')
             .attr('data-dismiss', 'alert')
             .attr('aria-hidden', 'true')
             .html('&times;');

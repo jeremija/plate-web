@@ -3,7 +3,8 @@ define([
         'modules/messages-mod',
         'modules/user-mod',
         'modules/language-mod',
-        'modules/main-menu-mod'
+        'modules/main-menu-mod',
+        'modules/ask-yes-no-mod'
     ],
 
     function(
@@ -11,7 +12,8 @@ define([
         messagesMod,
         userMod,
         languageMod,
-        mainMenuMod
+        mainMenuMod,
+        askYesNoMod
     ) {
 
     // initialize static modules
@@ -19,6 +21,7 @@ define([
     breadcrumbsMod.bind(document.getElementById('breadcrumbs-mod'));
     languageMod.bind(document.getElementById('language-mod'));
     mainMenuMod.bind(document.getElementById('main-menu-mod'));
+    askYesNoMod.bind(document.getElementById('ask-yes-no-mod'));
     messagesMod.listen();
 
 });
