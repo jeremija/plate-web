@@ -33,6 +33,21 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
                 this.log.debug('got error 500');
             }
         },
+        _errorNameHandlers: {
+            'ValidationError': function(p_params, error) {
+                if (!p_params.invalid) return;
+                var details = error.details || {};
+                var errors = details.errors || {};
+                p_params.invalid(errors);
+                return true;
+            },
+            'Authentication': function(p_params, error) {
+                return true;
+            }
+        },
+        _defaultErrorHandler: function(p_params, error) {
+            this.events.dispatch('msg-error', error.key);
+        },
         /**
          * Handle error graceefully
          * @param  {Error} err
@@ -124,27 +139,21 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
                     this.log.debug(msg + ' ' + textStatus + ': ' + errorThrown);
 
                     var data = this._getErrorData(jqXHR);
-                    var error = data.error;
+                    var error = data.error || {};
                     this.log.error('received an error response:', data);
-                    if (error && error.key &&
-                        error.name !== 'ValidationError') {
+
+                    var skipMessage = false;
+                    if (error.name in this._errorNameHandlers) {
+                        var handler = this._errorNameHandlers[error.name];
+                        skipMessage = handler.call(this, p_params, error);
+                    }
+
+                    if (!skipMessage && error.key) {
                         this.events.dispatch('msg-error', error.key);
                     }
 
-                    if (p_params.invalid && error &&
-                        error.name === 'ValidationError') {
-                        var details = error.details;
-                        var errors = details ? details.errors : {};
-                        p_params.invalid(errors);
-                    }
-
                     if (p_params.error) {
-                        // try {
-                            p_params.error(textStatus, data.error);
-                        // }
-                        // catch(err) {
-                        //     this._handleError(err);
-                        // }
+                        p_params.error(textStatus, data.error);
                     }
                 },
                 complete: function(jqXHR, textStatus) {
