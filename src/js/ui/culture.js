@@ -1,5 +1,5 @@
 define(['globalize', 'events/event-manager', 'logger', 'singletons',
-    '../../locale/en-US', '../../locale/hr-HR'],
+    'locale/index'],
     function(Globalize, EventManager, Logger, singletons) {
 
     var log = new Logger('ui/culture');

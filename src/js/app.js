@@ -9,7 +9,7 @@ require([
     'templates/page-manager',
     'router',
     'templates/page-binder',
-    'templates/page-definitions',
+    'pages/index',
     'templates/breadcrumbs-manager',
 
     'ui/menu',
@@ -35,7 +35,7 @@ require([
         PageManager,
         Router,
         PageBinder,
-        pageDefinitions,
+        pagesIndex,
         breadcrumbsManager,
 
         menu,
@@ -88,7 +88,7 @@ require([
 
         var pageManager = new PageManager({
             name: 'app',
-            pages: pageDefinitions.pages,
+            pages: pagesIndex.pages,
             router: router
         });
 
