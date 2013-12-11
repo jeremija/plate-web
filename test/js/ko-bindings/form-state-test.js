@@ -1,14 +1,29 @@
 define(['knockout', 'jquery', 'ko-bindings/form-state', 'bootstrap'], function(ko, $, formStateHandler, bootstrap) {
 
     describe('ko-bindings/form-state-test.js', function() {
-        var $el, vm, icon, button, icons = formStateHandler.iconStateMap;
+        var $el, $field1, $field2,
+            vm, icon, button, icons = formStateHandler.stateIcons;
         before(function() {
-            var a = $('#test');
-            $el = $('#test').append('<div id="form-state-test"><button data-bind="formState: $data.state"></button></div>');
+            $el = $('<div>').attr('id', 'form-state-test')
+                .append(
+                    $('<form>').attr('id', 'test-form')
+                        .attr('data-bind', 'invalidFields: invalidFields')
+                        .append($('<div>').addClass('form-group')
+                            .append($('<input>').attr('name', 'field1')))
+                        .append($('<div>').addClass('form-group')
+                            .append($('<input>').attr('name', 'field2')))
+                        .append(
+                            $('<button>')
+                                .attr('data-bind', 'formState: $data.state')))
+                .appendTo('#test');
+
+            $field1 = $el.find('[name="field1"]');
+            $field2 = $el.find('[name="field2"]');
+
             vm = {
-                state: ko.observable()
+                state: ko.observable(),
+                invalidFields: ko.observable()
             };
-            formStateHandler.setSuccessTimeout(10);
         });
         after(function() {
             ko.cleanNode($el[0]);
@@ -24,31 +39,48 @@ define(['knockout', 'jquery', 'ko-bindings/form-state', 'bootstrap'], function(k
                 expect(button).to.be.ok();
             });
         });
-        describe('state `idle`', function() {
-            it('should change icon', function() {
+        describe('`formState` binding', function() {
+            it('should change icon for state `idle`', function() {
                 vm.state('idle');
                 expect(icon.className).to.be(icons.idle);
             });
-        });
-        describe('state `loading`', function() {
-            it('should change icon', function() {
+            it('should change icon for state `loading`', function() {
                 vm.state('loading');
                 expect(icon.className).to.be(icons.loading);
             });
-        });
-        describe('state `saved`', function() {
-            it('should change icon', function() {
+            it('should change icon for state `saved`', function() {
                 vm.state('saved');
                 expect(icon.className).to.be(icons.saved);
             });
-            it('should change icon again after a timeout', function(done) {
-                setTimeout(function() {
-                    expect(icon.className).to.not.be(icons.saved);
-                    expect(icon.className).to.be(icons.idle);
-                    done();
-                }, 15);
+        });
+        describe('`invalidFields binding`', function() {
+            it('should invalidate `field1`', function() {
+                vm.invalidFields({
+                    field1: {}
+                });
+                expect($field1.parent().hasClass('has-error')).to.be(true);
+                expect($field2.parent().hasClass('has-error')).to.be(false);
+            });
+            it('should invalidate `field2`', function() {
+                vm.invalidFields({
+                    field2: {}
+                });
+                expect($field1.parent().hasClass('has-error')).to.be(false);
+                expect($field2.parent().hasClass('has-error')).to.be(true);
+            });
+            it('should invalidate both `field1` and `field2`', function() {
+                vm.invalidFields({
+                    field1: {},
+                    field2: {}
+                });
+                expect($field1.parent().hasClass('has-error')).to.be(true);
+                expect($field2.parent().hasClass('has-error')).to.be(true);
+            });
+            it('should mark both fields as valid', function() {
+                vm.invalidFields(null);
+                expect($field1.parent().hasClass('has-error')).to.be(false);
+                expect($field2.parent().hasClass('has-error')).to.be(false);
             });
         });
     });
-
 });

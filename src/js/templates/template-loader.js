@@ -33,7 +33,7 @@ define(['extendable', 'jquery'],
         load: function(p_url, p_callback) {
             var id = this._getPageId(p_url);
 
-            $page = $('<div>').attr('id', id).appendTo(this.$el);
+            var $page = $('<div>').attr('id', id).appendTo(this.$el);
             $page.load(p_url, function(response, status, xhr) {
                 if (status === 'error') {
                     var err = new Error('Failed to load ' + p_url + ': ' + xhr.status);

@@ -1,8 +1,6 @@
 define(['knockout', 'jquery', 'ui/culture'], function(ko, $, culture) {
 
-    var SUCCESS_TIMEOUT = 1000;
-
-    iconStateMap = {
+    stateIcons = {
         'idle'      : 'glyphicon glyphicon-ok-circle',
         'loading'   : 'glyphicon glyphicon-ok-circle',
         'loaded'    : 'glyphicon glyphicon-ok-circle',
@@ -46,7 +44,7 @@ define(['knockout', 'jquery', 'ui/culture'], function(ko, $, culture) {
 
     function setIcon($el, state) {
         var iconElement = $el.children('span.glyphicon')[0];
-        iconElement.className = iconStateMap[state] || 'glyphicon';
+        iconElement.className = stateIcons[state] || 'glyphicon';
     }
 
     function showError($el, key) {
@@ -82,40 +80,8 @@ define(['knockout', 'jquery', 'ui/culture'], function(ko, $, culture) {
 
             setIcon($el, state);
 
-            handler = stateHandlers[state];
+            var handler = stateHandlers[state];
             if (handler) handler($el);
-
-            // switch(state) {
-            //     case 'idle':
-            //         removeError($el);
-            //         $el.removeAttr('disabled').tooltip('hide');
-            //         break;
-            //     case 'loading':
-            //         showTooltip($el, 'common.loading');
-            //         $el.attr('disabled', 'disabled');
-            //         break;
-            //     case 'loaded':
-            //         $el.removeAttr('disabled').tooltip('hide');
-            //         break;
-            //     case 'saving':
-            //         $el.removeAttr('disabled');
-            //         showTooltip($el, 'common.saving');
-            //         break;
-            //     case 'saved':
-            //         $el.removeAttr('disabled');
-            //         removeError($el);
-            //         showTooltip($el, 'common.saved');
-            //         break;
-            //     case 'load-error':
-            //         showError($el);
-            //         showTooltip($el, 'error.load');
-            //         break;
-            //     case 'save-error':
-            //         $el.removeAttr('disabled');
-            //         showError($el);
-            //         showTooltip($el, 'error.save');
-            //         break;
-            // }
         }
     };
 
@@ -139,9 +105,6 @@ define(['knockout', 'jquery', 'ui/culture'], function(ko, $, culture) {
     };
 
     return {
-        setSuccessTimeout: function(p_value) {
-            SUCCESS_TIMEOUT = p_value;
-        },
-        iconStateMap: iconStateMap
+        stateIcons: stateIcons
     };
 });
