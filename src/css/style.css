@@ -45,6 +45,7 @@ body {
 #messages-mod {
 	position: absolute;
 	right: 20px;
+	z-index: 101;
 }
 
 #messages-mod .alert {
