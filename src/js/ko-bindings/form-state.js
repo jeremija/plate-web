@@ -12,6 +12,38 @@ define(['knockout', 'jquery', 'ui/culture'], function(ko, $, culture) {
         'load-error': 'glyphicon glyphicon-minus-sign'
     };
 
+    stateHandlers = {
+        'idle': function($el) {
+            removeError($el);
+            $el.removeAttr('disabled').tooltip('hide');
+        },
+        'loading': function($el) {
+            showTooltip($el, 'common.loading');
+            $el.attr('disabled', 'disabled');
+        },
+        'loaded': function($el) {
+            $el.removeAttr('disabled').tooltip('hide');
+        },
+        'saving': function($el) {
+            $el.removeAttr('disabled');
+            showTooltip($el, 'common.saving');
+        },
+        'saved': function($el) {
+            $el.removeAttr('disabled');
+            removeError($el);
+            showTooltip($el, 'common.saved');
+        },
+        'save-error': function($el) {
+            $el.removeAttr('disabled');
+            showError($el);
+            showTooltip($el, 'error.save');
+        },
+        'load-error': function($el) {
+            showError($el);
+            showTooltip($el, 'error.load');
+        }
+    };
+
     function setIcon($el, state) {
         var iconElement = $el.children('span.glyphicon')[0];
         iconElement.className = iconStateMap[state] || 'glyphicon';
@@ -50,37 +82,40 @@ define(['knockout', 'jquery', 'ui/culture'], function(ko, $, culture) {
 
             setIcon($el, state);
 
-            switch(state) {
-                case 'idle':
-                    removeError($el);
-                    $el.removeAttr('disabled').tooltip('hide');
-                    break;
-                case 'loading':
-                    showTooltip($el, 'common.loading');
-                    $el.attr('disabled', 'disabled');
-                    break;
-                case 'loaded':
-                    $el.removeAttr('disabled').tooltip('hide');
-                    break;
-                case 'saving':
-                    $el.removeAttr('disabled');
-                    showTooltip($el, 'common.saving');
-                    break;
-                case 'saved':
-                    $el.removeAttr('disabled');
-                    removeError($el);
-                    showTooltip($el, 'common.saved');
-                    break;
-                case 'load-error':
-                    showError($el);
-                    showTooltip($el, 'error.load');
-                    break;
-                case 'save-error':
-                    $el.removeAttr('disabled');
-                    showError($el);
-                    showTooltip($el, 'error.save');
-                    break;
-            }
+            handler = stateHandlers[state];
+            if (handler) handler($el);
+
+            // switch(state) {
+            //     case 'idle':
+            //         removeError($el);
+            //         $el.removeAttr('disabled').tooltip('hide');
+            //         break;
+            //     case 'loading':
+            //         showTooltip($el, 'common.loading');
+            //         $el.attr('disabled', 'disabled');
+            //         break;
+            //     case 'loaded':
+            //         $el.removeAttr('disabled').tooltip('hide');
+            //         break;
+            //     case 'saving':
+            //         $el.removeAttr('disabled');
+            //         showTooltip($el, 'common.saving');
+            //         break;
+            //     case 'saved':
+            //         $el.removeAttr('disabled');
+            //         removeError($el);
+            //         showTooltip($el, 'common.saved');
+            //         break;
+            //     case 'load-error':
+            //         showError($el);
+            //         showTooltip($el, 'error.load');
+            //         break;
+            //     case 'save-error':
+            //         $el.removeAttr('disabled');
+            //         showError($el);
+            //         showTooltip($el, 'error.save');
+            //         break;
+            // }
         }
     };
 

@@ -42,6 +42,37 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
         }
     };
 
+    ko.bindingHandlers.tooltip = {
+        init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+            var config = valueAccessor() || {};
+            $(element).tooltip({
+                trigger: config.trigger || 'manual',
+                placement: config.placement
+            });
+        },
+        update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+            var config = valueAccessor() || {};
+
+            if (element.timeout) window.clearTimeout(element.timeout);
+
+            var delay = config.delay || 2000;
+            var visible = ko.utils.unwrapObservable(config.visible);
+            var title =
+                culture.localize(ko.utils.unwrapObservable(config.title));
+
+            $(element).attr('title', title)
+                .tooltip('fixTitle')
+                .tooltip(visible ? 'show' : 'hide');
+
+            if (delay > 0) {
+                element.timeout = window.setTimeout(function() {
+                    $(element).tooltip('hide');
+                    config.visible(false);
+                }, delay);
+            }
+        }
+    };
+
     ko.bindingHandlers.dateText = {
         update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
             var value = valueAccessor();

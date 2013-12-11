@@ -50,7 +50,7 @@
 				</li>
 			</ul>
 			<div class="navbar-right" id="user-mod">
-				<form class="navbar-form hidden" data-bind="submit: login, css: {hidden: $data.loggedIn()}">
+				<form class="navbar-form hidden logon-form" data-bind="submit: login, css: {hidden: $data.loggedIn()}, tooltip: {title: 'error.authentication', visible: tooltipVisible, placement: 'left'}">
 					<div class="form-group">
 						<input type="email" class="form-control" data-bind="value: form.email, placeholder: 'menu.email'">
 					</div>

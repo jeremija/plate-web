@@ -5,7 +5,13 @@ define(['globalize', '../locale/globalize.culture.hr-HR'],
         messages: {
             'test': 'test hr-HR',
 
-            'error.validation': 'Došlo je do pogreške u validaciji podataka',
+            'error': 'Greška!',
+            'warning': 'Upozorenje!',
+            'info': 'Informacija!',
+            'success': 'Bravo!',
+            'error.validation': 'Došlo je do pogreške u validaciji podataka!',
+            'error.authentication': 'Nije pronađen korisnik s unesenim podacima',
+            'error.not.authorized': 'Niste autorizirani za tu akciju!',
             'error.save': 'Podaci nisu spremljeni',
             'error.load': 'Došlo je do pogreške pri dohvaćanju podataka',
 

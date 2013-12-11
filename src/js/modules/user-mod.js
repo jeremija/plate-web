@@ -1,4 +1,4 @@
-define(['templates/bindable', 'knockout', 'singletons', 'net/authentication'],
+define(['templates/bindable', 'knockout', 'singletons', 'net/authentication', 'jquery'],
     function(Bindable, ko, singletons, authentication) {
 
     var ajax = singletons.ajax;
@@ -18,9 +18,13 @@ define(['templates/bindable', 'knockout', 'singletons', 'net/authentication'],
             authentication.login({
                 email: this.form.email(),
                 password: this.form.password()
+            }, function(status) {
+                vm.tooltipVisible(status === 'success' ? false : true);
             });
+
             this.form.password('');
-        }
+        },
+        tooltipVisible: ko.observable(false)
     };
 
     var userMod = new Bindable({

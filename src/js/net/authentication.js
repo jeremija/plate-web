@@ -31,10 +31,12 @@ define(['jquery', 'events/event-manager', 'singletons', 'logger'],
          * @param  {Object} p_credentials login credentials
          * @param  {String} p_credentials.username
          * @param  {String} p_credentials.password
+         * @param  {Function} p_callback(textStatus, res.data) to call on
+         * success or error.
          * @fires EventManager#logged-in if authenticated successfully
          * @fires error on error
          */
-        login: function(p_credentials) {
+        login: function(p_credentials, p_callback) {
             log.debug('attempting to log in: ' + p_credentials.email);
             ajax.post({
                 url: '/login',
@@ -43,9 +45,11 @@ define(['jquery', 'events/event-manager', 'singletons', 'logger'],
                     log.debug('user logged in!');
                     // notify logged on user
                     events.dispatch('logged-in', res);
+                    if (p_callback) p_callback(textStatus, res.data);
                 },
                 error: function(textStatus, error) {
                     log.error('error while logging in', error);
+                    if (p_callback) p_callback(textStatus, error);
                 },
                 noEvents: true
             });

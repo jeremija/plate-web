@@ -23,8 +23,9 @@ define(['events/event-manager', 'jquery', 'ui/culture'],
      * @event EventManager#msg-success
      */
 
-    function createMessageElement(p_alertType, p_title, p_msg) {
+    function createMessageElement(p_alertType, p_titleKey, p_msg) {
         var msg = culture.localize(p_msg) || p_msg;
+        var title = culture.localize(p_titleKey) || p_titleKey;
 
         var css = 'alert alert-' + p_alertType + ' alert-dismissable';
         var $el = $('<div>').attr('class', css);
@@ -33,7 +34,7 @@ define(['events/event-manager', 'jquery', 'ui/culture'],
             .attr('aria-hidden', 'true')
             .html('&times;');
 
-        var $title = $('<strong>').text(p_title);
+        var $title = $('<strong>').text(title);
         var $msg = $('<span>').text(msg);
         var $text = $('<p>').append($title).append('&nbsp;').append($msg);
 
@@ -43,16 +44,16 @@ define(['events/event-manager', 'jquery', 'ui/culture'],
     function listen() {
         events.listen({
             'msg-error': function(p_key) {
-                createMessageElement('danger', 'Error!', p_key);
+                createMessageElement('danger', 'error', p_key);
             },
             'msg-warn': function(p_key) {
-                createMessageElement('warning', 'Warning!', p_key);
+                createMessageElement('warning', 'warning', p_key);
             },
             'msg-info': function(p_key) {
-                createMessageElement('info', 'Info!', p_key);
+                createMessageElement('info', 'info', p_key);
             },
             'msg-success': function(p_key) {
-                createMessageElement('success', 'Success!', p_key);
+                createMessageElement('success', 'success', p_key);
             },
             'page-loading-end': function(err, page) {
                 // clear messages on page change
