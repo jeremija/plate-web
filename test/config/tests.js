@@ -45,6 +45,7 @@ var tests = [
     'test/js/modules/breadcrumbs-mod-test',
     'test/js/modules/user-mod-test',
     'test/js/modules/messages-mod-test',
+    'test/js/modules/ask-yes-no-mod-test',
 
     // pages
     'test/pages/error-test'

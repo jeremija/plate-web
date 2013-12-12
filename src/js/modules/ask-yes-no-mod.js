@@ -50,8 +50,5 @@ define(['knockout', 'jquery', 'templates/bindable'], function(ko, $, Bindable) {
         });
     };
 
-    //TODO remove thisa
-    window.events = askYesNoMod.events;
-
     return askYesNoMod;
 });
