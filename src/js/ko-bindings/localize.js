@@ -46,6 +46,7 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
         init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
             var config = valueAccessor() || {};
             $(element).tooltip({
+                animation: config.animation === false ? false : true,
                 trigger: config.trigger || 'manual',
                 placement: config.placement
             });
@@ -73,17 +74,17 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
         }
     };
 
-    ko.bindingHandlers.dateText = {
-        update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-            var value = valueAccessor();
-            var date = typeof value === 'function' ? value() : value;
-            date = Date.parse(date);
-            date = isNaN(date) ? '' : culture.format(new Date(date), 'd');
-            $(element).text(date);
-        }
-    };
+    // ko.bindingHandlers.dateText = {
+    //     update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+    //         var value = valueAccessor();
+    //         var date = typeof value === 'function' ? value() : value;
+    //         date = Date.parse(date);
+    //         date = isNaN(date) ? '' : culture.format(new Date(date), 'd');
+    //         $(element).text(date);
+    //     }
+    // };
 
-    ko.bindingHandlers.dateValue = {
+    ko.bindingHandlers.date = {
         init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
             if (element.tagName !== 'INPUT') return;
 
@@ -141,7 +142,6 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
             });
         },
         update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-            debugger;
             locale();
             allBindings = allBindings();
 
