@@ -85,6 +85,8 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
 
     ko.bindingHandlers.dateValue = {
         init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+            if (element.tagName !== 'INPUT') return;
+
             var observable = valueAccessor();
 
             ko.utils.registerEventHandler(element, 'change', function() {
@@ -109,18 +111,27 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
             date = Date.parse(date);
             date = isNaN(date) ? '' : culture.format(new Date(date), 'd');
 
-            $(element).val(date);
+            var setValue = element.tagName === 'INPUT' ? 'val' : 'text';
+            $(element)[setValue](date);
         }
     };
 
-    ko.bindingHandlers.numberValue = {
+    ko.bindingHandlers.number = {
         init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+            if (element.tagName !== 'INPUT') return;
+
             var observable = valueAccessor();
+
             ko.utils.registerEventHandler(element, 'change', function() {
                 var formattedNumber = $(element).val();
                 var value = culture.parseFloat(formattedNumber);
                 if (value) {
+                    var previousValue = observable.peek();
                     observable(value);
+                    // send a valueHasMutated to force the call of the update
+                    // in case the user has entered the handler in case
+                    // user has entered the same value twice
+                    if (previousValue === value) observable.valueHasMutated();
                 }
                 else {
                     element.value = '';
@@ -129,10 +140,17 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
         },
         update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
             locale();
+            allBindings = allBindings();
+
+            var decimalSpaces = isNaN(allBindings.decimalSpaces) ?
+                2 : allBindings.decimalSpaces;
+            var n = 'n' + decimalSpaces;
 
             var value = ko.utils.unwrapObservable(valueAccessor());
-            var formattedNumber = culture.format(value, 'n2');
-            $(element).val(formattedNumber);
+            var formattedNumber = culture.format(value, n);
+
+            var setValue = element.tagName === 'INPUT' ? 'val' : 'text';
+            $(element)[setValue](formattedNumber);
         }
     };
 });
