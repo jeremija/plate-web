@@ -1,9 +1,7 @@
-// require(['jquery', 'router', 'amd-page-loader', 'templates/page', 'singletons',
-//     'logger', 'events/event-manager'],
-//     function($, Router, PageLoader, Page, singletons, Logger, EventManager) {
 require([
     'jquery',
     'bootstrap',
+    'ko-bindings/index',
     'logger',
     'templates/template-loader',
     'templates/page-manager',
@@ -18,18 +16,13 @@ require([
     'ui/culture',
     'net/authentication',
 
-    'modules/index',
-    // 'modules/breadcrumbs-mod',
-    // 'modules/messages-mod',
-    // 'modules/user-mod',
-    // 'modules/language-mod',
-    // 'modules/main-menu-mod',
+    'modules/index'
 
-    'ko-bindings/index'
     ],
     function(
         $,
         bootstrap,
+        koBindingsIndex,
         Logger,
         TemplateLoader,
         PageManager,
@@ -44,9 +37,8 @@ require([
         culture,
         authentication,
 
-        modulesIndex,
+        modulesIndex
 
-        koBindingsIndex
         ) {
 
     var log = new Logger('app');

@@ -3,7 +3,7 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
 
     var events = new EventManager('ko.bindingHandlers.localize');
 
-    var locale = ko.observable();
+    var locale = ko.observable(culture.locale);
     events.listen({
         'locale-changed': function(p_locale) {
             locale(p_locale);

@@ -13,14 +13,10 @@ define(['globalize', 'events/event-manager', 'logger', 'singletons',
     var culture = {
         setLocale: function(p_locale) {
             var self = this;
-            // require(['../locale/' + p_locale], function() {
-                self.locale = p_locale;
-                log.debug('loaded locale ' + p_locale);
-                events.dispatch('locale-changed', p_locale);
-                singletons.storage.save('locale', p_locale);
-            // }, function(err) {
-            //     log.error('unable to load locale ' + p_locale, err);
-            // });
+            self.locale = p_locale;
+            log.debug('changed locale to ' + p_locale);
+            events.dispatch('locale-changed', p_locale);
+            singletons.storage.save('locale', p_locale);
         },
         // default locale
         locale: 'en-US',
