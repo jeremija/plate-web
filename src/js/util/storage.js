@@ -22,6 +22,7 @@ define(['extendable', 'events/event-manager', 'logger'],
         this.events.listen({
             'logged-in': function(p_user) {
                 this.save('user', p_user);
+                this.save('last-email', p_user.email);
             },
             'logged-out': function() {
                 this.delete('user');

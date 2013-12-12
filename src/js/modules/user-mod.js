@@ -46,6 +46,9 @@ define(['templates/bindable', 'knockout', 'singletons', 'net/authentication', 'j
     });
 
     userMod.onBind = function() {
+        var lastEmail = storage.load('last-email');
+        vm.form.email(lastEmail);
+
         var user = storage.load('user');
         if (user) {
             vm.user(user);
