@@ -73,7 +73,7 @@ define(['events/event-manager', 'jquery', 'ui/culture'],
      * @listens EventManager#msg-info
      * @listens EventManager#msg-success
      */
-    return {
+    var messagesMod = {
         /**
          * Sets event bindings
          */
@@ -87,4 +87,6 @@ define(['events/event-manager', 'jquery', 'ui/culture'],
             events.clear();
         }
     };
+
+    return messagesMod;
 });
