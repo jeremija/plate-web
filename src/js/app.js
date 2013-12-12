@@ -84,9 +84,9 @@ require([
             router: router
         });
 
-        setTimeout(function() {
+        // setTimeout(function() {
             $('body').fadeIn();
-        }, 25);
+        // }, 25);
         log.debug('started');
     }
 

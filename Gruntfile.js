@@ -1,23 +1,71 @@
 module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        clean: ["doc/"],
-        concat: {
-            options: {
-                separator: ';'
+        clean: {
+            doc: ["doc/"],
+            dist: ["dist/"]
+        },
+        // concat: {
+        //     options: {
+        //         separator: ';'
+        //     },
+        //     dist: {
+        //         src: ['src/**/*.js'],
+        //         dest: 'dist/<%= pkg.name %>.js'
+        //     }
+        // },
+        requirejs: {
+            'distjs': {
+                options: {
+                    name: 'dist',
+                    baseUrl: "src/js",
+                    mainConfigFile: "src/js/require/config.js",
+                    out: "dist/js/plate-web.js",
+                    // generateSourceMaps: true,
+                    preserveLicenseComments: false,
+                    optimize: 'none'
+                }
             },
-            dist: {
-                src: ['src/**/*.js'],
-                dest: 'dist/<%= pkg.name %>.js'
+            'distcss': {
+                options: {
+                    optimizeCss: 'standard',
+                    preserveLicenseComments: false,
+                    out: 'dist/css/style.css',
+                    cssIn: 'src/css/style.css'
+                }
             }
         },
         uglify: {
-            options: {
-                banner: '/*! <%= pkg.name %> <%= pkg.repository.url %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+            distjs: {
+                options: {
+                    banner: '/*! plate-web <%= grunt.template.today("dd-mm-yyyy") %> */\n',
+                    sourceMap: 'dist/js/plate-web.min-map.js',
+                    sourceMappingURL: 'plate-web.min-map.js',
+                    sourceMapPrefix: 2
+                },
+                files: {
+                    'dist/js/plate-web.min.js': ['dist/js/plate-web.js']
+                }
+            }
+        },
+        copy: {
+            'disthtml': {
+                expand: true,
+                cwd: 'src',
+                src: ['pages/**/*.html'],
+                dest: 'dist'
             },
+            'distfonts': {
+                expand: true,
+                cwd: 'src',
+                src: ['lib/bootstrap/fonts/**'],
+                dest: 'dist'
+            }
+        },
+        processhtml: {
             dist: {
                 files: {
-                    'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+                    'dist/index.html': ['src/index.html']
                 }
             }
         },
@@ -51,18 +99,24 @@ module.exports = function(grunt) {
         }
     });
 
+    // grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-mocha-phantomjs');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-jsdoc');
     grunt.loadNpmTasks('grunt-shell');
+    grunt.loadNpmTasks('grunt-contrib-requirejs');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-processhtml');
 
     grunt.registerTask('test', ['jshint', 'mocha_phantomjs:unit']);
     grunt.registerTask('integration-test', ['jshint', 'shell:mocha_phantomjs_integration']);
 
     grunt.registerTask('doc', ['jshint', 'mocha_phantomjs:unit', 'clean', 'jsdoc']);
-    grunt.registerTask('default', ['jshint', 'mocha_phantomjs:unit', 'concat', 'uglify']);
+    grunt.registerTask('build', ['test', 'clean:dist', 'requirejs:distjs',
+        'requirejs:distcss', 'uglify:distjs', 'copy:disthtml', 'copy:distfonts',
+        'processhtml']);
+    // grunt.registerTask('default', ['jshint', 'mocha_phantomjs:unit', 'concat', 'uglify']);
 };
