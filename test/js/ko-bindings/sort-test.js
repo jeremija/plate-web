@@ -25,10 +25,11 @@ define(['knockout', 'jquery', 'ko-bindings/sort'], function(ko, $) {
         });
 
         function triggerClick() {
-            // var event = document.createEvent('UIEvents');
-            // event.initUIEvent('click', true, true);
-            // $el[0].dispatchEvent(event);
-            $el.click();
+            // $el.click(); does not work well in mocha-phantomjs so we invoke
+            // the click manually
+            var event = document.createEvent('UIEvents');
+            event.initUIEvent('click', true, true);
+            $el[0].dispatchEvent(event);
         }
 
         describe('first click', function() {

@@ -1,5 +1,5 @@
-define(['modules/ask-yes-no-mod', 'jquery', 'knockout', 'events/event-manager'],
-    function(yesno, $, ko, EventManager) {
+define(['bootstrap', 'modules/ask-yes-no-mod', 'jquery', 'knockout', 'events/event-manager'],
+    function(bootstrap, yesno, $, ko, EventManager) {
 
     describe('modules/ask-yes-no-mod-test', function() {
         var $el, events, ctx = { yes: 0, no: 0 };
@@ -34,6 +34,14 @@ define(['modules/ask-yes-no-mod', 'jquery', 'knockout', 'events/event-manager'],
             });
         }
 
+        function triggerClick(element) {
+            // $el.click(); does not work well in mocha-phantomjs so we invoke
+            // the click manually
+            var event = document.createEvent('UIEvents');
+            event.initUIEvent('click', true, true);
+            element.dispatchEvent(event);
+        }
+
         describe('modal', function() {
             it('should create a hidden modal', function() {
                 expect($el.is(':visible')).to.be(false);
@@ -45,7 +53,7 @@ define(['modules/ask-yes-no-mod', 'jquery', 'knockout', 'events/event-manager'],
                 expect($el.is(':visible')).to.be(true);
             });
             it('no() should hide and execute `no` callback', function() {
-                $el.find('#no').click();
+                triggerClick($el.find('#no')[0]);
                 expect($el.is(':visible')).to.be(false);
                 expect(ctx.yes).to.be(0);
                 expect(ctx.no).to.be(1);
@@ -57,7 +65,7 @@ define(['modules/ask-yes-no-mod', 'jquery', 'knockout', 'events/event-manager'],
                 expect($el.is(':visible')).to.be(true);
             });
             it('yes() should hide and execute `yes` callback', function() {
-                $el.find('#yes').click();
+                triggerClick($el.find('#yes')[0]);
                 expect($el.is(':visible')).to.be(false);
                 expect(ctx.yes).to.be(1);
                 expect(ctx.no).to.be(1);
