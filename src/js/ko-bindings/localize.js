@@ -93,13 +93,19 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
                 // parse date
                 var dateString = $(element).val();
                 var date = culture.parseDate(dateString, 'd');
+
+                var previousValue = observable.peek();
+                var value;
                 if (date) {
-                    observable(date.toISOString());
+                    value = date.toISOString();
+                    observable(value);
                 }
                 else {
+                    value = '';
                     observable('');
                     element.value = '';
                 }
+                if (previousValue === value) observable.valueHasMutated();
             });
         },
         update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -125,20 +131,17 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
             ko.utils.registerEventHandler(element, 'change', function() {
                 var formattedNumber = $(element).val();
                 var value = culture.parseFloat(formattedNumber);
-                if (value) {
-                    var previousValue = observable.peek();
-                    observable(value);
-                    // send a valueHasMutated to force the call of the update
-                    // in case the user has entered the handler in case
-                    // user has entered the same value twice
-                    if (previousValue === value) observable.valueHasMutated();
-                }
-                else {
-                    element.value = '';
-                }
+
+                var previousValue = observable.peek();
+                observable(isNaN(value) ? undefined : value);
+                // send a valueHasMutated to force the call of the update
+                // in case the user has entered the handler in case
+                // user has entered the same value twice
+                if (previousValue === value) observable.valueHasMutated();
             });
         },
         update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+            debugger;
             locale();
             allBindings = allBindings();
 
