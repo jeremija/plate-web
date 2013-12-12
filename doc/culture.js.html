@@ -25,8 +25,9 @@
     
     <section>
         <article>
-            <pre class="prettyprint source"><code>define(['globalize', 'events/event-manager', 'logger'],
-    function(Globalize, EventManager, Logger) {
+            <pre class="prettyprint source"><code>define(['globalize', 'events/event-manager', 'logger', 'singletons',
+    'locale/index'],
+    function(Globalize, EventManager, Logger, singletons) {
 
     var log = new Logger('ui/culture');
 
@@ -39,23 +40,35 @@
     var culture = {
         setLocale: function(p_locale) {
             var self = this;
-            require(['../locale/' + p_locale], function() {
+            // require(['../locale/' + p_locale], function() {
                 self.locale = p_locale;
                 log.debug('loaded locale ' + p_locale);
                 events.dispatch('locale-changed', p_locale);
-            }, function(err) {
-                log.error('unable to load locale ' + p_locale, err);
-            });
+                singletons.storage.save('locale', p_locale);
+            // }, function(err) {
+            //     log.error('unable to load locale ' + p_locale, err);
+            // });
         },
         // default locale
         locale: 'en-US',
         localize: function(p_key) {
             return Globalize.localize(p_key, this.locale);
+        },
+        format: function(p_value, p_pattern) {
+            return Globalize.format(p_value, p_pattern, this.locale);
+        },
+        parseDate: function(p_dateString, p_pattern) {
+            return Globalize.parseDate(p_dateString, p_pattern, this.locale);
+        },
+        parseFloat: function(p_value, p_radix) {
+            return Globalize.parseFloat(p_value, p_radix || 10, this.locale);
         }
     };
 
+    var locale = singletons.storage.load('locale');
+
     // load default locale
-    // culture.setLocale('en-US');
+    culture.setLocale(locale || 'en-US');
 
     return culture;
 });</code></pre>
@@ -68,13 +81,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-authentication.html">authentication</a></li><li><a href="module-localizer.html">localizer</a></li><li><a href="module-menu.html">menu</a></li><li><a href="module-traversal.html">traversal</a></li></ul><h3>Classes</h3><ul><li><a href="Ajax.html">Ajax</a></li><li><a href="Bindable.html">Bindable</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="Loading.html">Loading</a></li><li><a href="Logger.html">Logger</a></li><li><a href="Model.html">Model</a></li><li><a href="Page.html">Page</a></li><li><a href="PageBinder.html">PageBinder</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="Queue.html">Queue</a></li><li><a href="QueuedTimer.html">QueuedTimer</a></li><li><a href="Router.html">Router</a></li><li><a href="Storage.html">Storage</a></li><li><a href="TemplateLoader.html">TemplateLoader</a></li></ul><h3>Events</h3><ul><li><a href="EventManager.html#event:logged-in">logged-in</a></li><li><a href="EventManager.html#event:logged-out">logged-out</a></li><li><a href="EventManager.html#event:logout">logout</a></li><li><a href="EventManager.html#event:page-loading-end">page-loading-end</a></li><li><a href="EventManager.html#event:page-loading-start">page-loading-start</a></li><li><a href="EventManager.html#event:page-route-found">page-route-found</a></li><li><a href="EventManager.html#event:page-route-not-found">page-route-not-found</a></li><li><a href="EventManager.html#event:redirect">redirect</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-authentication.html">authentication</a></li><li><a href="localize.html">bindingHandlers/localize</a></li><li><a href="module-localizer.html">localizer</a></li><li><a href="module-menu.html">menu</a></li><li><a href="module-traversal.html">traversal</a></li></ul><h3>Classes</h3><ul><li><a href="Ajax.html">Ajax</a></li><li><a href="Bindable.html">Bindable</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="Loading.html">Loading</a></li><li><a href="LoadingListener.html">LoadingListener</a></li><li><a href="Logger.html">Logger</a></li><li><a href="Model.html">Model</a></li><li><a href="Page.html">Page</a></li><li><a href="PageBinder.html">PageBinder</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="Queue.html">Queue</a></li><li><a href="QueuedTimer.html">QueuedTimer</a></li><li><a href="Router.html">Router</a></li><li><a href="Storage.html">Storage</a></li><li><a href="TemplateLoader.html">TemplateLoader</a></li></ul><h3>Events</h3><ul><li><a href="EventManager.html#event:ajax-end">ajax-end</a></li><li><a href="EventManager.html#event:ajax-start">ajax-start</a></li><li><a href="EventManager.html#event:ask-yes-no">ask-yes-no</a></li><li><a href="EventManager.html#event:breadcrumbs-set">breadcrumbs-set</a></li><li><a href="EventManager.html#event:logged-in">logged-in</a></li><li><a href="EventManager.html#event:logged-out">logged-out</a></li><li><a href="EventManager.html#event:logout">logout</a></li><li><a href="EventManager.html#event:msg-error">msg-error</a></li><li><a href="EventManager.html#event:msg-info">msg-info</a></li><li><a href="EventManager.html#event:msg-success">msg-success</a></li><li><a href="EventManager.html#event:msg-warn">msg-warn</a></li><li><a href="EventManager.html#event:page-loading-end">page-loading-end</a></li><li><a href="EventManager.html#event:page-loading-start">page-loading-start</a></li><li><a href="EventManager.html#event:page-route-found">page-route-found</a></li><li><a href="EventManager.html#event:page-route-not-found">page-route-not-found</a></li><li><a href="EventManager.html#event:redirect">redirect</a></li><li><a href="EventManager.html#event:subpage">subpage</a></li></ul><h3>Global</h3><ul><li><a href="global.html#clear">clear</a></li><li><a href="global.html#listen">listen</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Sat Dec 07 2013 10:35:56 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Thu Dec 12 2013 17:29:16 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

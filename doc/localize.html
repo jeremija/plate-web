@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: ui/loading.js</title>
+    <title>JSDoc: Module: bindingHandlers/localize</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,82 +17,172 @@
 
 <div id="main">
     
-    <h1 class="page-title">Source: ui/loading.js</h1>
+    <h1 class="page-title">Module: bindingHandlers/localize</h1>
     
     
 
 
+
+<section>
     
-    <section>
-        <article>
-            <pre class="prettyprint source"><code>define(['extendable', 'util/queued-timer', 'jquery', 'signals'],
-    function(Extendable, QueuedTimer, $, signals) {
+<header>
+    <h2>
+    bindingHandlers/localize
+    </h2>
+    
+</header>  
 
-    var Signal = signals.Signal;
+<article>
+    <div class="container-overview">
+    
+    
+    
+        
+            <div class="description">Localization binding handler for knockout</div>
+        
+        
+        
+<dl class="details">
+    
+        
+    
+    
+    
 
-    /**
-     * @class  Class to assist with loading
-     * @name   Loading
-     * @extends {Extendable}
-     * @param  {Object} p_params           Configuration object
-     * @param  {String} p_params.selector  jquery's element selector, for
-     * example '#loader'
-     * @param  {Number} p_params.duration  hide animation duration
-     * @param  {Number} p_params.hideDelay Delay before the hiding starts
-     */
-    function Loading(p_params) {
-        this.selector = p_params.selector;
-        this.duration = p_params.duration || 400;
-        this._queuedTimer = new QueuedTimer(p_params.hideDelay || 400);
-        /**
-         * Current loader state. States can be: 'visible',
-         * 'timed', 'hiding', and 'hidden'
-         * @type {String}
-         */
-        this.state = 'hidden';
-        this.stateChanged = new Signal();
-    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="localize.js.html">ko-bindings/localize.js</a>, <a href="localize.js.html#line27">line 27</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
 
-    var LoadingPrototype = /** @lends Loading.prototype */ {
-        show: function() {
-            var timer = this._queuedTimer;
-            // add a queue request
-            timer.add();
-            // stop hide timer if any requests for hiding
-            timer.stop();
-            // show loader
-            $(this.selector).show();
-            this._setState('visible');
-        },
-        hide: function() {
-            var timer = this._queuedTimer;
-            // remove the queue request
-            timer.remove();
-            // if there are no more show requests,
-            if (timer.size() === 0) {
-                timer.start(this._hideAnimate, this);
-                this._setState('timed');
-            }
-        },
-        _hideAnimate: function() {
-            this._setState('hiding');
-            var self = this;
-            $(this.selector).fadeOut(this.duration, function() {
-                self._setState('hidden');
-            });
-        },
-        _setState: function(p_newState) {
-            var oldState = this.state;
-            this.state = p_newState;
+        
+        
+    
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</article>
 
-            this.stateChanged.dispatch(p_newState, oldState);
-        }
-    };
+</section>  
 
-    return Extendable.extend(Loading, LoadingPrototype);
-});</code></pre>
-        </article>
-    </section>
+
+
+
+
+
+<section>
+    
+<header>
+    <h2>
+    bindingHandlers/localize
+    </h2>
+    
+</header>  
+
+<article>
+    <div class="container-overview">
+    
+    
+    
+        
+            <div class="description">Localization binding handler for knockout</div>
+        
+        
+        
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="localize.js.html">ko-bindings/localize.js</a>, <a href="localize.js.html#line38">line 38</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+        
+        
+    
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</article>
+
+</section>  
 
 
 

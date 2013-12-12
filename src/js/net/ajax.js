@@ -96,7 +96,7 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
          * `ajax-start` and `ajax-end` events
          * @fires EventManager#ajax-start        Before ajax request is placed
          * @fires EventManager#ajax-end          After ajax request completes
-         * @fires EventManager#msg-error         If an error ocurrs (regardless
+         * @fires EventManager#msg-error         If an error ocurrs, regardless
          * of the noEvents setting)
          */
         get: function(p_params) {
@@ -119,8 +119,8 @@ define(['jquery', 'extendable', 'logger', 'events/event-manager'],
          * `ajax-start` and `ajax-end` events
          * @fires EventManager#ajax-start        Before ajax request is placed
          * @fires EventManager#ajax-end          After ajax request completes
-         * @fires EventManager#msg-error         If an error ocurrs (regardless
-         * of the noEvents setting)
+         * @fires EventManager#msg-error         If an error ocurrs, regardless
+         * of the noEvents setting
          */
         post: function(p_params) {
             return this._ajaxRequest(p_params, 'POST');

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: ui/loading.js</title>
+    <title>JSDoc: Source: modules/messages-mod.js</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Source: ui/loading.js</h1>
+    <h1 class="page-title">Source: modules/messages-mod.js</h1>
     
     
 
@@ -25,71 +25,95 @@
     
     <section>
         <article>
-            <pre class="prettyprint source"><code>define(['extendable', 'util/queued-timer', 'jquery', 'signals'],
-    function(Extendable, QueuedTimer, $, signals) {
+            <pre class="prettyprint source"><code>define(['events/event-manager', 'jquery', 'ui/culture'],
+    function(EventManager, $, culture) {
 
-    var Signal = signals.Signal;
+    var events = new EventManager('ui/messages');
 
     /**
-     * @class  Class to assist with loading
-     * @name   Loading
-     * @extends {Extendable}
-     * @param  {Object} p_params           Configuration object
-     * @param  {String} p_params.selector  jquery's element selector, for
-     * example '#loader'
-     * @param  {Number} p_params.duration  hide animation duration
-     * @param  {Number} p_params.hideDelay Delay before the hiding starts
+     * Sends an error message to the UI
+     * @event EventManager#msg-error
      */
-    function Loading(p_params) {
-        this.selector = p_params.selector;
-        this.duration = p_params.duration || 400;
-        this._queuedTimer = new QueuedTimer(p_params.hideDelay || 400);
-        /**
-         * Current loader state. States can be: 'visible',
-         * 'timed', 'hiding', and 'hidden'
-         * @type {String}
-         */
-        this.state = 'hidden';
-        this.stateChanged = new Signal();
+
+    /**
+     * Sends a warning message to the UI
+     * @event EventManager#msg-warn
+     */
+
+    /**
+     * Sends an info message to the UI
+     * @event EventManager#msg-info
+     */
+
+    /**
+     * Sends a success message to the UI
+     * @event EventManager#msg-success
+     */
+
+    function createMessageElement(p_alertType, p_titleKey, p_msg) {
+        var msg = culture.localize(p_msg) || p_msg;
+        var title = culture.localize(p_titleKey) || p_titleKey;
+
+        var css = 'alert alert-' + p_alertType + ' alert-dismissable';
+        var $el = $('&lt;div>').addClass(css);
+        var $button = $('&lt;button>').addClass('close')
+            .attr('data-dismiss', 'alert')
+            .attr('aria-hidden', 'true')
+            .html('&times;');
+
+        var $title = $('&lt;strong>').text(title);
+        var $msg = $('&lt;span>').text(msg);
+        var $text = $('&lt;p>').append($title).append('&nbsp;').append($msg);
+
+        $el.hide();
+        $el.append($button).append($text).prependTo('#messages-mod');
+        $el.fadeIn().delay(3000).fadeOut();
     }
 
-    var LoadingPrototype = /** @lends Loading.prototype */ {
-        show: function() {
-            var timer = this._queuedTimer;
-            // add a queue request
-            timer.add();
-            // stop hide timer if any requests for hiding
-            timer.stop();
-            // show loader
-            $(this.selector).show();
-            this._setState('visible');
-        },
-        hide: function() {
-            var timer = this._queuedTimer;
-            // remove the queue request
-            timer.remove();
-            // if there are no more show requests,
-            if (timer.size() === 0) {
-                timer.start(this._hideAnimate, this);
-                this._setState('timed');
+    function listen() {
+        events.listen({
+            'msg-error': function(p_key) {
+                createMessageElement('danger', 'error', p_key);
+            },
+            'msg-warn': function(p_key) {
+                createMessageElement('warning', 'warning', p_key);
+            },
+            'msg-info': function(p_key) {
+                createMessageElement('info', 'info', p_key);
+            },
+            'msg-success': function(p_key) {
+                createMessageElement('success', 'success', p_key);
+            },
+            'page-loading-end': function(err, page) {
+                // clear messages on page change
+                // if (page.name !== 'error-page') {
+                //     $('#messages-mod').children().remove();
+                // }
             }
-        },
-        _hideAnimate: function() {
-            this._setState('hiding');
-            var self = this;
-            $(this.selector).fadeOut(this.duration, function() {
-                self._setState('hidden');
-            });
-        },
-        _setState: function(p_newState) {
-            var oldState = this.state;
-            this.state = p_newState;
+        });
+    }
 
-            this.stateChanged.dispatch(p_newState, oldState);
+    /**
+     * @exports messagesMod
+     * @listens EventManager#msg-error
+     * @listens EventManager#msg-warn
+     * @listens EventManager#msg-info
+     * @listens EventManager#msg-success
+     */
+    return {
+        /**
+         * Sets event bindings
+         */
+        listen: function() {
+            listen();
+        },
+        /**
+         * Clears event bindings
+         */
+        clear: function() {
+            events.clear();
         }
     };
-
-    return Extendable.extend(Loading, LoadingPrototype);
 });</code></pre>
         </article>
     </section>

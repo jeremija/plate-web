@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: ui/loading.js</title>
+    <title>JSDoc: Source: modules/ask-yes-no-mod.js</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Source: ui/loading.js</h1>
+    <h1 class="page-title">Source: modules/ask-yes-no-mod.js</h1>
     
     
 
@@ -25,71 +25,59 @@
     
     <section>
         <article>
-            <pre class="prettyprint source"><code>define(['extendable', 'util/queued-timer', 'jquery', 'signals'],
-    function(Extendable, QueuedTimer, $, signals) {
+            <pre class="prettyprint source"><code>define(['knockout', 'jquery', 'templates/bindable'], function(ko, $, Bindable) {
 
-    var Signal = signals.Signal;
-
-    /**
-     * @class  Class to assist with loading
-     * @name   Loading
-     * @extends {Extendable}
-     * @param  {Object} p_params           Configuration object
-     * @param  {String} p_params.selector  jquery's element selector, for
-     * example '#loader'
-     * @param  {Number} p_params.duration  hide animation duration
-     * @param  {Number} p_params.hideDelay Delay before the hiding starts
-     */
-    function Loading(p_params) {
-        this.selector = p_params.selector;
-        this.duration = p_params.duration || 400;
-        this._queuedTimer = new QueuedTimer(p_params.hideDelay || 400);
-        /**
-         * Current loader state. States can be: 'visible',
-         * 'timed', 'hiding', and 'hidden'
-         * @type {String}
-         */
-        this.state = 'hidden';
-        this.stateChanged = new Signal();
-    }
-
-    var LoadingPrototype = /** @lends Loading.prototype */ {
-        show: function() {
-            var timer = this._queuedTimer;
-            // add a queue request
-            timer.add();
-            // stop hide timer if any requests for hiding
-            timer.stop();
-            // show loader
-            $(this.selector).show();
-            this._setState('visible');
+    var vm = {
+        yesCallback: undefined,
+        noCallback: undefined,
+        message: ko.observable(),
+        context: undefined,
+        yes: function(data, event) {
+            $(askYesNoMod.element).modal('hide');
+            if (vm.yesCallback) vm.yesCallback.call(vm.context, vm.data);
         },
-        hide: function() {
-            var timer = this._queuedTimer;
-            // remove the queue request
-            timer.remove();
-            // if there are no more show requests,
-            if (timer.size() === 0) {
-                timer.start(this._hideAnimate, this);
-                this._setState('timed');
-            }
+        no: function(data, event) {
+            $(askYesNoMod.element).modal('hide');
+            if (vm.noCallback) vm.noCallback.call(vm.context, vm.data);
         },
-        _hideAnimate: function() {
-            this._setState('hiding');
-            var self = this;
-            $(this.selector).fadeOut(this.duration, function() {
-                self._setState('hidden');
-            });
-        },
-        _setState: function(p_newState) {
-            var oldState = this.state;
-            this.state = p_newState;
-
-            this.stateChanged.dispatch(p_newState, oldState);
-        }
+        data: undefined
     };
 
-    return Extendable.extend(Loading, LoadingPrototype);
+    var askYesNoMod = new Bindable({
+        name: 'ask-yes-no-mod',
+        viewModel: vm,
+        events: {
+            /**
+             * Event which shows the modal dialog with yes no buttonss
+             * @event EventManager#ask-yes-no
+             * @param  {Object} p_params            Configuration object
+             * @param  {String} p_params.message    Will be localized
+             * @param  {Function} p_params.yes      Callback on yes click
+             * @param  {Function} p_params.no       Callback on no click
+             * @param  {Object} p_params.context    Context in which the
+             * @param  {Object} p_params.data       Data to send as callback
+             * argument
+             */
+            'ask-yes-no': function(p_params) {
+                var config = p_params || {};
+                vm.message(config.message);
+                vm.yesCallback = config.yes;
+                vm.noCallback = config.no;
+                vm.context = config.context;
+                vm.data = config.data;
+                $(this.element).modal('show');
+            }
+        },
+        visible: true
+    });
+
+    askYesNoMod.onBind = function() {
+        $(this.element).modal({
+            show: false
+        });
+    };
+
+    return askYesNoMod;
 });</code></pre>
         </article>
     </section>

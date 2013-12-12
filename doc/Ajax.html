@@ -41,7 +41,7 @@
     
         
 <dt>
-    <h4 class="name" id="Ajax"><span class="type-signature"></span>new Ajax<span class="signature">(p_loading)</span><span class="type-signature"> &rarr; {<a href="Ajax.html">Ajax</a>}</span></h4>
+    <h4 class="name" id="Ajax"><span class="type-signature"></span>new Ajax<span class="signature">(p_name, p_urlPrefix)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -79,13 +79,13 @@
 	
         <tr>
             
-                <td class="name"><code>p_loading</code></td>
+                <td class="name"><code>p_name</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type"><a href="Loading.html">Loading</a></span>
+<span class="param-type">String</span>
 
 
             
@@ -95,7 +95,30 @@
             
             
             
-            <td class="description last">loading display</td>
+            <td class="description last">Name of the instance</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>p_urlPrefix</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Prefix for the url</td>
         </tr>
 	
 	
@@ -126,7 +149,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ajax.js.html">net/ajax.js</a>, <a href="ajax.js.html#line4">line 4</a>
+        <a href="ajax.js.html">net/ajax.js</a>, <a href="ajax.js.html#line8">line 8</a>
     </li></ul></dd>
     
     
@@ -147,28 +170,6 @@
     
     
     
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    an instance of Ajax
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type"><a href="Ajax.html">Ajax</a></span>
-
-
-	</dd>
-</dl>
-
-        
     
     
 </dd>
@@ -283,7 +284,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ajax.js.html">net/ajax.js</a>, <a href="ajax.js.html#line28">line 28</a>
+        <a href="ajax.js.html">net/ajax.js</a>, <a href="ajax.js.html#line71">line 71</a>
     </li></ul></dd>
     
     
@@ -419,6 +420,52 @@ the request finishes.</td>
 	
         <tr>
             
+                <td class="name"><code>url</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Url</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Data to be sent to the server.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
                 <td class="name"><code>success</code></td>
             
             
@@ -465,13 +512,13 @@ the request finishes.</td>
 	
         <tr>
             
-                <td class="name"><code>data</code></td>
+                <td class="name"><code>invalid</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">Function</span>
 
 
             
@@ -481,14 +528,40 @@ the request finishes.</td>
             
             
             
-            <td class="description last">Data to be sent to the server.</td>
+            <td class="description last">Callback when there is
+a validation error. The default error callback will no matter if
+this is present or not.</td>
         </tr>
 	
 	
 	
         <tr>
             
-                <td class="name"><code>url</code></td>
+                <td class="name"><code>complete</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Function</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A function to be called when
+the request finishes.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>noEvents</code></td>
             
             
             <td class="type">
@@ -504,7 +577,8 @@ the request finishes.</td>
             
             
             
-            <td class="description last">Url</td>
+            <td class="description last">If true, does not dispatch the
+`ajax-start` and `ajax-end` events</td>
         </tr>
 	
 	
@@ -541,7 +615,7 @@ the request finishes.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ajax.js.html">net/ajax.js</a>, <a href="ajax.js.html#line42">line 42</a>
+        <a href="ajax.js.html">net/ajax.js</a>, <a href="ajax.js.html#line102">line 102</a>
     </li></ul></dd>
     
     
@@ -553,6 +627,16 @@ the request finishes.</td>
 </dl>
 
     
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>EventManager#event:ajax-start        Before ajax request is placed</li>
+    
+        <li>EventManager#event:ajax-end          After ajax request completes</li>
+    
+        <li>EventManager#msg-error         If an error ocurrs, regardless
+of the noEvents setting)event:</li>
+    </ul>
     
 
     
@@ -653,13 +737,13 @@ the request finishes.</td>
 	
         <tr>
             
-                <td class="name"><code>complete</code></td>
+                <td class="name"><code>url</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type">Function</span>
+<span class="param-type">String</span>
 
 
             
@@ -669,8 +753,30 @@ the request finishes.</td>
             
             
             
-            <td class="description last">A function to be called when
-the request finishes.</td>
+            <td class="description last">Url</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Data to be sent to the server.</td>
         </tr>
 	
 	
@@ -723,13 +829,13 @@ the request finishes.</td>
 	
         <tr>
             
-                <td class="name"><code>data</code></td>
+                <td class="name"><code>invalid</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">Function</span>
 
 
             
@@ -739,14 +845,41 @@ the request finishes.</td>
             
             
             
-            <td class="description last">Data to be sent to the server.</td>
+            <td class="description last">Callback when there is
+a validation error. The default error callback will no matter if
+this is present or not.
+be used. The default error callback will be called too!</td>
         </tr>
 	
 	
 	
         <tr>
             
-                <td class="name"><code>url</code></td>
+                <td class="name"><code>complete</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Function</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A function to be called when
+the request finishes.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>noEvents</code></td>
             
             
             <td class="type">
@@ -762,7 +895,8 @@ the request finishes.</td>
             
             
             
-            <td class="description last">Url</td>
+            <td class="description last">If true, does not dispatch the
+`ajax-start` and `ajax-end` events</td>
         </tr>
 	
 	
@@ -799,7 +933,7 @@ the request finishes.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ajax.js.html">net/ajax.js</a>, <a href="ajax.js.html#line55">line 55</a>
+        <a href="ajax.js.html">net/ajax.js</a>, <a href="ajax.js.html#line125">line 125</a>
     </li></ul></dd>
     
     
@@ -811,6 +945,16 @@ the request finishes.</td>
 </dl>
 
     
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li>EventManager#event:ajax-start        Before ajax request is placed</li>
+    
+        <li>EventManager#event:ajax-end          After ajax request completes</li>
+    
+        <li>EventManager#msg-error         If an error ocurrs, regardless
+of the noEvents settingevent:</li>
+    </ul>
     
 
     
@@ -840,13 +984,13 @@ the request finishes.</td>
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-authentication.html">authentication</a></li><li><a href="module-localizer.html">localizer</a></li><li><a href="module-menu.html">menu</a></li><li><a href="module-traversal.html">traversal</a></li></ul><h3>Classes</h3><ul><li><a href="Ajax.html">Ajax</a></li><li><a href="Bindable.html">Bindable</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="Loading.html">Loading</a></li><li><a href="Logger.html">Logger</a></li><li><a href="Model.html">Model</a></li><li><a href="Page.html">Page</a></li><li><a href="PageBinder.html">PageBinder</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="Queue.html">Queue</a></li><li><a href="QueuedTimer.html">QueuedTimer</a></li><li><a href="Router.html">Router</a></li><li><a href="Storage.html">Storage</a></li><li><a href="TemplateLoader.html">TemplateLoader</a></li></ul><h3>Events</h3><ul><li><a href="EventManager.html#event:logged-in">logged-in</a></li><li><a href="EventManager.html#event:logged-out">logged-out</a></li><li><a href="EventManager.html#event:logout">logout</a></li><li><a href="EventManager.html#event:page-loading-end">page-loading-end</a></li><li><a href="EventManager.html#event:page-loading-start">page-loading-start</a></li><li><a href="EventManager.html#event:page-route-found">page-route-found</a></li><li><a href="EventManager.html#event:page-route-not-found">page-route-not-found</a></li><li><a href="EventManager.html#event:redirect">redirect</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-authentication.html">authentication</a></li><li><a href="localize.html">bindingHandlers/localize</a></li><li><a href="module-localizer.html">localizer</a></li><li><a href="module-menu.html">menu</a></li><li><a href="module-traversal.html">traversal</a></li></ul><h3>Classes</h3><ul><li><a href="Ajax.html">Ajax</a></li><li><a href="Bindable.html">Bindable</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="Loading.html">Loading</a></li><li><a href="LoadingListener.html">LoadingListener</a></li><li><a href="Logger.html">Logger</a></li><li><a href="Model.html">Model</a></li><li><a href="Page.html">Page</a></li><li><a href="PageBinder.html">PageBinder</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="Queue.html">Queue</a></li><li><a href="QueuedTimer.html">QueuedTimer</a></li><li><a href="Router.html">Router</a></li><li><a href="Storage.html">Storage</a></li><li><a href="TemplateLoader.html">TemplateLoader</a></li></ul><h3>Events</h3><ul><li><a href="EventManager.html#event:ajax-end">ajax-end</a></li><li><a href="EventManager.html#event:ajax-start">ajax-start</a></li><li><a href="EventManager.html#event:ask-yes-no">ask-yes-no</a></li><li><a href="EventManager.html#event:breadcrumbs-set">breadcrumbs-set</a></li><li><a href="EventManager.html#event:logged-in">logged-in</a></li><li><a href="EventManager.html#event:logged-out">logged-out</a></li><li><a href="EventManager.html#event:logout">logout</a></li><li><a href="EventManager.html#event:msg-error">msg-error</a></li><li><a href="EventManager.html#event:msg-info">msg-info</a></li><li><a href="EventManager.html#event:msg-success">msg-success</a></li><li><a href="EventManager.html#event:msg-warn">msg-warn</a></li><li><a href="EventManager.html#event:page-loading-end">page-loading-end</a></li><li><a href="EventManager.html#event:page-loading-start">page-loading-start</a></li><li><a href="EventManager.html#event:page-route-found">page-route-found</a></li><li><a href="EventManager.html#event:page-route-not-found">page-route-not-found</a></li><li><a href="EventManager.html#event:redirect">redirect</a></li><li><a href="EventManager.html#event:subpage">subpage</a></li></ul><h3>Global</h3><ul><li><a href="global.html#clear">clear</a></li><li><a href="global.html#listen">listen</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Sat Dec 07 2013 10:35:56 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Thu Dec 12 2013 17:29:16 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

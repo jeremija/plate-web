@@ -32,10 +32,12 @@
 
     /**
      * @event EventManager#page-route-found
-     * @param {Object} params              Event object
-     * @param {Page}   params.page         Page instance
-     * @param {String} params.routeUrl     Url of the route
-     * @param {Array}  params.routeArgs    Arguments for the route
+     * @param {Object} params                   Event object
+     * @param {Page}   params.page              Page instance
+     * @param {String} params.routeUrl          Url of the route
+     * @param {Array}  params.routeArgs         Arguments for the route
+     * @param {Object} params.routesPath        Routes path object containing
+     * literal and abstract route
      */
 
     /**
@@ -46,6 +48,12 @@
     /**
      * @event EventManager#redirect
      * @param {String} p_url               The url to redirect to
+     */
+
+    /**
+     * @event EventManager#subpage
+     * @param {String} p_url               The url to redirect to, but the
+     * current page will be remebered as the parent page
      */
 
     /**
@@ -60,20 +68,37 @@
      */
     function Router(p_params) {
         this.name = p_params.name;
-        this.log = new Logger(this.name);
+        this.log = new Logger(this.name, this.constructor.name);
 
-        this.events = new EventManager(this.names, this);
+        this.events = new EventManager(this.log.name, this);
         this.events.listen({
             'redirect': function(p_url) {
                 this.log.debug('redirecting to `' + p_url + '`');
                 this.go(p_url);
+            },
+            'subpage': function(p_url) {
+                var url = this.routesPath.literal + '#' + p_url;
+                this.log.debug('redirecting to `' + url + '`');
+                this.go(url);
             }
         });
 
         this.urlBindings = {};
-        this.lastUrl = undefined;
 
         this.initialized = false;
+        /**
+         * The full route path
+         * @type {Object}
+         */
+        this.routesPath = {
+            abstract: '',
+            literal: ''
+        };
+        /**
+         * Last routed url
+         * @type {String}
+         */
+        this.lastUrl = undefined;
     }
 
     var RouterPrototype = /** @lends Router.prototype */ {
@@ -106,12 +131,18 @@
                 // infinite loop because crossroads only reacts to a change of
                 // hash. when this is called the second time, the hash will
                 // already be `error`.
+
+                this.events.dispatch('msg-error', 'common.route.not.found');
                 this.go('error');
             }, this);
         },
         _setupHasher: function() {
+            var self = this;
             function parseHash(newHash, oldHash) {
-                crossroads.parse(newHash);
+                var routes = newHash.split('#');
+                self.routesPath.literal = newHash;
+                self.routesPath.abstract = self._getAbstractUrls(routes);
+                crossroads.parse(routes[routes.length - 1]);
             }
             this._hasherInitializedBinding = hasher.initialized.add(parseHash);
             this._hasherChangedBinding = hasher.changed.add(parseHash);
@@ -140,7 +171,8 @@
                 this.events.dispatch('page-route-found', {
                     page: p_page,
                     routeUrl: p_routeUrl,
-                    routeArgs: [].slice.call(arguments)
+                    routeArgs: [].slice.call(arguments),
+                    routesPath: this.routesPath
                 });
             }, this);
 
@@ -148,6 +180,26 @@
                 route: route,
                 page: p_page
             };
+        },
+        _getAbstractUrl: function(p_routeUrl) {
+            for (var abstractUrl in this.urlBindings) {
+                var urlBinding = this.urlBindings[abstractUrl];
+                var route = urlBinding.route;
+                if (route.match(p_routeUrl)) {
+                    return abstractUrl;
+                }
+            }
+            return false;
+        },
+        _getAbstractUrls: function(p_routes) {
+            var url = '';
+            for (var i in p_routes) {
+                var route = p_routes[i];
+                if (url.length) url += '#';
+                var abstractUrl = this._getAbstractUrl(route);
+                url += abstractUrl ? abstractUrl : route;
+            }
+            return url;
         },
         _unregisterUrl: function(p_routeUrl) {
             var urlBinding = this.urlBindings[p_routeUrl];
@@ -205,13 +257,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-authentication.html">authentication</a></li><li><a href="module-localizer.html">localizer</a></li><li><a href="module-menu.html">menu</a></li><li><a href="module-traversal.html">traversal</a></li></ul><h3>Classes</h3><ul><li><a href="Ajax.html">Ajax</a></li><li><a href="Bindable.html">Bindable</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="Loading.html">Loading</a></li><li><a href="Logger.html">Logger</a></li><li><a href="Model.html">Model</a></li><li><a href="Page.html">Page</a></li><li><a href="PageBinder.html">PageBinder</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="Queue.html">Queue</a></li><li><a href="QueuedTimer.html">QueuedTimer</a></li><li><a href="Router.html">Router</a></li><li><a href="Storage.html">Storage</a></li><li><a href="TemplateLoader.html">TemplateLoader</a></li></ul><h3>Events</h3><ul><li><a href="EventManager.html#event:logged-in">logged-in</a></li><li><a href="EventManager.html#event:logged-out">logged-out</a></li><li><a href="EventManager.html#event:logout">logout</a></li><li><a href="EventManager.html#event:page-loading-end">page-loading-end</a></li><li><a href="EventManager.html#event:page-loading-start">page-loading-start</a></li><li><a href="EventManager.html#event:page-route-found">page-route-found</a></li><li><a href="EventManager.html#event:page-route-not-found">page-route-not-found</a></li><li><a href="EventManager.html#event:redirect">redirect</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-authentication.html">authentication</a></li><li><a href="localize.html">bindingHandlers/localize</a></li><li><a href="module-localizer.html">localizer</a></li><li><a href="module-menu.html">menu</a></li><li><a href="module-traversal.html">traversal</a></li></ul><h3>Classes</h3><ul><li><a href="Ajax.html">Ajax</a></li><li><a href="Bindable.html">Bindable</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="Loading.html">Loading</a></li><li><a href="LoadingListener.html">LoadingListener</a></li><li><a href="Logger.html">Logger</a></li><li><a href="Model.html">Model</a></li><li><a href="Page.html">Page</a></li><li><a href="PageBinder.html">PageBinder</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="Queue.html">Queue</a></li><li><a href="QueuedTimer.html">QueuedTimer</a></li><li><a href="Router.html">Router</a></li><li><a href="Storage.html">Storage</a></li><li><a href="TemplateLoader.html">TemplateLoader</a></li></ul><h3>Events</h3><ul><li><a href="EventManager.html#event:ajax-end">ajax-end</a></li><li><a href="EventManager.html#event:ajax-start">ajax-start</a></li><li><a href="EventManager.html#event:ask-yes-no">ask-yes-no</a></li><li><a href="EventManager.html#event:breadcrumbs-set">breadcrumbs-set</a></li><li><a href="EventManager.html#event:logged-in">logged-in</a></li><li><a href="EventManager.html#event:logged-out">logged-out</a></li><li><a href="EventManager.html#event:logout">logout</a></li><li><a href="EventManager.html#event:msg-error">msg-error</a></li><li><a href="EventManager.html#event:msg-info">msg-info</a></li><li><a href="EventManager.html#event:msg-success">msg-success</a></li><li><a href="EventManager.html#event:msg-warn">msg-warn</a></li><li><a href="EventManager.html#event:page-loading-end">page-loading-end</a></li><li><a href="EventManager.html#event:page-loading-start">page-loading-start</a></li><li><a href="EventManager.html#event:page-route-found">page-route-found</a></li><li><a href="EventManager.html#event:page-route-not-found">page-route-not-found</a></li><li><a href="EventManager.html#event:redirect">redirect</a></li><li><a href="EventManager.html#event:subpage">subpage</a></li></ul><h3>Global</h3><ul><li><a href="global.html#clear">clear</a></li><li><a href="global.html#listen">listen</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Sat Dec 07 2013 10:35:56 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Thu Dec 12 2013 17:29:16 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

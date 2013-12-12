@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: PageBinder</title>
+    <title>JSDoc: Class: LoadingListener</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Class: PageBinder</h1>
+    <h1 class="page-title">Class: LoadingListener</h1>
     
     
 
@@ -27,13 +27,11 @@
     
 <header>
     <h2>
-    PageBinder
+    LoadingListener
     </h2>
     
-        <div class="class-description">This object handles the `page-route-found` event and coordinates
-the page show/hide method calls and page route changes.
-It also listens to `page-route-not-found` event and redirects to the
-error page.</div>
+        <div class="class-description">Listens to various events and sends request to <a href="Loading.html">Loading</a>
+class.</div>
     
 </header>  
 
@@ -44,7 +42,7 @@ error page.</div>
     
         
 <dt>
-    <h4 class="name" id="PageBinder"><span class="type-signature"></span>new PageBinder<span class="signature">(p_params)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="LoadingListener"><span class="type-signature"></span>new LoadingListener<span class="signature">(p_params)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -140,20 +138,20 @@ error page.</div>
             
             
             
-            <td class="description last">Name</td>
+            <td class="description last">Name of the instance</td>
         </tr>
 	
 	
 	
         <tr>
             
-                <td class="name"><code>errorRoute</code></td>
+                <td class="name"><code>loading</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type"><a href="Loading.html">Loading</a></span>
 
 
             
@@ -163,79 +161,7 @@ error page.</div>
             
             
             
-            <td class="description last">Route for the error page</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>templateLoader</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type"><a href="TemplateLoader.html">TemplateLoader</a></span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Template loader object
-for loading html templates.</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>templatePath</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Path for loading
-templates (defaults to `/pages`)</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>templateExtension</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Extension for loading
-templates (defautls to `.html`)</td>
+            <td class="description last">An instance of loading</td>
         </tr>
 	
 	
@@ -272,7 +198,7 @@ templates (defautls to `.html`)</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="page-binder.js.html">templates/page-binder.js</a>, <a href="page-binder.js.html#line8">line 8</a>
+        <a href="loading-listener.js.html">ui/loading-listener.js</a>, <a href="loading-listener.js.html#line4">line 4</a>
     </li></ul></dd>
     
     
@@ -284,21 +210,18 @@ templates (defautls to `.html`)</td>
 </dl>
 
     
-    
-    <h5>Fires:</h5>
-    <ul>
-        <li>event:page-loading-start</li>
-    
-        <li>event:page-loading-end</li>
-    </ul>
     
 
     
     <h5>Listens to Events:</h5>
     <ul>
-        <li>event:page-route-found</li>
+        <li><a href="EventManager.html#event:page-loading-start">EventManager#event:page-loading-start</a></li>
     
-        <li>event:page-route-not-found</li>
+        <li><a href="EventManager.html#event:page-loading-end">EventManager#event:page-loading-end</a></li>
+    
+        <li><a href="EventManager.html#event:ajax-start">EventManager#event:ajax-start</a></li>
+    
+        <li><a href="EventManager.html#event:ajax-end">EventManager#event:ajax-end</a></li>
     </ul>
     
 
@@ -326,177 +249,6 @@ templates (defautls to `.html`)</td>
     
     
     
-    
-        <h3 class="subsection-title">Methods</h3>
-        
-        <dl>
-            
-<dt>
-    <h4 class="name" id="changePage"><span class="type-signature"></span>changePage<span class="signature">(p_page, p_routeUrl, p_routeArgs)</span><span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Hiddes the current page (if any). If the new page is already bound,
-it will be shown and it's route callback applied.
-
-If the new page is not yet bound to an element, it's template
-will be loaded.
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>p_page</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type"><a href="Page.html">Page</a></span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Page</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>p_routeUrl</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Route url</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>p_routeArgs</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Array</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Arguments for the route callback</td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="page-binder.js.html">templates/page-binder.js</a>, <a href="page-binder.js.html#line79">line 79</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    
-    
-</dd>
-
-        </dl>
     
     
     
