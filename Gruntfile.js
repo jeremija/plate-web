@@ -38,7 +38,7 @@ module.exports = function(grunt) {
         uglify: {
             distjs: {
                 options: {
-                    banner: '/*! plate-web <%= grunt.template.today("dd-mm-yyyy") %> */\n',
+                    banner: '/*! plate-web v<%= pkg.version %> <%= grunt.template.today("dd-mm-yyyy") %> */\n',
                     sourceMap: 'dist/js/plate-web.min-map.js',
                     sourceMappingURL: 'plate-web.min-map.js',
                     sourceMapPrefix: 2
