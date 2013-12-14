@@ -1,4 +1,5 @@
-define(['knockout', 'jquery', 'ui/culture'], function(ko, $, culture) {
+define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
+    function(ko, $, EventManager, culture) {
 
     stateIcons = {
         'idle'      : 'glyphicon glyphicon-ok-circle',
@@ -6,9 +7,19 @@ define(['knockout', 'jquery', 'ui/culture'], function(ko, $, culture) {
         'loaded'    : 'glyphicon glyphicon-ok-circle',
         'saving'    : 'glyphicon glyphicon-ok-sign',
         'saved'     : 'glyphicon glyphicon-ok-circle',
+        'edited'      : 'glyphicon glyphicon-ok-circle',
         'save-error': 'glyphicon glyphicon-minus-sign',
         'load-error': 'glyphicon glyphicon-minus-sign'
     };
+
+    var events = new EventManager('ko.bindingHandlers.localize');
+
+    var locale = ko.observable(culture.locale);
+    events.listen({
+        'locale-changed': function(p_locale) {
+            locale(p_locale);
+        }
+    });
 
     stateHandlers = {
         'idle': function($el) {
@@ -25,6 +36,11 @@ define(['knockout', 'jquery', 'ui/culture'], function(ko, $, culture) {
         'saving': function($el) {
             $el.removeAttr('disabled');
             showTooltip($el, 'common.saving');
+        },
+        'edited': function($el) {
+            if ($el.attr('disabled')) return;
+            removeError($el);
+            showTooltip($el, 'common.clickToSave');
         },
         'saved': function($el) {
             $el.removeAttr('disabled');
@@ -56,6 +72,7 @@ define(['knockout', 'jquery', 'ui/culture'], function(ko, $, culture) {
     }
 
     function showTooltip($el, key) {
+        locale();
         var title = culture.localize(key);
         $el.attr('title', title).tooltip('fixTitle').tooltip('show');
     }
@@ -85,20 +102,49 @@ define(['knockout', 'jquery', 'ui/culture'], function(ko, $, culture) {
         }
     };
 
+    var errorTypes = {
+        'required': 'validation.required',
+        'number': 'validation.number',
+
+        'default': 'validation.invalid'
+    };
+
+    function getFieldErrorKey(fieldError) {
+        var type = fieldError.type;
+        if (type === 'user defined') return fieldError.message;
+        return errorTypes[type] || errorTypes.default;
+    }
+
+    function localizeFieldError(fieldError) {
+        locale();
+        var key = getFieldErrorKey(fieldError);
+        return culture.localize(key) || key;
+    }
+
     ko.bindingHandlers.invalidFields = {
         update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
             var $fields = $(element).find('.form-group > [name]');
 
-            var invalidFields = ko.utils.unwrapObservable(valueAccessor());
-            invalidFields = invalidFields || {};
+            // remove the tooltips
+            $fields.data('tooltip', false);
+
+            var fieldErrors = ko.utils.unwrapObservable(valueAccessor());
+            fieldErrors = fieldErrors || {};
 
             $fields.each(function() {
-                var field = $(this).attr('name');
-                if (invalidFields[field]) {
-                    $(this).parent().addClass('has-error');
+
+                var $this = $(this);
+                var field = $this.attr('name');
+                var fieldError = fieldErrors[field];
+                if (fieldError) {
+                    $this.parent().addClass('has-error');
+                    var errorText = localizeFieldError(fieldError);
+                    $this.tooltip()
+                        .attr('title', errorText).tooltip('fixTitle');
                 }
                 else {
-                    $(this).parent().removeClass('has-error');
+                    $this.parent().removeClass('has-error');
+                    $this.tooltip('destroy');
                 }
             });
         }

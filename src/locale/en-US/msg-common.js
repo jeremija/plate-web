@@ -2,6 +2,7 @@ define([], function() {
     return {
         'common.action': 'Action',
         'common.delete': 'Delete',
+        'common.clickToSave': 'Click here to save',
         'common.save': 'Save',
         'common.saving': 'Saving...',
         'common.saved': 'Saved successfully',

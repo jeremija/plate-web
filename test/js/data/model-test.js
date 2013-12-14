@@ -159,6 +159,7 @@ define(['data/model', 'singletons', 'knockout'],
             it('should clear the data and the observables', function() {
                 model.form.a.value('0');
                 model.clear();
+                expect(model.state()).to.be('idle');
 
                 var data = model.data();
                 expect(data).to.have.property('c');
@@ -168,7 +169,7 @@ define(['data/model', 'singletons', 'knockout'],
 
                 model.form.cd.value('123');
                 expect(data.c.d).to.be('123');
-                expect(model.state()).to.be('idle');
+                expect(model.state()).to.be('edited');
             });
         });
     });

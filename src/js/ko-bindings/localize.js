@@ -10,8 +10,7 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
         }
     });
 
-    function getLocalizedText(valueAccessor) {
-        var value = valueAccessor();
+    function getLocalizedText(value) {
         var key = typeof value === 'function' ? value() : value;
 
         // make knockout call this handler when this value changes
@@ -26,7 +25,7 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
      */
     ko.bindingHandlers.localize = {
         update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-            var text = getLocalizedText(valueAccessor);
+            var text = getLocalizedText(valueAccessor());
             $(element).text(text);
         }
     };
@@ -37,7 +36,7 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
      */
     ko.bindingHandlers.placeholder = {
         update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-            var text = getLocalizedText(valueAccessor);
+            var text = getLocalizedText(valueAccessor());
             element.placeholder = text;
         }
     };
@@ -58,8 +57,9 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
 
             var delay = config.delay || 2000;
             var visible = ko.utils.unwrapObservable(config.visible);
-            var title =
-                culture.localize(ko.utils.unwrapObservable(config.title));
+            var title = getLocalizedText(config.title);
+            // var title =
+            //     culture.localize(ko.utils.unwrapObservable(config.title));
 
             $(element).attr('title', title)
                 .tooltip('fixTitle')

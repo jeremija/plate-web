@@ -2,6 +2,7 @@ define([], function() {
     return {
         'common.action': 'Akcija',
         'common.delete': 'Izbriši',
+        'common.clickToSave': 'Pritisnite za spremanje',
         'common.save': 'Spremi',
         'common.saving': 'Spremam...',
         'common.saved': 'Podaci uspješno spremljeni',

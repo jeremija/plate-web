@@ -56,17 +56,27 @@ define(['knockout', 'jquery', 'ko-bindings/form-state', 'bootstrap'], function(k
         describe('`invalidFields binding`', function() {
             it('should invalidate `field1`', function() {
                 vm.invalidFields({
-                    field1: {}
+                    field1: {
+                        type: 'required.key'
+                    }
                 });
                 expect($field1.parent().hasClass('has-error')).to.be(true);
+                expect($field1.data('bs.tooltip')).to.be.ok();
+
                 expect($field2.parent().hasClass('has-error')).to.be(false);
+                expect($field2.data('bs.tooltip')).to.not.be.ok();
             });
             it('should invalidate `field2`', function() {
                 vm.invalidFields({
-                    field2: {}
+                    field2: {
+                        type: 'custom.user.error.key'
+                    }
                 });
                 expect($field1.parent().hasClass('has-error')).to.be(false);
+                expect($field1.data('bs.tooltip')).to.not.be.ok();
+
                 expect($field2.parent().hasClass('has-error')).to.be(true);
+                expect($field2.data('bs.tooltip')).to.be.ok();
             });
             it('should invalidate both `field1` and `field2`', function() {
                 vm.invalidFields({
@@ -74,12 +84,16 @@ define(['knockout', 'jquery', 'ko-bindings/form-state', 'bootstrap'], function(k
                     field2: {}
                 });
                 expect($field1.parent().hasClass('has-error')).to.be(true);
+                expect($field1.data('bs.tooltip')).to.be.ok();
                 expect($field2.parent().hasClass('has-error')).to.be(true);
+                expect($field2.data('bs.tooltip')).to.be.ok();
             });
             it('should mark both fields as valid', function() {
                 vm.invalidFields(null);
                 expect($field1.parent().hasClass('has-error')).to.be(false);
+                expect($field1.data('bs.tooltip')).to.not.be.ok();
                 expect($field2.parent().hasClass('has-error')).to.be(false);
+                expect($field2.data('bs.tooltip')).to.not.be.ok();
             });
         });
     });

@@ -63,12 +63,14 @@ define(['knockout', 'extendable', 'singletons', 'util/traversal'],
     }
 
     var ModelPrototype = /** @lends Model.prototype */ {
+        _resettingObservables: false,
         _subscribe: function() {
             var self = this;
             var form = this.form;
 
             function createSubscribeCallback(p_path) {
                 return function(p_value) {
+                    if (!self._resettingObservables) self.state('edited');
                     var data = self.data();
                     traversal.setProp(data, p_path, p_value);
                 };
@@ -87,11 +89,15 @@ define(['knockout', 'extendable', 'singletons', 'util/traversal'],
             var data = this.data();
             var form = this.form;
 
+            this._resettingObservables = true;
+
             for (var name in form) {
                 var obj = form[name];
                 var value = traversal.getProp(data, obj.path);
                 obj.value(value);
             }
+
+            this._resettingObservables = false;
         },
         // _preSave: function() {
         //     var data = this.data();
