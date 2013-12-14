@@ -167,9 +167,10 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
             ko.utils.registerEventHandler(element, 'change', function() {
                 var formattedNumber = $(element).val();
                 var value = culture.parseFloat(formattedNumber);
+                value = isNaN(value) ? 0 : value;
 
                 var previousValue = observable.peek();
-                observable(isNaN(value) ? 0 : value);
+                observable(value);
                 // send a valueHasMutated to force the call of the update
                 // in case the user has entered the handler in case
                 // user has entered the same value twice
