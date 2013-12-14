@@ -20,8 +20,19 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
     }
 
     /**
-     * Localization binding handler for knockout
-     * @exports bindingHandlers/localize
+     * Knockout's binding handlers. The BindingHandlers are documented as
+     * functions, even though they are infact objects. The paramters described
+     * show the parameters which can be used in the `data-bind` attribute in the
+     * HTML.
+     * @see {@link http://knockoutjs.com/documentation/custom-bindings.html}
+     * @external BindingHandlers
+     */
+
+    /**
+     * Sets the element's text property
+     * @function external:BindingHandlers#localize
+     * @param {(String|Observable)} localize      key to localize
+     * @listens EventManager#locale-changed
      */
     ko.bindingHandlers.localize = {
         update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -31,8 +42,10 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
     };
 
     /**
-     * Localization binding handler for knockout
-     * @exports bindingHandlers/localize
+     * Sets the element's placeholder property
+     * @function external:BindingHandlers#placeholder
+     * @param {(String|Observable)} placeholder   key to localize
+     * @listens EventManager#locale-changed
      */
     ko.bindingHandlers.placeholder = {
         update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -41,6 +54,18 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
         }
     };
 
+    /**
+     * Adds a tooltip to the element
+     * @function external:BindingHandlers#tooltip
+     * @param {Object}  config                    Configuration object
+     * @param {Boolean} [config.animation=true]   Animate the tooltip while
+     * showing or hiding
+     * @param {String}  [config.trigger='manual'] See bootstrap's manual for
+     * valid values
+     * @param {String}  [config.placement='top']  Valid values are 'top',
+     * 'right', 'bottom', 'left'
+     * @listens EventManager#locale-changed
+     */
     ko.bindingHandlers.tooltip = {
         init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
             var config = valueAccessor() || {};
@@ -74,16 +99,15 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
         }
     };
 
-    // ko.bindingHandlers.dateText = {
-    //     update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-    //         var value = valueAccessor();
-    //         var date = typeof value === 'function' ? value() : value;
-    //         date = Date.parse(date);
-    //         date = isNaN(date) ? '' : culture.format(new Date(date), 'd');
-    //         $(element).text(date);
-    //     }
-    // };
-
+    /**
+     * Formats the date and set's the element's value (for input elements) or
+     * text with formatted date string. If the input string is changed, it
+     * updates the value with an ISO Date string or '' if input date is invalid.
+     * @function external:BindingHandlers#date
+     * @exports customBindingHandlers.date
+     * @param {Date|Number|String} date
+     * @listens EventManager#locale-changed
+     */
     ko.bindingHandlers.date = {
         init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
             if (element.tagName !== 'INPUT') return;
@@ -123,6 +147,17 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
         }
     };
 
+    /**
+     * Formats the number to a string and updates the element's value or text,
+     * depending on the element.tagName value. If the input string is changed,
+     * the value is updated with correct number value or 0 if number is
+     * invalid.
+     * @function external:BindingHandlers#number
+     * @param {Number} number             value to format
+     * @param {Number} [decimalSpaces=2]  number of decimal spaces for formatted
+     * value
+     * @listens EventManager#locale-changed
+     */
     ko.bindingHandlers.number = {
         init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
             if (element.tagName !== 'INPUT') return;
@@ -134,7 +169,7 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
                 var value = culture.parseFloat(formattedNumber);
 
                 var previousValue = observable.peek();
-                observable(isNaN(value) ? undefined : value);
+                observable(isNaN(value) ? 0 : value);
                 // send a valueHasMutated to force the call of the update
                 // in case the user has entered the handler in case
                 // user has entered the same value twice

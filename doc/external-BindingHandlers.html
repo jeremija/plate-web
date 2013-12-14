@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Ajax</title>
+    <title>JSDoc: External: BindingHandlers</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Class: Ajax</h1>
+    <h1 class="page-title">External: BindingHandlers</h1>
     
     
 
@@ -27,10 +27,8 @@
     
 <header>
     <h2>
-    Ajax
+    BindingHandlers
     </h2>
-    
-        <div class="class-description">Wrapped jQuery.ajax calls</div>
     
 </header>  
 
@@ -40,93 +38,13 @@
     
     
         
-<dt>
-    <h4 class="name" id="Ajax"><span class="type-signature"></span>new Ajax<span class="signature">(p_name, p_urlPrefix)</span><span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
+            <div class="description">Knockout's binding handlers. The BindingHandlers are documented as
+functions, even though they are infact objects. The paramters described
+show the parameters which can be used in the `data-bind` attribute in the
+HTML.</div>
         
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>p_name</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Name of the instance</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>p_urlPrefix</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Prefix for the url</td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-    
-    
-    
+        
+        
 <dl class="details">
     
         
@@ -149,31 +67,26 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ajax.js.html">net/ajax.js</a>, <a href="ajax.js.html#line8">line 8</a>
+        <a href="localize.js.html">ko-bindings/localize.js</a>, <a href="localize.js.html#line22">line 22</a>
     </li></ul></dd>
     
     
     
     
     
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="http://knockoutjs.com/documentation/custom-bindings.html">http://knockoutjs.com/documentation/custom-bindings.html</a></li>
+        </ul>
+    </dd>
+    
     
     
 </dl>
 
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    
-    
-</dd>
-
+        
+        
     
     </div>
     
@@ -195,7 +108,7 @@
         <dl>
             
 <dt>
-    <h4 class="name" id="_handleError"><span class="type-signature">&lt;private> </span>_handleError<span class="signature">(err)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="formState"><span class="type-signature"></span>formState<span class="signature">(formState)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -203,7 +116,8 @@
     
     
     <div class="description">
-        Handle error graceefully
+        Reads the form state and updates the submit button's tooltip, color and
+icon. Add this binding only to a submit button
     </div>
     
 
@@ -237,13 +151,13 @@
 	
         <tr>
             
-                <td class="name"><code>err</code></td>
+                <td class="name"><code>formState</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type">Error</span>
+<span class="param-type">Observable</span>
 
 
             
@@ -253,7 +167,9 @@
             
             
             
-            <td class="description last"></td>
+            <td class="description last">Observable which can contain any of these
+strings: 'idle', 'loading', 'loaded', 'saving', 'edited', 'saved',
+'save-error', 'load-error'</td>
         </tr>
 	
 	
@@ -284,7 +200,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ajax.js.html">net/ajax.js</a>, <a href="ajax.js.html#line71">line 71</a>
+        <a href="form-state.js.html">ko-bindings/form-state.js</a>, <a href="form-state.js.html#line80">line 80</a>
     </li></ul></dd>
     
     
@@ -298,6 +214,11 @@
     
     
 
+    
+    <h5>Listens to Events:</h5>
+    <ul>
+        <li>EventManager#event:locale-changed</li>
+    </ul>
     
 
     
@@ -312,7 +233,7 @@
         
             
 <dt>
-    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(p_params)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="invalidFields"><span class="type-signature"></span>invalidFields<span class="signature">(invalidFields)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -320,7 +241,9 @@
     
     
     <div class="description">
-        Send a GET request to the server
+        Reads the object with invalid fields properties and adds the `.has-error`
+class to fields which have the same name. Also adds `bs.tooltip` to the
+input item. Use this binding on a `form` element.
     </div>
     
 
@@ -354,13 +277,13 @@
 	
         <tr>
             
-                <td class="name"><code>p_params</code></td>
+                <td class="name"><code>invalidFields</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">Observable</span>
 
 
             
@@ -370,221 +293,8 @@
             
             
             
-            <td class="description last">parameters
-                <h6>Properties</h6>
-                
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>complete</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Function</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">A function to be called when
-the request finishes.</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>url</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Url</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>data</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Data to be sent to the server.</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>success</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Function</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Success callback</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>error</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Function</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Error callback</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>invalid</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Function</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Callback when there is
-a validation error. The default error callback will no matter if
-this is present or not.</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>complete</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Function</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">A function to be called when
-the request finishes.</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>noEvents</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">If true, does not dispatch the
-`ajax-start` and `ajax-end` events</td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-            </td>
+            <td class="description last">A map of invalid fields as keys.
+Values are a <a href="external-ValidationError.html">external:ValidationError</a> objects.</td>
         </tr>
 	
 	
@@ -615,7 +325,7 @@ the request finishes.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ajax.js.html">net/ajax.js</a>, <a href="ajax.js.html#line102">line 102</a>
+        <a href="form-state.js.html">ko-bindings/form-state.js</a>, <a href="form-state.js.html#line135">line 135</a>
     </li></ul></dd>
     
     
@@ -628,17 +338,12 @@ the request finishes.</td>
 
     
     
-    <h5>Fires:</h5>
-    <ul>
-        <li>EventManager#event:ajax-start        Before ajax request is placed</li>
-    
-        <li>EventManager#event:ajax-end          After ajax request completes</li>
-    
-        <li>EventManager#msg-error         If an error ocurrs, regardless
-of the noEvents setting)event:</li>
-    </ul>
-    
 
+    
+    <h5>Listens to Events:</h5>
+    <ul>
+        <li>EventManager#event:locale-changed</li>
+    </ul>
     
 
     
@@ -653,7 +358,7 @@ of the noEvents setting)event:</li>
         
             
 <dt>
-    <h4 class="name" id="post"><span class="type-signature"></span>post<span class="signature">(p_params)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="localize"><span class="type-signature"></span>localize<span class="signature">(localize)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -661,7 +366,7 @@ of the noEvents setting)event:</li>
     
     
     <div class="description">
-        Send a GET request to the server
+        Sets the element's text property
     </div>
     
 
@@ -695,13 +400,16 @@ of the noEvents setting)event:</li>
 	
         <tr>
             
-                <td class="name"><code>p_params</code></td>
+                <td class="name"><code>localize</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">String</span>
+|
+
+<span class="param-type">Observable</span>
 
 
             
@@ -711,9 +419,270 @@ of the noEvents setting)event:</li>
             
             
             
-            <td class="description last">parameters
-                <h6>Properties</h6>
+            <td class="description last">key to localize</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="localize.js.html">ko-bindings/localize.js</a>, <a href="localize.js.html#line24">line 24</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+    <h5>Listens to Events:</h5>
+    <ul>
+        <li>EventManager#event:locale-changed</li>
+    </ul>
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="number"><span class="type-signature"></span>number<span class="signature">(number, <span class="optional">decimalSpaces</span>)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Formats the number to a string and updates the element's value or text,
+depending on the element.tagName value. If the input string is changed,
+the value is updated with correct number value or 0 if number is
+invalid.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		<th>Argument</th>
+		
+		
+		
+		<th>Default</th>
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>number</code></td>
+            
+            
+            <td class="type">
+            
                 
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+                <td class="default">
+                
+                </td>
+            
+            
+            <td class="description last">value to format</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>decimalSpaces</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+                <td class="default">
+                
+                    2
+                
+                </td>
+            
+            
+            <td class="description last">number of decimal spaces for formatted
+value</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="localize.js.html">ko-bindings/localize.js</a>, <a href="localize.js.html#line150">line 150</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+    <h5>Listens to Events:</h5>
+    <ul>
+        <li>EventManager#event:locale-changed</li>
+    </ul>
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="placeholder"><span class="type-signature"></span>placeholder<span class="signature">(placeholder)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Sets the element's placeholder property
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
 
 <table class="params">
     <thead>
@@ -737,13 +706,16 @@ of the noEvents setting)event:</li>
 	
         <tr>
             
-                <td class="name"><code>url</code></td>
+                <td class="name"><code>placeholder</code></td>
             
             
             <td class="type">
             
                 
 <span class="param-type">String</span>
+|
+
+<span class="param-type">Observable</span>
 
 
             
@@ -753,14 +725,113 @@ of the noEvents setting)event:</li>
             
             
             
-            <td class="description last">Url</td>
+            <td class="description last">key to localize</td>
         </tr>
 	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="localize.js.html">ko-bindings/localize.js</a>, <a href="localize.js.html#line44">line 44</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+    <h5>Listens to Events:</h5>
+    <ul>
+        <li>EventManager#event:locale-changed</li>
+    </ul>
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="tooltip"><span class="type-signature"></span>tooltip<span class="signature">(config)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Adds a tooltip to the element
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
 	
 	
         <tr>
             
-                <td class="name"><code>data</code></td>
+                <td class="name"><code>config</code></td>
             
             
             <td class="type">
@@ -776,110 +847,77 @@ of the noEvents setting)event:</li>
             
             
             
-            <td class="description last">Data to be sent to the server.</td>
-        </tr>
+            <td class="description last">Configuration object
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		<th>Argument</th>
+		
+		
+		
+		<th>Default</th>
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
 	
+	<tbody>
 	
 	
         <tr>
             
-                <td class="name"><code>success</code></td>
+                <td class="name"><code>animation</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type">Function</span>
+<span class="param-type">Boolean</span>
 
 
             
             </td>
             
             
-            
-            
-            
-            <td class="description last">Success callback</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>error</code></td>
-            
-            
-            <td class="type">
-            
+                <td class="attributes">
                 
-<span class="param-type">Function</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Error callback</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>invalid</code></td>
-            
-            
-            <td class="type">
-            
+                    &lt;optional><br>
                 
-<span class="param-type">Function</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Callback when there is
-a validation error. The default error callback will no matter if
-this is present or not.
-be used. The default error callback will be called too!</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>complete</code></td>
-            
-            
-            <td class="type">
-            
+                    
                 
-<span class="param-type">Function</span>
-
-
-            
-            </td>
+                    
+                
+                </td>
             
             
             
+                <td class="default">
+                
+                    true
+                
+                </td>
             
             
-            <td class="description last">A function to be called when
-the request finishes.</td>
+            <td class="description last">Animate the tooltip while
+showing or hiding</td>
         </tr>
 	
 	
 	
         <tr>
             
-                <td class="name"><code>noEvents</code></td>
+                <td class="name"><code>trigger</code></td>
             
             
             <td class="type">
@@ -892,11 +930,67 @@ the request finishes.</td>
             </td>
             
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+                    
+                
+                    
+                
+                </td>
             
             
             
-            <td class="description last">If true, does not dispatch the
-`ajax-start` and `ajax-end` events</td>
+                <td class="default">
+                
+                    'manual'
+                
+                </td>
+            
+            
+            <td class="description last">See bootstrap's manual for
+valid values</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>placement</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+                <td class="default">
+                
+                    'top'
+                
+                </td>
+            
+            
+            <td class="description last">Valid values are 'top',
+'right', 'bottom', 'left'</td>
         </tr>
 	
 	
@@ -933,7 +1027,7 @@ the request finishes.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ajax.js.html">net/ajax.js</a>, <a href="ajax.js.html#line125">line 125</a>
+        <a href="localize.js.html">ko-bindings/localize.js</a>, <a href="localize.js.html#line57">line 57</a>
     </li></ul></dd>
     
     
@@ -946,17 +1040,12 @@ the request finishes.</td>
 
     
     
-    <h5>Fires:</h5>
-    <ul>
-        <li>EventManager#event:ajax-start        Before ajax request is placed</li>
-    
-        <li>EventManager#event:ajax-end          After ajax request completes</li>
-    
-        <li>EventManager#msg-error         If an error ocurrs, regardless
-of the noEvents settingevent:</li>
-    </ul>
-    
 
+    
+    <h5>Listens to Events:</h5>
+    <ul>
+        <li>EventManager#event:locale-changed</li>
+    </ul>
     
 
     
