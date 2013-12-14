@@ -2,16 +2,16 @@
 	<thead>
 		<tr>
 			<th>#</th>
-			<th data-bind="localize: 'carinsurances.name', sort: {arr: carInsurances, prop: 'name'}"></th>
-			<th data-bind="localize: 'carinsurances.carYear', sort: {arr: carInsurances, prop: 'carYear'}"></th>
-			<th data-bind="localize: 'carinsurances.licensePlate', sort: {arr: carInsurances, prop: 'licensePlate'}"></th>
-			<th data-bind="localize: 'carinsurances.policyNumber', sort: {arr: carInsurances, prop: 'policyNumber'}"></th>
-			<th data-bind="localize: 'carinsurances.expires', sort: {arr: carInsurances, prop: 'expires'}"></th>
-			<th data-bind="localize: 'carinsurances.power', sort: {arr: carInsurances, prop: 'power'}"></th>
-			<th data-bind="localize: 'carinsurances.maxAllowedMass', sort: {arr: carInsurances, prop: 'maxAllowedMass'}"></th>
-			<th data-bind="localize: 'carinsurances.vehicleType', sort: {arr: carInsurances, prop: 'vehicleType'}"></th>
-			<th data-bind="localize: 'carinsurances.company', sort: {arr: carInsurances, prop: 'company'}"></th>
-			<th data-bind="localize: 'common.action'"></th>
+			<th                   data-bind="localize: 'carinsurances.name', sort: {arr: carInsurances, prop: 'name'}"></th>
+			<th class="hidden-xs" data-bind="localize: 'carinsurances.carYear', sort: {arr: carInsurances, prop: 'carYear'}"></th>
+			<th                   data-bind="localize: 'carinsurances.licensePlate', sort: {arr: carInsurances, prop: 'licensePlate'}"></th>
+			<th class="hidden-xs" data-bind="localize: 'carinsurances.policyNumber', sort: {arr: carInsurances, prop: 'policyNumber'}"></th>
+			<th                   data-bind="localize: 'carinsurances.expires', sort: {arr: carInsurances, prop: 'expires'}"></th>
+			<th class="hidden-xs" data-bind="localize: 'carinsurances.power', sort: {arr: carInsurances, prop: 'power'}"></th>
+			<th class="hidden-xs" data-bind="localize: 'carinsurances.maxAllowedMass', sort: {arr: carInsurances, prop: 'maxAllowedMass'}"></th>
+			<th class="hidden-xs" data-bind="localize: 'carinsurances.vehicleType', sort: {arr: carInsurances, prop: 'vehicleType'}"></th>
+			<th                   data-bind="localize: 'carinsurances.company', sort: {arr: carInsurances, prop: 'company'}"></th>
+			<th                   data-bind="localize: 'common.action'"></th>
 		</tr>
 	</thead>
 	<tbody data-bind="foreach: carInsurances">
@@ -20,14 +20,14 @@
 			<td>
 				<a class="link" data-bind="subpage: 'carinsurances/edit/' + shortId, text: $data.name"></a>
 			</td>
-			<td data-bind="text: $data.carYear"></td>
-			<td data-bind="text: $data.licensePlate"></td>
-			<td data-bind="text: $data.policyNumber"></td>
-			<td data-bind="date: $data.expires"></td>
-			<td data-bind="text: $data.power"></td>
-			<td data-bind="text: $data.maxAllowedMass"></td>
-			<td data-bind="text: $data.vehicleType"></td>
-			<td data-bind="with: $data.company">
+			<td class="hidden-xs" data-bind="text: $data.carYear"></td>
+			<td                   data-bind="text: $data.licensePlate"></td>
+			<td class="hidden-xs" data-bind="text: $data.policyNumber"></td>
+			<td                   data-bind="date: $data.expires"></td>
+			<td class="hidden-xs" data-bind="text: $data.power"></td>
+			<td class="hidden-xs" data-bind="text: $data.maxAllowedMass"></td>
+			<td class="hidden-xs" data-bind="text: $data.vehicleType"></td>
+			<td                   data-bind="with: $data.company">
 				<span data-bind="text: $data.name"></span>
 			</td>
 			<td>

@@ -11,6 +11,8 @@ define([], function() {
         'common.confirm.delete': 'Are you sure you wish to delete this document?',
         'common.yes': 'Yes',
         'common.no': 'No',
-        'common.route.not.found': 'Page not found'
+        'common.route.not.found': 'Page not found',
+
+        'common.date': 'MM/DD/YYYY'
     };
 });

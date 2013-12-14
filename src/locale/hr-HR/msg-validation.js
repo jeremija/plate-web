@@ -3,6 +3,7 @@ define([], function() {
         'validation.default': 'Neispravan unos',
 
         'validation.required': 'Ovo polje je obavezno',
-        'validation.number': 'Molimo unesite broj'
+        'validation.number': 'Molimo unesite broj',
+        'validation.date': 'Molimo unesite datum u formi DD.MM.YYYY.'
     };
 });

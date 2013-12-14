@@ -11,6 +11,8 @@ define([], function() {
         'common.confirm.delete': 'Jeste li sigurni da želite obrisati ovaj dokument?',
         'common.yes': 'Da',
         'common.no': 'Ne',
-        'common.route.not.found': 'Stranica koju ste tražili nije pronađena'
+        'common.route.not.found': 'Stranica koju ste tražili nije pronađena',
+
+        'common.date': 'DD.MM.YYYY.'
     };
 });

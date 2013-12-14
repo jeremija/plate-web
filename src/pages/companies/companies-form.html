@@ -5,11 +5,11 @@
 				<div class="panel-body">
 						<div class="form-group">
 							<label for="name" class="control-label" data-bind="localize: 'companies.name'"></label>
-							<input name="name" type="text" class="form-control" data-bind="placeholder: 'companies.name', value: $data.name.value">
+							<input name="name" type="text" class="form-control" data-bind="placeholder: 'companies.pl.name', value: $data.name.value">
 						</div>
 						<div class="form-group">
 							<label for="oib" class="control-label" data-bind="localize: 'companies.oib'"></label>
-							<input name="oib" type="text" class="form-control" data-bind="placeholder: 'companies.oib', value: $data.oib.value">
+							<input name="oib" type="text" maxlength="11" class="form-control" data-bind="placeholder: 'companies.pl.oib', value: $data.oib.value">
 						</div>
 				</div>
 				<div class="panel-footer">
