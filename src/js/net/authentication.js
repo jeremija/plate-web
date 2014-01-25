@@ -1,31 +1,33 @@
-define(['jquery', 'events/event-manager', 'singletons', 'logger'],
+/**
+ * @module net/authentication
+ */
+define(['jquery', 'events/EventManager', 'singletons', 'logger'],
     function($, EventManager, singletons, Logger) {
 
     var ajax = singletons.ajax;
-    var router = singletons.router;
     var events = new EventManager('net/authentication');
     var log = new Logger('net/authentication');
 
     /**
      * Event dispatched after the user has successfully logged in
-     * @event EventManager#logged-in
+     * @event events/EventManager#logged-in
      * @param {User} user
      */
 
     /**
      * Event dispatched when the user has finished logging out
-     * @event EventManager#logged-out
+     * @event events/EventManager#logged-out
      */
 
     /**
      * Dispatch this event to forcefully log out the user
-     * @event EventManager#logout
+     * @event events/EventManager#logout
      */
 
     /**
-     * @exports authentication
+     * @type {Object}
      */
-    var authentication = {
+    var exports = {
         /**
          * Attempts to authenticate the user
          * @param  {Object} p_credentials login credentials
@@ -34,7 +36,7 @@ define(['jquery', 'events/event-manager', 'singletons', 'logger'],
          * @param  {Function} p_callback(textStatus, res.data) to call on
          * success or error.
          * @fires EventManager#logged-in if authenticated successfully
-         * @fires error on error
+         * @fires EventManager#error on error
          */
         login: function(p_credentials, p_callback) {
             log.debug('attempting to log in: ' + p_credentials.email);
@@ -56,8 +58,8 @@ define(['jquery', 'events/event-manager', 'singletons', 'logger'],
         },
         /**
          * Logs out the current user
-         * @fires logged-out  If logged out successfully
-         * @fires error       On error
+         * @fires EventManager#logged-out  If logged out successfully
+         * @fires EventManager#error       On error
          */
         logout: function() {
             log.debug('attempting to log out');
@@ -77,11 +79,14 @@ define(['jquery', 'events/event-manager', 'singletons', 'logger'],
     };
 
     events.listen({
+        /**
+         * @listens events/EventManager#logout
+         */
         'logout': function() {
             log.debug('`logout` event, logging out the current user');
-            authentication.logout();
+            exports.logout();
         }
     });
 
-    return authentication;
+    return exports;
 });

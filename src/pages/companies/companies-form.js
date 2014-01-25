@@ -1,4 +1,4 @@
-define(['templates/page', 'data/model', 'knockout'], function(Page, Model, ko) {
+define(['templates/Page', 'data/Model', 'knockout'], function(Page, Model, ko) {
 
     var vm = {
         model: new Model({

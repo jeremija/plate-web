@@ -1,4 +1,4 @@
-define(['net/ajax'], function(Ajax) {
+define(['net/Ajax'], function(Ajax) {
 
     var mocks;
 
@@ -13,6 +13,8 @@ define(['net/ajax'], function(Ajax) {
 
     // mock main ajax function
     Ajax.prototype._ajaxRequest = function(p_params, p_type) {
+
+        var self = this;
 
         setTimeout(function() {
             var type = (p_type === 'GET' || p_type === 'POST') ? p_type : 'GET';
@@ -31,8 +33,7 @@ define(['net/ajax'], function(Ajax) {
 
                 if (mockedData.error) {
                     status = 'error';
-                    Ajax.prototype
-                        ._ajaxHandleError(p_params, status, mockedData.error);
+                    self._ajaxHandleError(p_params, status, mockedData.error);
                 }
                 else {
                     status = 'success';
@@ -40,7 +41,7 @@ define(['net/ajax'], function(Ajax) {
                 }
             }
             p_params.complete(status);
-        });
+        }, this);
 
     };
 

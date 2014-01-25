@@ -1,4 +1,4 @@
-define(['knockout', 'events/event-manager'], function(ko, EventManager) {
+define(['knockout', 'events/EventManager'], function(ko, EventManager) {
     ko.bindingHandlers.yesno = {
         init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
             var events = new EventManager('ko-bindings/yesno');

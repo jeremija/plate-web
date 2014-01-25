@@ -1,1 +1,0 @@
-../../bower_components/extendable.js/dist/extendable.js

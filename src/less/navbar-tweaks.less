@@ -1,0 +1,74 @@
+.navbar {
+	border-radius: 0;
+}
+
+.navbar-toggle.pull-left {
+  margin-left: @navbar-padding-horizontal;
+  margin-right: 0;
+}
+
+.navbar-toggle {  
+  // Icon block for menu
+  .icon-block {
+    display: block;
+    margin-left: 9px;
+    margin-right: 9px;
+    width: 4px;
+    height: 4px;
+    border-radius: 1px;
+  }
+  .icon-block + .icon-block {
+    margin-top: 3px;
+  }
+}
+
+.navbar-default {
+  .navbar-toggle {
+    .icon-block {
+      background-color: @navbar-default-toggle-icon-bar-bg;
+    }
+  }
+}
+
+.navbar-inverse {
+  .navbar-toggle {
+    .icon-block {
+      background-color: @navbar-inverse-toggle-icon-bar-bg;
+    }
+  }
+}
+
+.dropdown > .navbar-toggle {
+  display: inline-block;
+  padding: 7px 10px;
+}
+
+.navbar-buttons {
+  @media (max-width: @grid-float-breakpoint-max) {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  @media (min-width: @grid-float-breakpoint) {
+    float: right;
+  }
+}
+
+.navbar-buttons .navbar-toggle {
+  float: none;
+}
+
+.navbar-buttons > .dropdown > .dropdown-menu {
+  right: 0;
+  left: auto;
+}
+
+.navbar-buttons > .dropdown > .dropdown-menu > li > a {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+body {
+  padding-top: 70px;
+}

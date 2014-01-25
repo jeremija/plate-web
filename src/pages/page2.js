@@ -1,4 +1,4 @@
-define(['templates/page'], function(Page) {
+define(['templates/Page'], function(Page) {
     return new Page({
         name: 'page2'
     });

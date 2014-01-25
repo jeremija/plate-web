@@ -5,35 +5,35 @@ var tests = [
     'test/js/require/config-test',
 
     'test/js/logger-test',
-    'test/js/router-test',
+    'test/js/Router-test',
 
     // util
-    'test/js/util/queue-test',
-    'test/js/util/queued-timer-test',
+    'test/js/util/Queue-test',
+    'test/js/util/QueuedTimer-test',
     'test/js/util/traversal-test',
-    'test/js/util/storage-test',
+    'test/js/util/Storage-test',
 
     // templates
-    'test/js/templates/bindable-test',
-    'test/js/templates/page-test',
-    'test/js/templates/template-loader-test',
-    'test/js/templates/page-manager-test',
-    'test/js/templates/page-binder-test',
+    'test/js/templates/Bindable-test',
+    'test/js/templates/Page-test',
+    'test/js/templates/TemplateLoader-test',
+    'test/js/templates/PageManager-test',
+    'test/js/templates/PageBinder-test',
 
     // net
     'test/js/net/ajax-test',
 
     // data
-    'test/js/data/model-test',
+    'test/js/data/Model-test',
 
     // ui
     'test/js/ui/menu-test',
-    'test/js/ui/loading-test',
+    'test/js/ui/Loading-test',
     'test/js/ui/culture-test',
-    'test/js/ui/loading-listener-test',
+    'test/js/ui/LoadingListener-test',
 
     // events
-    'test/js/events/event-manager-test',
+    'test/js/events/EventManager-test',
 
     // ko-bindings
     'test/js/ko-bindings/localize-test',
@@ -42,10 +42,12 @@ var tests = [
     'test/js/ko-bindings/sort-test',
 
     // modules
-    'test/js/modules/breadcrumbs-mod-test',
-    'test/js/modules/user-mod-test',
-    'test/js/modules/messages-mod-test',
-    'test/js/modules/ask-yes-no-mod-test',
+    'test/js/modules/askYesNoMod-test',
+    'test/js/modules/breadcrumbsMod-test',
+    'test/js/modules/mainMenuMod-test',
+    'test/js/modules/messagesMod-test',
+    'test/js/modules/pageMenuMod-test',
+    'test/js/modules/userMod-test',
 
     // pages
     'test/pages/error-test'

@@ -1,4 +1,4 @@
-define(['knockout', 'events/event-manager', 'jquery', 'ko-bindings/subpage'],
+define(['knockout', 'events/EventManager', 'jquery', 'ko-bindings/subpage'],
     function(ko, EventManager, $) {
 
     describe('ko-bindings/subpage-test.js', function() {

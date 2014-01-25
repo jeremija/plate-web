@@ -1,4 +1,4 @@
-define(['templates/page', 'knockout'], function(Page, ko) {
+define(['templates/Page', 'knockout'], function(Page, ko) {
 
     var previous;
     function generateRandomNumber(p_max) {

@@ -1,9 +1,9 @@
-define(['knockout', 'jquery', 'ui/culture', 'events/event-manager',
+define(['knockout', 'jquery', 'ui/culture', 'events/EventManager',
     'ko-bindings/localize'],
     function(ko, $, culture, EventManager) {
 
     describe('ko-bindings/localize-test.js', function() {
-        var $el, $localize, $tooltip, $date1, $date2, $number1, $number2;
+        var $el, $localize, $tooltip, $date1, $date2, $number1, $number2, $km1;
         var vm, events;
         before(function(done) {
             $el = $('<div>').attr('id', 'localize-test')
@@ -20,6 +20,8 @@ define(['knockout', 'jquery', 'ui/culture', 'events/event-manager',
                     .attr('data-bind', 'number: number1'))
                 .append($('<span>').attr('id', 'number2')
                     .attr('data-bind', 'number: number2'))
+                .append($('<span>').attr('id', 'km1')
+                    .attr('data-bind', 'km: km1'))
                 .appendTo('#test');
 
             $localize = $el.find('#localize');
@@ -28,13 +30,15 @@ define(['knockout', 'jquery', 'ui/culture', 'events/event-manager',
             $date2 = $el.find('#date2');
             $number1 = $el.find('#number1');
             $number2 = $el.find('#number2');
+            $km1 = $el.find('#km1');
 
             vm = {
                 tooltipVisible: ko.observable(),
                 date1: ko.observable(new Date(1988, 9, 19)),
                 date2: ko.observable(new Date(1988, 4, 25)),
                 number1: ko.observable(12345.67),
-                number2: ko.observable(23456.78)
+                number2: ko.observable(23456.78),
+                km1: ko.observable(1234.56)
             };
             events = new EventManager('ko-bindings/localize-test');
             // change locale to en-US before tests
@@ -129,6 +133,15 @@ define(['knockout', 'jquery', 'ui/culture', 'events/event-manager',
                     expect($number2.text()).to.be('12,131.41');
                 });
             });
+            describe('ko.bindingHandlers.km', function() {
+                it('should localize km', function() {
+                    expect($km1.text()).to.be('1,234.56 km');
+                });
+                it('should localize km to m', function() {
+                    vm.km1(0.5342);
+                    expect($km1.text()).to.be('534 m');
+                });
+            });
         });
 
         describe('switch locale to `hr-HR`', function() {
@@ -158,6 +171,11 @@ define(['knockout', 'jquery', 'ui/culture', 'events/event-manager',
             it('should localize number', function() {
                 expect($number1.val()).to.be('12.345,67');
                 expect($number2.text()).to.be('12.131,41');
+            });
+            it('should localize km', function() {
+                expect($km1.text()).to.be('534 m');
+                vm.km1(1500);
+                expect($km1.text()).to.be('1.500,00 km');
             });
         });
 

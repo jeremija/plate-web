@@ -1,4 +1,4 @@
-define(['net/ajax'], function(Ajax) {
+define(['net/Ajax'], function(Ajax) {
     describe('net/ajax-test.js', function() {
         it('should be ok and a constructor', function() {
             expect(Ajax).to.be.ok();

@@ -1,4 +1,4 @@
-define(['templates/page'], function(Page) {
+define(['templates/Page'], function(Page) {
     // do nothing
     return new Page({
         name: 'error-page',

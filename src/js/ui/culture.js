@@ -1,21 +1,55 @@
-define(['globalize', 'events/event-manager', 'logger', 'singletons',
-    'locale/index'],
-    function(Globalize, EventManager, Logger, singletons) {
-
-    var log = new Logger('ui/culture');
-
-    var events = new EventManager('ui/culture');
+/**
+ * @module ui/culture
+ */
+define(['extendable', 'globalize', 'events/EventManager', 'logger', 
+    'singletons', 'locale/index'],
+    function(Extendable, Globalize, EventManager, Logger, singletons) {
 
     /**
-     * Localize helper
-     * @exports localizer
+     * Notifies a new locale
+     * @event events/EventManager#locale-changed
+     * @param {String} p_locale  New locale
      */
-    var culture = {
+
+    /**
+     * @class Localization helper
+     * @name Culture
+     * @private
+     */
+    function CultureConstructor() {
+        this.log = new Logger('ui/culture');
+
+        this.events = new EventManager('ui/culture', this);
+
+        this.events.listen({
+            /**
+             * @event events/EventManager#set-locale
+             * @param {String} p_locale         New locale to set
+             */
+            
+            /**
+             * @listens events/EventManager#set-locale
+             */
+            'set-locale': function(p_locale) {
+                this.setLocale(p_locale);
+            }
+        });
+        
+        // load default locale
+        var locale = singletons.storage.load('locale');
+        this.setLocale(locale || 'en-US');
+    }
+
+    var CulturePrototype = /** @lends Culture.prototype */ {
+        /**
+         * Sets the current locale to p_locale and saves it to local storage.
+         * @param p_locale
+         * @fires EventManager#locale-changed after the change
+         */
         setLocale: function(p_locale) {
-            var self = this;
-            self.locale = p_locale;
-            log.debug('changed locale to ' + p_locale);
-            events.dispatch('locale-changed', p_locale);
+            this.locale = p_locale;
+            this.log.debug('changed locale to ' + p_locale);
+            this.events.dispatch('locale-changed', p_locale);
             singletons.storage.save('locale', p_locale);
         },
         // default locale
@@ -34,10 +68,13 @@ define(['globalize', 'events/event-manager', 'logger', 'singletons',
         }
     };
 
-    var locale = singletons.storage.load('locale');
+    var Culture = Extendable.extend(CultureConstructor, CulturePrototype);
 
-    // load default locale
-    culture.setLocale(locale || 'en-US');
+    /**
+     * Localization helper
+     * @type Culture
+     */
+    var exports = new Culture();
 
-    return culture;
+    return exports;
 });

@@ -1,9 +1,9 @@
+/**
+ * @module util/traversal
+ */
 define([], function() {
 
-    /**
-     * @exports traversal
-     */
-    var traversal = {
+    var exports = {
         /**
          * Copies first-level properties from source to destination
          * @param  {Object} p_src  Source
@@ -72,5 +72,5 @@ define([], function() {
         }
     };
 
-    return traversal;
+    return exports;
 });

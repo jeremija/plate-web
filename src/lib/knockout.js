@@ -1,1 +1,0 @@
-../../bower_components/knockout.js/knockout.debug.js

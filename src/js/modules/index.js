@@ -1,10 +1,10 @@
 define([
-        'modules/breadcrumbs-mod',
-        'modules/messages-mod',
-        'modules/user-mod',
-        'modules/language-mod',
-        'modules/main-menu-mod',
-        'modules/ask-yes-no-mod'
+        'modules/breadcrumbsMod',
+        'modules/messagesMod',
+        'modules/userMod',
+        'modules/languageMod',
+        'modules/mainMenuMod',
+        'modules/askYesNoMod'
     ],
 
     function(

@@ -1,4 +1,4 @@
-define(['net/ajax', 'events/event-manager'], function(Ajax, EventManager) {
+define(['net/Ajax', 'events/EventManager'], function(Ajax, EventManager) {
     describe('net/ajax-integration-test.js', function() {
 
         var events;

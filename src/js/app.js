@@ -3,16 +3,16 @@ require([
     'bootstrap',
     'ko-bindings/index',
     'logger',
-    'templates/template-loader',
-    'templates/page-manager',
-    'router',
-    'templates/page-binder',
+    'templates/TemplateLoader',
+    'templates/PageManager',
+    'Router',
+    'templates/PageBinder',
     'pages/index',
-    'templates/breadcrumbs-manager',
+    'templates/breadcrumbsManager',
 
     'ui/menu',
-    'ui/loading',
-    'ui/loading-listener',
+    'ui/Loading',
+    'ui/LoadingListener',
     'ui/culture',
     'net/authentication',
 
@@ -56,6 +56,9 @@ require([
         // initialize managers
         breadcrumbsManager.listen();
 
+        // initialize menu
+        menu.listen();
+
         // initialize module for loading templates
         var templateLoader = new TemplateLoader({
             name: 'app',
@@ -69,7 +72,7 @@ require([
             name: 'app',
             errorRoute: 'error',
             templateLoader: templateLoader,
-            templatePath: '/pages',
+            templatePath: 'pages',
             templateExtension: '.html'
         });
 

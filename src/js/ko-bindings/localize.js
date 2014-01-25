@@ -1,4 +1,4 @@
-define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
+define(['knockout', 'jquery', 'events/EventManager', 'ui/culture'],
     function(ko, $, EventManager, culture) {
 
     var events = new EventManager('ko.bindingHandlers.localize');
@@ -32,7 +32,7 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
      * Sets the element's text property
      * @function external:BindingHandlers#localize
      * @param {(String|Observable)} localize      key to localize
-     * @listens EventManager#locale-changed
+     * @listens events/EventManager#locale-changed
      */
     ko.bindingHandlers.localize = {
         update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -45,7 +45,7 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
      * Sets the element's placeholder property
      * @function external:BindingHandlers#placeholder
      * @param {(String|Observable)} placeholder   key to localize
-     * @listens EventManager#locale-changed
+     * @listens events/EventManager#locale-changed
      */
     ko.bindingHandlers.placeholder = {
         update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -64,7 +64,7 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
      * valid values
      * @param {String}  [config.placement='top']  Valid values are 'top',
      * 'right', 'bottom', 'left'
-     * @listens EventManager#locale-changed
+     * @listens events/EventManager#locale-changed
      */
     ko.bindingHandlers.tooltip = {
         init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -104,9 +104,8 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
      * text with formatted date string. If the input string is changed, it
      * updates the value with an ISO Date string or '' if input date is invalid.
      * @function external:BindingHandlers#date
-     * @exports customBindingHandlers.date
      * @param {Date|Number|String} date
-     * @listens EventManager#locale-changed
+     * @listens events/EventManager#locale-changed
      */
     ko.bindingHandlers.date = {
         init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -147,6 +146,19 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
         }
     };
 
+    function formatNumber(value, allBindings) {
+        locale();
+        allBindings = allBindings();
+
+        var decimalSpaces = isNaN(allBindings.decimalSpaces) ?
+            2 : allBindings.decimalSpaces;
+        var n = 'n' + decimalSpaces;
+
+        var formattedNumber = culture.format(value, n);
+
+        return formattedNumber;
+    }
+
     /**
      * Formats the number to a string and updates the element's value or text,
      * depending on the element.tagName value. If the input string is changed,
@@ -156,7 +168,7 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
      * @param {Number} number             value to format
      * @param {Number} [decimalSpaces=2]  number of decimal spaces for formatted
      * value
-     * @listens EventManager#locale-changed
+     * @listens events/EventManager#locale-changed
      */
     ko.bindingHandlers.number = {
         init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -178,18 +190,30 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
             });
         },
         update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-            locale();
-            allBindings = allBindings();
-
-            var decimalSpaces = isNaN(allBindings.decimalSpaces) ?
-                2 : allBindings.decimalSpaces;
-            var n = 'n' + decimalSpaces;
-
             var value = ko.utils.unwrapObservable(valueAccessor());
-            var formattedNumber = culture.format(value, n);
+            var formattedNumber = formatNumber(value, allBindings);
 
             var setValue = element.tagName === 'INPUT' ? 'val' : 'text';
             $(element)[setValue](formattedNumber);
+        }
+    };
+
+    ko.bindingHandlers.km = {
+        init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+        },
+        update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+            var value = ko.utils.unwrapObservable(valueAccessor());
+
+            var meters = false;
+            if (value < 1) {
+                value *= 1000;
+                meters = true;
+            }
+            
+            var formattedNumber = culture.format(value, meters ? 'n0' : 'n2');
+            formattedNumber += meters ? ' m' : ' km';
+
+            $(element).text(formattedNumber);
         }
     };
 });

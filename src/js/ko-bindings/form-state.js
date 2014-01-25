@@ -1,4 +1,4 @@
-define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
+define(['knockout', 'jquery', 'events/EventManager', 'ui/culture'],
     function(ko, $, EventManager, culture) {
 
     stateIcons = {
@@ -84,7 +84,7 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
      * @param {Observable} formState   Observable which can contain any of these
      * strings: 'idle', 'loading', 'loaded', 'saving', 'edited', 'saved',
      * 'save-error', 'load-error'
-     * @listens EventManager#locale-changed
+     * @listens events/EventManager#locale-changed
      */
     ko.bindingHandlers.formState = {
         init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -148,7 +148,7 @@ define(['knockout', 'jquery', 'events/event-manager', 'ui/culture'],
      * @function external:BindingHandlers#invalidFields
      * @param {Observable} invalidFields   A map of invalid fields as keys.
      * Values are a {@link external:ValidationError} objects.
-     * @listens EventManager#locale-changed
+     * @listens events/EventManager#locale-changed
      */
     ko.bindingHandlers.invalidFields = {
         update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {

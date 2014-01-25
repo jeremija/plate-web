@@ -17,9 +17,13 @@ define(['jquery', 'ui/menu'], function($, menu) {
             $submenu.append('<li><a href="#/link4">link4</a></li>');
 
             $menu.appendTo('#test');
+
+            menu.listen();
         });
         after(function() {
             $('#test').html('');
+
+            menu.clear();
         });
         describe('markCurrentMenuItem()', function() {
             it('should be a function', function() {

@@ -1,19 +1,19 @@
 var require = {
     //  baseUrl: 'js',
     paths: {
-        'bower': '../../bower_components',
+        // 'bower': '../bower',
         'pages': '../pages',
         'locale': '../locale',
 
-        'jquery': '../lib/jquery',
-        'extendable': '../lib/extendable',
-        'amd-page-loader': '../lib/amd-page-loader',
-        'signals': '../lib/signals',
-        'crossroads': '../lib/crossroads',
-        'hasher': '../lib/hasher',
-        'bootstrap': '../lib/bootstrap/js/bootstrap',
-        'knockout': '../lib/knockout',
-        'globalize': '../lib/globalize'
+        'jquery': '../bower/jquery/jquery',
+        'extendable': '../bower/extendable.js/dist/extendable',
+        'amd-page-loader': '../bower/amd-page-loader/dist/amd-page-loader',
+        'signals': '../bower/js-signals/dist/signals',
+        'crossroads': '../bower/crossroads.js/dist/crossroads',
+        'hasher': '../bower/hasher/dist/js/hasher',
+        'bootstrap': '../bower/bootstrap/dist/js/bootstrap',
+        'knockout': '../bower/knockout.js/knockout.debug',
+        'globalize': '../bower/globalize/lib/globalize',
     },
     map: {
         '*': {

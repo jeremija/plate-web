@@ -1,21 +1,26 @@
-define(['jquery', 'events/event-manager', 'logger'],
+/**
+ * @module ui/menu
+ */
+define(['jquery', 'events/EventManager', 'logger'],
     function($, EventManager, Logger) {
 
     var log = new Logger('menu');
     var events = new EventManager('menu');
 
     log.debug('registering `page-route-found` listener');
-    events.listen({
-        'page-route-found': function(params) {
-            menu.markCurrentMenuItem(params.routeUrl);
+
+    $('#menu .nav a').click(function() {
+        var $menuToggle = $('#menu-toggle');
+        if (!$menuToggle.is(':visible')) {
+            return;
         }
+        $menuToggle.click();
     });
 
     /**
      * Object with util functions for the menu
-     * @exports menu
      */
-    var menu = {
+    var exports = {
         _unmarkAll: function($a) {
             // remove all active
             $a.each(function() {
@@ -32,7 +37,10 @@ define(['jquery', 'events/event-manager', 'logger'],
 
             this._unmarkAll($a);
 
-            if (request === '') return;
+            if (request === '') {
+                $a.filter('.home').parent().addClass('active');
+                return;
+            }
 
             var matcher = new RegExp('#\/' + request);
 
@@ -51,10 +59,24 @@ define(['jquery', 'events/event-manager', 'logger'],
                 // mark the active
                 $activeLi.addClass('active');
             }
-
+        },
+        listen: function() {
+            events.listen({
+                /**
+                 * @listens events/EventManager#page-route-found
+                 */
+                'page-route-found': function(params) {
+                    menu.markCurrentMenuItem(params.routeUrl);
+                }
+            });
+        },
+        clear: function() {
+            events.clear();
         }
     };
 
-    return menu;
+    var menu = exports;
+
+    return exports;
 
 });

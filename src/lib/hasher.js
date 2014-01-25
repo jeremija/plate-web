@@ -1,1 +1,0 @@
-../../bower_components/hasher/dist/js/hasher.js

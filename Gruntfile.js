@@ -14,6 +14,16 @@ module.exports = function(grunt) {
         //         dest: 'dist/<%= pkg.name %>.js'
         //     }
         // },
+        less: {
+            main: {
+                options: {
+                    relativeUrls: true
+                },
+                files: {
+                    'src/css/style.css': 'src/less/index.less'
+                }
+            }
+        },
         requirejs: {
             'distjs': {
                 options: {
@@ -58,7 +68,8 @@ module.exports = function(grunt) {
             'distfonts': {
                 expand: true,
                 cwd: 'src',
-                src: ['lib/bootstrap/fonts/**'],
+                // src: ['lib/bootstrap/fonts/**'],
+                src: ['bower/bootstrap/dist/fonts/**'],
                 dest: 'dist'
             }
         },
@@ -83,11 +94,11 @@ module.exports = function(grunt) {
             }
         },
         jshint: {
-            files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js', 'test-integration/**/*.js', '!src/lib/**/*']
+            files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js', 'test-integration/**/*.js', '!src/bower/**/*']
         },
         jsdoc : {
             dist : {
-                src: ['src/**/*.js', '!src/lib/*'],
+                src: ['src/js/**/*.js', 'src/js/pages/**/*.js'],
                 options: {
                     destination: 'doc'
                 }
@@ -110,12 +121,13 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-processhtml');
+    grunt.loadNpmTasks('grunt-contrib-less');
 
     grunt.registerTask('test', ['jshint', 'mocha_phantomjs:unit']);
     grunt.registerTask('integration-test', ['jshint', 'shell:mocha_phantomjs_integration']);
 
     grunt.registerTask('doc', ['jshint', 'mocha_phantomjs:unit', 'clean', 'jsdoc']);
-    grunt.registerTask('build', ['test', 'clean:dist', 'requirejs:distjs',
+    grunt.registerTask('build', ['test', 'clean:dist', 'less', 'requirejs:distjs',
         'requirejs:distcss', 'uglify:distjs', 'copy:disthtml', 'copy:distfonts',
         'processhtml']);
     // grunt.registerTask('default', ['jshint', 'mocha_phantomjs:unit', 'concat', 'uglify']);
