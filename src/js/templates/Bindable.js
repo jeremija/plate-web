@@ -19,7 +19,8 @@ define(['extendable', 'jquery', 'logger', 'knockout', 'events/EventManager',
     function Bindable(p_params) {
         var params = p_params || {};
 
-        this.log = new Logger(params.name, this.constructor.name);
+        this.log = new Logger(params.name, 'Bindable');
+        this.log.disabled = true;
         this.bindingsApplied = false;
 
         this.name = p_params.name;

@@ -6,11 +6,11 @@ define(['modules/messagesMod', 'events/EventManager', 'jquery'],
         var events;
         before(function() {
             events = new EventManager('messagesMod-test');
-            $('<div>').attr('id', 'messagesMod').appendTo('#test');
+            $('<div>').attr('id', 'messages-mod').appendTo('#test');
         });
 
         afterEach(function() {
-            $('#messagesMod').html('');
+            $('#messages-mod').html('');
         });
 
         after(function() {

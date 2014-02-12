@@ -18,7 +18,7 @@ define(['jquery', 'extendable', 'logger', 'events/EventManager'],
      * @param {String} p_urlPrefix Prefix for the url
      */
     function Ajax(p_name, p_urlPrefix) {
-        this.log = new Logger(p_name, this.constructor.name);
+        this.log = new Logger(p_name, 'Ajax');
         this.urlPrefix = p_urlPrefix || '';
         this.events = new EventManager(this.log.name);
     }

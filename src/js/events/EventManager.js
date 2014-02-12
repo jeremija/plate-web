@@ -12,12 +12,12 @@ define(['extendable', 'signals', 'logger'],
     function EventManager(p_name, p_context) {
         // not used anywhere right now
         this.name = p_name;
-        this.log = new Logger(this.name, this.constructor.name);
+        this.log = new Logger(this.name, 'EventManager');
         this.context = p_context;
         this._moduleSignalBindings = {};
     }
 
-    var EventManagerPrototype = /** @lends EventManager.prototype */ {
+    var EventManagerPrototype = /** @lends events/EventManager.prototype */ {
         /**
          * A map with event name as the key, Signal as the value
          * @type {Object}
@@ -102,12 +102,12 @@ define(['extendable', 'signals', 'logger'],
             eventSignal.dispatch.apply(eventSignal, arguments);
         },
         /**
-         * Dispatches the {@link EventManager#error} event and logs out the user
-         * if necceessarry
-         * @param  {String} p_key              Error string for localization
-         * @param  {Boolean} p_logout          Flag to log out the user
-         * @fires EventManager#error
-         * @fires EventManager#logout if p_logout is `true`
+         * Dispatches the {@link events/EventManager#event:msg-error} event and
+         * logs out the user if necceessarry
+         * @param  {String} p_key               Error string for localization
+         * @param  {Boolean} p_logout           Flag to log out the user
+         * @fires events/EventManager#msg-error
+         * @fires events/EventManager#logout
          */
         dispatchError: function(p_key, p_logout) {
             this.dispatch('msg-error', p_key);

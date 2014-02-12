@@ -40,7 +40,8 @@ define(['extendable', 'logger', 'events/EventManager'],
         this.templatePath = p_params.templatePath || '/pages';
         this.templateExtension = p_params.templateExtension || '.html';
 
-        this.log = new Logger(p_params.name, this.constructor.name);
+        this.log = new Logger(p_params.name, 'PageBinder');
+        this.log.disabled = true;
 
         this.events = new EventManager(this.log.name, this);
         this.events.listen({

@@ -80,7 +80,7 @@ define(['knockout', 'jquery', 'events/EventManager', 'ui/culture'],
     /**
      * Reads the form state and updates the submit button's tooltip, color and
      * icon. Add this binding only to a submit button
-     * @function external:BindingHandlers#formState
+     * @function external:ko/BindingHandlers#formState
      * @param {Observable} formState   Observable which can contain any of these
      * strings: 'idle', 'loading', 'loaded', 'saving', 'edited', 'saved',
      * 'save-error', 'load-error'
@@ -145,7 +145,7 @@ define(['knockout', 'jquery', 'events/EventManager', 'ui/culture'],
      * Reads the object with invalid fields properties and adds the `.has-error`
      * class to fields which have the same name. Also adds `bs.tooltip` to the
      * input item. Use this binding on a `form` element.
-     * @function external:BindingHandlers#invalidFields
+     * @function external:ko/BindingHandlers#invalidFields
      * @param {Observable} invalidFields   A map of invalid fields as keys.
      * Values are a {@link external:ValidationError} objects.
      * @listens events/EventManager#locale-changed

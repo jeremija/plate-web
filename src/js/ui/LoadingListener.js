@@ -19,7 +19,7 @@ define(['extendable', 'events/EventManager', 'logger'],
         this.name = p_params.name;
         this.loading = p_params.loading;
 
-        this.log = new Logger(this.name, this.constructor.name);
+        this.log = new Logger(this.name, 'LoadingListener');
         this.events = new EventManager(this.log.name, this);
         this.events.listen({
             'page-loading-start': function() {

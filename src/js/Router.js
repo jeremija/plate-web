@@ -41,7 +41,8 @@ define(['extendable', 'crossroads', 'hasher', 'logger', 'events/EventManager',
      */
     function Router(p_params) {
         this.name = p_params.name;
-        this.log = new Logger(this.name, this.constructor.name);
+        this.log = new Logger(this.name, 'Router');
+        this.log.disabled = true;
 
         this.events = new EventManager(this.log.name, this);
         this.events.listen({

@@ -13,16 +13,38 @@ define(['extendable'], function(Extendable) {
     }
 
     var LoggerPrototype = /** @lends Logger.prototype */ {
+        timestamp: Date.now(),
         /**
          * Disable logger or all loggers if set to prototype
          * @type {Boolean}
          */
         disabled: false,
         /**
+         * If history is enabled, all log entries will be stored in this array.
+         * @type {Array}
+         */
+        history: [],
+        /**
+         * Enable logging of history
+         * @type {Boolean}
+         */
+        historyEnabled: true,
+        /**
          * Log filter. 0: debug|warn|error, 1: warn|error, 2: error
          * @type {Number}
          */
         threshold: 0,
+        _logHistory: function(type, args) {
+            var text = '';
+            var value = args.forEach(function(arg) {
+                text += arg + ' ';
+            });
+            this.history.push({
+                date: Date.now() - this.timestamp,
+                type: type,
+                text: text
+            });
+        },
         _getArray: function(p_args) {
             var args = [].slice.call(p_args);
             args.splice(0, 0, this.name + '> ');
@@ -32,6 +54,9 @@ define(['extendable'], function(Extendable) {
             var args = this._getArray(p_args);
             if (!this.disabled && console && console[p_type]) {
                 console[p_type].apply(console, args);
+            }
+            if (!this.disabled && this.historyEnabled) {
+                this._logHistory(p_type, args);
             }
             return args;
         },

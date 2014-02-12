@@ -7,7 +7,7 @@
   margin-right: 0;
 }
 
-.navbar-toggle {  
+.navbar-toggle {
   // Icon block for menu
   .icon-block {
     display: block;
@@ -71,4 +71,16 @@
 
 body {
   padding-top: 70px;
+}
+
+.navbar-backdrop {
+  @media(min-width: @screen-sm-min) {
+    display: none;
+  }
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -100;
 }

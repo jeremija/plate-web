@@ -9,13 +9,26 @@ define(['jquery', 'events/EventManager', 'logger'],
 
     log.debug('registering `page-route-found` listener');
 
-    $('#menu .nav a').click(function() {
+    function closeNavbar(event) {
         var $menuToggle = $('#menu-toggle');
         if (!$menuToggle.is(':visible')) {
             return;
         }
         $menuToggle.click();
-    });
+    }
+
+    function closeBackdrop(event) {
+        var $menu = $('#menu');
+        if (!$menu.is(':visible') || $menu.hasClass('collapsing')) {
+            return;
+        }
+        closeNavbar(event);
+    }
+
+    var $navbarBackdrop = $('#menu .navbar-backdrop');
+    $navbarBackdrop.on('touchstart', closeBackdrop);
+    $navbarBackdrop.on('click', closeBackdrop);
+    $('#menu .nav a').click(closeNavbar);
 
     /**
      * Object with util functions for the menu

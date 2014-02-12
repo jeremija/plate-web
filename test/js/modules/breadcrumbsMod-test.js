@@ -1,8 +1,15 @@
-define(['modules/breadcrumbsMod', 'knockout', 'templates/Bindable'],
-    function(breadcrumbsMod, ko, Bindable) {
+define(['modules/breadcrumbsMod', 'knockout', 'templates/Bindable',
+    'events/EventManager'],
+    function(breadcrumbsMod, ko, Bindable, EventManager) {
 
     describe('modules/breadcrumbsMod-test.js', function() {
-        var breadcrumbsArray;
+        var breadcrumbsArray, events;
+        before(function() {
+            events = new EventManager('modules/breadcrumbsMod-test');
+        });
+        afterEach(function() {
+            events.clear();
+        });
         after(function() {
             breadcrumbsMod.events.clear();
         });

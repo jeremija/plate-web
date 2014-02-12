@@ -25,12 +25,12 @@ define(['knockout', 'jquery', 'events/EventManager', 'ui/culture'],
      * show the parameters which can be used in the `data-bind` attribute in the
      * HTML.
      * @see {@link http://knockoutjs.com/documentation/custom-bindings.html}
-     * @external BindingHandlers
+     * @external ko/BindingHandlers
      */
 
     /**
      * Sets the element's text property
-     * @function external:BindingHandlers#localize
+     * @function external:ko/BindingHandlers#localize
      * @param {(String|Observable)} localize      key to localize
      * @listens events/EventManager#locale-changed
      */
@@ -43,7 +43,7 @@ define(['knockout', 'jquery', 'events/EventManager', 'ui/culture'],
 
     /**
      * Sets the element's placeholder property
-     * @function external:BindingHandlers#placeholder
+     * @function external:ko/BindingHandlers#placeholder
      * @param {(String|Observable)} placeholder   key to localize
      * @listens events/EventManager#locale-changed
      */
@@ -56,7 +56,7 @@ define(['knockout', 'jquery', 'events/EventManager', 'ui/culture'],
 
     /**
      * Adds a tooltip to the element
-     * @function external:BindingHandlers#tooltip
+     * @function external:ko/BindingHandlers#tooltip
      * @param {Object}  config                    Configuration object
      * @param {Boolean} [config.animation=true]   Animate the tooltip while
      * showing or hiding
@@ -103,7 +103,7 @@ define(['knockout', 'jquery', 'events/EventManager', 'ui/culture'],
      * Formats the date and set's the element's value (for input elements) or
      * text with formatted date string. If the input string is changed, it
      * updates the value with an ISO Date string or '' if input date is invalid.
-     * @function external:BindingHandlers#date
+     * @function external:ko/BindingHandlers#date
      * @param {Date|Number|String} date
      * @listens events/EventManager#locale-changed
      */
@@ -164,7 +164,7 @@ define(['knockout', 'jquery', 'events/EventManager', 'ui/culture'],
      * depending on the element.tagName value. If the input string is changed,
      * the value is updated with correct number value or 0 if number is
      * invalid.
-     * @function external:BindingHandlers#number
+     * @function external:ko/BindingHandlers#number
      * @param {Number} number             value to format
      * @param {Number} [decimalSpaces=2]  number of decimal spaces for formatted
      * value
@@ -209,7 +209,7 @@ define(['knockout', 'jquery', 'events/EventManager', 'ui/culture'],
                 value *= 1000;
                 meters = true;
             }
-            
+
             var formattedNumber = culture.format(value, meters ? 'n0' : 'n2');
             formattedNumber += meters ? ' m' : ' km';
 

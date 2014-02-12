@@ -42,7 +42,7 @@ define(['events/EventManager', 'jquery', 'ui/culture'],
         var $text = $('<p>').append($title).append('&nbsp;').append($msg);
 
         $el.hide();
-        $el.append($button).append($text).prependTo('#messagesMod');
+        $el.append($button).append($text).prependTo('#messages-mod');
         $el.fadeIn().delay(3000).fadeOut();
     }
 
@@ -78,7 +78,7 @@ define(['events/EventManager', 'jquery', 'ui/culture'],
             'page-loading-end': function(err, page) {
                 // clear messages on page change
                 // if (page.name !== 'error-page') {
-                //     $('#messagesMod').children().remove();
+                //     $('#messages-mod').children().remove();
                 // }
             }
         });

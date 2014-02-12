@@ -26,7 +26,7 @@ define(['events/EventManager', 'knockout', 'templates/Bindable'],
         name: 'breadcrumbsMod',
         viewModel: vm,
         events: {
-            /** 
+            /**
              * @listens events/EventManager#set-breadcrumbs
              */
             'set-breadcrumbs': function(p_routes) {
@@ -50,7 +50,7 @@ define(['events/EventManager', 'knockout', 'templates/Bindable'],
         visible: true
     });
 
-    events = exports.events;
+    var events = exports.events;
 
     return exports;
 });
