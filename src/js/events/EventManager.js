@@ -96,10 +96,11 @@ define(['extendable', 'signals', 'logger'],
                 this.log.warn('dispatch() no listeners: `' + p_eventName + '`');
                 return;
             }
+            var args = [].slice.call(arguments);
+            args.splice(0, 1);
             this.log.debug(
-                'dispatch() `' + p_eventName + '`:', p_arguments || []);
-            [].splice.call(arguments, 0, 1);
-            eventSignal.dispatch.apply(eventSignal, arguments);
+                'dispatch() `' + p_eventName + '`:', args);
+            eventSignal.dispatch.apply(eventSignal, args);
         },
         /**
          * Dispatches the {@link events/EventManager#event:msg-error} event and
